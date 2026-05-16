@@ -20,25 +20,44 @@ tickets_col = db.tickets
 def format_db_object(obj):
     if not obj: return None
     obj['_id'] = str(obj['_id'])
-    # Ensure 'id' exists (it should in our schema, but just in case)
-    if 'id' not in obj and 'ticketId' in obj:
-        obj['id'] = obj['ticketId']
+    # Critical fix: Ensure 'id' is ALWAYS present to avoid url_for BuildError
+    if 'id' not in obj:
+        obj['id'] = obj.get('ticketId') or obj.get('id') or str(obj['_id'])
+    
+    # Ensure other fields expected by templates are present
+    obj.setdefault('user_name', 'Anonymous')
+    obj.setdefault('subject', 'No Subject')
+    obj.setdefault('service', 'General')
+    obj.setdefault('status', 'Open')
+    obj.setdefault('priority', 'Low')
+    obj.setdefault('messages', [])
+    obj.setdefault('manual_replies', [])
+    obj.setdefault('admin_notes', [])
     return obj
+
+# Context processor to provide 'admin' variable to all templates
+@app.context_processor
+def inject_admin():
+    return dict(admin="Project Admin")
 
 @app.route('/')
 def dashboard():
-    tickets = list(tickets_col.find().sort("created_at", -1))
-    formatted_tickets = [format_db_object(t) for t in tickets]
-    
-    stats = {
-        "total": len(tickets),
-        "open": len([t for t in tickets if t.get('status') == 'Open']),
-        "in_progress": len([t for t in tickets if t.get('status') == 'In Progress']),
-        "resolved": len([t for t in tickets if t.get('status') == 'Resolved']),
-        "closed": len([t for t in tickets if t.get('status') == 'Closed'])
-    }
-    
-    return render_template('dashboard.html', stats=stats, recent_tickets=formatted_tickets[:5])
+    try:
+        tickets = list(tickets_col.find().sort("created_at", -1))
+        formatted_tickets = [format_db_object(t) for t in tickets]
+        
+        stats = {
+            "total": len(tickets),
+            "open": len([t for t in tickets if t.get('status') == 'Open']),
+            "in_progress": len([t for t in tickets if t.get('status') == 'In Progress']),
+            "resolved": len([t for t in tickets if t.get('status') == 'Resolved']),
+            "closed": len([t for t in tickets if t.get('status') == 'Closed'])
+        }
+        
+        return render_template('dashboard.html', stats=stats, recent_tickets=formatted_tickets[:5])
+    except Exception as e:
+        print(f"Dashboard Error: {e}")
+        return f"Internal Server Error: {e}", 500
 
 @app.route('/tickets')
 def tickets_page():
@@ -51,7 +70,9 @@ def tickets_page():
     if search:
         query['$or'] = [
             {'id': {'$regex': search, '$options': 'i'}},
+            {'ticketId': {'$regex': search, '$options': 'i'}},
             {'user_name': {'$regex': search, '$options': 'i'}},
+            {'userName': {'$regex': search, '$options': 'i'}},
             {'subject': {'$regex': search, '$options': 'i'}}
         ]
 
@@ -62,18 +83,24 @@ def tickets_page():
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
     if request.method == 'POST':
-        # Fallback for non-JS form submission if any
         action = request.form.get('action')
         if action == 'add_reply':
             reply_text = request.form.get('reply')
-            tickets_col.update_one({"id": ticket_id}, {
+            tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
                 "$push": {"manual_replies": {"text": reply_text, "by": "admin", "time": datetime.now().isoformat()}},
                 "$set": {"updated_at": datetime.now().isoformat()}
             })
             flash("Reply sent")
         return redirect(url_for('ticket_detail', ticket_id=ticket_id))
 
-    t = tickets_col.find_one({"id": ticket_id})
+    t = tickets_col.find_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]})
+    if not t:
+        # Try finding by MongoDB ObjectId as last resort
+        try:
+            t = tickets_col.find_one({"_id": ObjectId(ticket_id)})
+        except:
+            pass
+
     if not t:
         flash("Ticket not found")
         return redirect(url_for('tickets_page'))
@@ -89,7 +116,8 @@ def handoffs_page():
 
 @app.route('/handoff/<handoff_id>')
 def handoff_detail(handoff_id):
-    return render_template('handoff_detail.html', handoff={})
+    # For now, just a placeholder
+    return render_template('handoff_detail.html', handoff={'id': handoff_id, 'messages': []})
 
 @app.route('/export')
 def export_csv():
@@ -98,7 +126,8 @@ def export_csv():
     cw = csv.writer(si)
     cw.writerow(['Ticket ID', 'User', 'Service', 'Status', 'Priority', 'Created At'])
     for t in tickets:
-        cw.writerow([t.get('id'), t.get('user_name'), t.get('service'), t.get('status'), t.get('priority'), t.get('created_at')])
+        obj = format_db_object(t)
+        cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
     output = si.getvalue()
     return Response(
         output,
@@ -128,21 +157,21 @@ def live_tickets():
 def api_update_status(ticket_id):
     data = request.json
     status = data.get('status')
-    tickets_col.update_one({"id": ticket_id}, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
+    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
     return jsonify({"ok": True})
 
 @app.route('/api/ticket/<ticket_id>/priority', methods=['POST'])
 def api_update_priority(ticket_id):
     data = request.json
     priority = data.get('priority')
-    tickets_col.update_one({"id": ticket_id}, {"$set": {"priority": priority, "updated_at": datetime.now().isoformat()}})
+    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {"$set": {"priority": priority, "updated_at": datetime.now().isoformat()}})
     return jsonify({"ok": True})
 
 @app.route('/api/ticket/<ticket_id>/note', methods=['POST'])
 def api_add_note(ticket_id):
     data = request.json
     note = data.get('text')
-    tickets_col.update_one({"id": ticket_id}, {
+    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
         "$push": {"admin_notes": {"note": note, "by": "admin", "time": datetime.now().isoformat()}},
         "$set": {"updated_at": datetime.now().isoformat()}
     })
@@ -153,7 +182,7 @@ def api_add_reply(ticket_id):
     data = request.json
     text = data.get('text')
     reply = {"text": text, "by": "admin", "time": datetime.now().isoformat()}
-    tickets_col.update_one({"id": ticket_id}, {
+    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
         "$push": {"manual_replies": reply},
         "$set": {"updated_at": datetime.now().isoformat()}
     })
