@@ -25,19 +25,41 @@ tickets_col = db.tickets
 
 def format_db_object(obj):
     if not obj: return None
-    obj['_id'] = str(obj['_id'])
-    if 'id' not in obj:
-        obj['id'] = obj.get('ticketId') or str(obj['_id'])
     
-    obj.setdefault('user_name', 'Anonymous')
-    obj.setdefault('subject', 'No Subject')
-    obj.setdefault('service', 'General')
-    obj.setdefault('status', 'Open')
-    obj.setdefault('priority', 'Low')
-    obj.setdefault('messages', [])
-    obj.setdefault('manual_replies', [])
-    obj.setdefault('admin_notes', [])
-    return obj
+    # Create a copy to avoid modifying original in memory
+    item = dict(obj)
+    
+    item['_id'] = str(item['_id'])
+    
+    # Handle the 'id' field for url_for
+    if 'id' not in item:
+        item['id'] = item.get('ticketId') or str(item['_id'])
+    
+    # CRITICAL: Handle datetime serialization
+    # Convert all possible datetime fields to strings
+    for field in ['created_at', 'updated_at', 'time', 'timestamp']:
+        if field in item and isinstance(item[field], datetime):
+            item[field] = item[field].isoformat()
+
+    # Handle nested timestamps in messages, admin_notes, manual_replies
+    for array_field in ['messages', 'admin_notes', 'manual_replies']:
+        if array_field in item and isinstance(item[array_field], list):
+            for sub_item in item[array_field]:
+                for field in ['time', 'timestamp']:
+                    if field in sub_item and isinstance(sub_item[field], datetime):
+                        sub_item[field] = sub_item[field].isoformat()
+
+    # Fill defaults to prevent template crashes
+    item.setdefault('user_name', item.get('userName', 'Anonymous'))
+    item.setdefault('subject', 'No Subject')
+    item.setdefault('service', 'General')
+    item.setdefault('status', 'Open')
+    item.setdefault('priority', 'Low')
+    item.setdefault('messages', [])
+    item.setdefault('manual_replies', [])
+    item.setdefault('admin_notes', [])
+    
+    return item
 
 @app.context_processor
 def inject_globals():
@@ -51,10 +73,10 @@ def dashboard():
         
         stats = {
             "total": len(formatted_tickets),
-            "open": len([t for t in formatted_tickets if t['status'] == 'Open']),
-            "in_progress": len([t for t in formatted_tickets if t['status'] == 'In Progress']),
-            "resolved": len([t for t in formatted_tickets if t['status'] == 'Resolved']),
-            "closed": len([t for t in formatted_tickets if t['status'] == 'Closed'])
+            "open": len([t for t in formatted_tickets if t.get('status') == 'Open']),
+            "in_progress": len([t for t in formatted_tickets if t.get('status') == 'In Progress']),
+            "resolved": len([t for t in formatted_tickets if t.get('status') == 'Resolved']),
+            "closed": len([t for t in formatted_tickets if t.get('status') == 'Closed'])
         }
         
         services = [t.get('service', 'General') for t in formatted_tickets]
@@ -76,36 +98,61 @@ def dashboard():
 
 @app.route('/tickets')
 def tickets_page():
-    status_filter = request.args.get('status', 'All')
-    query = {}
-    if status_filter != 'All':
-        query['status'] = status_filter
-        
-    search = request.args.get('search', '')
-    if search:
-        query['$or'] = [
-            {'id': {'$regex': search, '$options': 'i'}},
-            {'ticketId': {'$regex': search, '$options': 'i'}},
-            {'user_name': {'$regex': search, '$options': 'i'}},
-            {'userName': {'$regex': search, '$options': 'i'}},
-            {'subject': {'$regex': search, '$options': 'i'}}
-        ]
+    try:
+        status_filter = request.args.get('status', 'All')
+        query = {}
+        if status_filter != 'All':
+            query['status'] = status_filter
+            
+        search = request.args.get('search', '')
+        if search:
+            query['$or'] = [
+                {'id': {'$regex': search, '$options': 'i'}},
+                {'ticketId': {'$regex': search, '$options': 'i'}},
+                {'user_name': {'$regex': search, '$options': 'i'}},
+                {'userName': {'$regex': search, '$options': 'i'}},
+                {'subject': {'$regex': search, '$options': 'i'}}
+            ]
 
-    tickets = list(tickets_col.find(query).sort("created_at", -1))
-    formatted_tickets = [format_db_object(t) for t in tickets]
-    return render_template('tickets.html', tickets=formatted_tickets)
+        tickets = list(tickets_col.find(query).sort("created_at", -1))
+        formatted_tickets = [format_db_object(t) for t in tickets]
+        return render_template('tickets.html', tickets=formatted_tickets)
+    except Exception as e:
+        print(f"Tickets Page Error: {e}")
+        return f"Error loading tickets: {e}", 500
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
-    t = tickets_col.find_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]})
-    if not t:
-        flash("Ticket not found")
-        return redirect(url_for('tickets_page'))
-    
-    return render_template('ticket_detail.html', 
-                           ticket=format_db_object(t),
-                           all_statuses=['Open', 'In Progress', 'Resolved', 'Closed'],
-                           all_priorities=['Low', 'Medium', 'High'])
+    try:
+        if request.method == 'POST':
+            action = request.form.get('action')
+            if action == 'add_reply':
+                reply_text = request.form.get('reply')
+                tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
+                    "$push": {"manual_replies": {"text": reply_text, "by": "admin", "time": datetime.now().isoformat()}},
+                    "$set": {"updated_at": datetime.now().isoformat()}
+                })
+                flash("Reply sent")
+            return redirect(url_for('ticket_detail', ticket_id=ticket_id))
+
+        t = tickets_col.find_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]})
+        if not t:
+            try:
+                t = tickets_col.find_one({"_id": ObjectId(ticket_id)})
+            except:
+                pass
+
+        if not t:
+            flash("Ticket not found")
+            return redirect(url_for('tickets_page'))
+        
+        return render_template('ticket_detail.html', 
+                               ticket=format_db_object(t),
+                               all_statuses=['Open', 'In Progress', 'Resolved', 'Closed'],
+                               all_priorities=['Low', 'Medium', 'High'])
+    except Exception as e:
+        print(f"Ticket Detail Error: {e}")
+        return f"Error loading ticket: {e}", 500
 
 @app.route('/handoffs')
 def handoffs_page():
@@ -117,19 +164,22 @@ def handoff_detail(handoff_id):
 
 @app.route('/export')
 def export_csv():
-    tickets = list(tickets_col.find())
-    si = io.StringIO()
-    cw = csv.writer(si)
-    cw.writerow(['Ticket ID', 'User', 'Service', 'Status', 'Priority', 'Created At'])
-    for t in tickets:
-        obj = format_db_object(t)
-        cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
-    output = si.getvalue()
-    return Response(
-        output,
-        mimetype="text/csv",
-        headers={"Content-disposition": "attachment; filename=tickets_export.csv"}
-    )
+    try:
+        tickets = list(tickets_col.find())
+        si = io.StringIO()
+        cw = csv.writer(si)
+        cw.writerow(['Ticket ID', 'User', 'Service', 'Status', 'Priority', 'Created At'])
+        for t in tickets:
+            obj = format_db_object(t)
+            cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
+        output = si.getvalue()
+        return Response(
+            output,
+            mimetype="text/csv",
+            headers={"Content-disposition": "attachment; filename=tickets_export.csv"}
+        )
+    except Exception as e:
+        return f"Export Error: {e}", 500
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -141,45 +191,43 @@ def login():
 def logout():
     return redirect(url_for('login'))
 
-# ── API ENDPOINTS FOR AJAX ──
-
 @app.route('/api/tickets/live')
 def live_tickets():
     try:
         raw_tickets = list(tickets_col.find().sort("updated_at", -1))
         formatted_tickets = [format_db_object(t) for t in raw_tickets]
         
-        # Calculate full stats for the frontend JS
         stats = {
             "total": len(formatted_tickets),
-            "open": len([t for t in formatted_tickets if t['status'] == 'Open']),
-            "in_progress": len([t for t in formatted_tickets if t['status'] == 'In Progress']),
-            "resolved": len([t for t in formatted_tickets if t['status'] == 'Resolved']),
-            "closed": len([t for t in formatted_tickets if t['status'] == 'Closed'])
+            "open": len([t for t in formatted_tickets if t.get('status') == 'Open']),
+            "in_progress": len([t for t in formatted_tickets if t.get('status') == 'In Progress']),
+            "resolved": len([t for t in formatted_tickets if t.get('status') == 'Resolved']),
+            "closed": len([t for t in formatted_tickets if t.get('status') == 'Closed'])
         }
 
         return jsonify({
             "total": stats["total"],
             "stats": stats,
-            "active_handoffs": 0,    # Placeholder
-            "handoffs_count": 0,     # Placeholder
+            "active_handoffs": 0,
+            "handoffs_count": 0,
             "tickets": formatted_tickets[:20]
         })
     except Exception as e:
+        print(f"Live Sync API Error: {e}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/ticket/<ticket_id>/status', methods=['POST'])
 def api_update_status(ticket_id):
     data = request.json
     status = data.get('status')
-    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
+    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {"$set": {"status": status, "updated_at": datetime.now()}})
     return jsonify({"ok": True})
 
 @app.route('/api/ticket/<ticket_id>/priority', methods=['POST'])
 def api_update_priority(ticket_id):
     data = request.json
     priority = data.get('priority')
-    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {"$set": {"priority": priority, "updated_at": datetime.now().isoformat()}})
+    tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {"$set": {"priority": priority, "updated_at": datetime.now()}})
     return jsonify({"ok": True})
 
 @app.route('/api/ticket/<ticket_id>/note', methods=['POST'])
@@ -187,8 +235,8 @@ def api_add_note(ticket_id):
     data = request.json
     note = data.get('text')
     tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
-        "$push": {"admin_notes": {"note": note, "by": "admin", "time": datetime.now().isoformat()}},
-        "$set": {"updated_at": datetime.now().isoformat()}
+        "$push": {"admin_notes": {"note": note, "by": "admin", "time": datetime.now()}},
+        "$set": {"updated_at": datetime.now()}
     })
     return jsonify({"ok": True})
 
@@ -199,7 +247,7 @@ def api_add_reply(ticket_id):
     reply = {"text": text, "by": "admin", "time": datetime.now().isoformat()}
     tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
         "$push": {"manual_replies": reply},
-        "$set": {"updated_at": datetime.now().isoformat()}
+        "$set": {"updated_at": datetime.now()}
     })
     return jsonify({"ok": True, "reply": reply})
 
