@@ -1,0 +1,6 @@
+flask
+pymongo
+dnspython
+python-dotenv
+jinja2
+werkzeug

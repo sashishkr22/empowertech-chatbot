@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Overview — EmpowerTech Admin{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════ -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">📊 Analytics Dashboard</h1>
+    <p class="page-sub">Real-time AI Chatbot & Customer Support Insights</p>
+  </div>
+  <a href="{{ url_for('tickets_page') }}" class="btn-primary">
+    <span>Manage All Tickets</span>
+    <span style="font-size: 18px;">→</span>
+  </a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     KPI STAT CARDS
+════════════════════════════════════════════ -->
+<div class="stats-grid">
+
+  <div class="stat-card total" onclick="window.location='{{ url_for('handoffs_page') }}'" style="cursor:pointer;">
+    <div class="stat-icon">💬</div>
+    <div class="stat-body">
+      <div class="stat-value">{{ stats.handoffs }}</div>
+      <div class="stat-label">Live Chats</div>
+    </div>
+  </div>
+
+  <div class="stat-card total">
+    <div class="stat-icon">🎫</div>
+    <div class="stat-body">
+      <div class="stat-value">{{ stats.total }}</div>
+      <div class="stat-label">Total Tickets</div>
+    </div>
+  </div>
+
+  <div class="stat-card open">
+    <div class="stat-icon">🔴</div>
+    <div class="stat-body">
+      <div class="stat-value">{{ stats.open }}</div>
+      <div class="stat-label">Open</div>
+    </div>
+  </div>
+
+  <div class="stat-card inprogress">
+    <div class="stat-icon">🟡</div>
+    <div class="stat-body">
+      <div class="stat-value">{{ stats.in_progress }}</div>
+      <div class="stat-label">In Progress</div>
+    </div>
+  </div>
+
+  <div class="stat-card resolved">
+    <div class="stat-icon">🟢</div>
+    <div class="stat-body">
+      <div class="stat-value">{{ stats.resolved }}</div>
+      <div class="stat-label">Resolved</div>
+    </div>
+  </div>
+
+  <div class="stat-card closed">
+    <div class="stat-icon">⚫</div>
+    <div class="stat-body">
+      <div class="stat-value">{{ stats.closed }}</div>
+      <div class="stat-label">Closed</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TWO-COLUMN: SERVICE CHART + TOP INTENTS
+════════════════════════════════════════════ -->
+<div class="two-col">
+
+  <!-- Service Breakdown -->
+  <div class="card">
+    <div class="card-title">
+      <span>📦 Tickets by Service</span>
+      <span class="msg-count">By Volume</span>
+    </div>
+    {% set service_colors = {
+      'App Development':    'var(--primary)',
+      'Website Design':     'var(--blue)',
+      'Consulting':         'var(--yellow)',
+      'Legal Tech Support': 'var(--green)'
+    } %}
+    {% set total_t = stats.total if stats.total > 0 else 1 %}
+    {% for service, count in service_counts.items() %}
+      {% set pct = ((count / total_t) * 100) | round(1) %}
+      {% set color = service_colors.get(service, 'var(--primary)') %}
+      <div class="bar-row">
+        <div class="bar-label">
+          <span>{{ service }}</span>
+          <span class="bar-count">{{ count }}</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:{{ pct }}%; background:{{ color }};"></div>
+        </div>
+        <span class="bar-pct">{{ pct }}%</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Top Intents -->
+  <div class="card">
+    <div class="card-title">
+      <span>🧠 Top Dialogflow Intents</span>
+      <span class="msg-count">AI Recognition</span>
+    </div>
+    {% for intent, count in top_intents %}
+      <div class="intent-row">
+        <span class="intent-name">{{ intent }}</span>
+        <span class="intent-badge">{{ count }}</span>
+      </div>
+    {% else %}
+      <p class="empty-msg">No intent data yet.</p>
+    {% endfor %}
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     RECENT TICKETS TABLE
+════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <span>🕐 Recent Activity</span>
+    <a href="{{ url_for('tickets_page') }}" style="font-size: 11px; color: var(--primary); text-transform: none; letter-spacing: 0;">View all →</a>
+  </div>
+  <table class="ticket-table">
+    <thead>
+      <tr>
+        <th>Ticket ID</th>
+        <th>User</th>
+        <th>Subject</th>
+        <th>Service</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in recent_tickets %}
+      <tr class="ticket-row" onclick="window.location='{{ url_for('ticket_detail', ticket_id=t.id) }}'">
+        <td><span class="ticket-id">{{ t.id }}</span></td>
+        <td>
+          <div class="user-cell">
+            <span class="user-name">{{ t.user_name }}</span>
+          </div>
+        </td>
+        <td class="subject-cell">{{ t.subject }}</td>
+        <td><span class="service-tag">{{ t.service }}</span></td>
+        <td><span class="status-badge status-{{ t.status | replace(' ','') | lower }}">{{ t.status }}</span></td>
+        <td><span class="priority-badge priority-{{ t.priority | lower }}">{{ t.priority }}</span></td>
+        <td onclick="event.stopPropagation()">
+          <a href="{{ url_for('ticket_detail', ticket_id=t.id) }}" class="btn-view">View</a>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="empty-msg">No tickets yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

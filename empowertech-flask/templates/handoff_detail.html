@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Talk to User: {{ handoff.id }} — EmpowerTech Admin{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════ -->
+<div class="page-header">
+  <div style="display:flex; align-items:center; gap:12px;">
+    <a href="{{ url_for('handoffs_page') }}" class="btn-back">← Back</a>
+    <div>
+      <h1 class="page-title">Token: {{ handoff.id }}</h1>
+      <p class="page-sub">Direct chat with {{ handoff.user_name }}</p>
+    </div>
+  </div>
+  <div class="header-badges">
+    <span class="status-badge status-{{ handoff.status | lower }}" id="currentStatus">
+      {{ handoff.status }}
+    </span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MAIN CHAT INTERFACE
+════════════════════════════════════════════ -->
+<div class="detail-top-row">
+    <!-- User Info Card -->
+    <div class="card info-card">
+        <div class="card-title">👤 User Info</div>
+        <div class="info-row"><span class="info-label">Name</span><span>{{ handoff.user_name }}</span></div>
+        <div class="info-row"><span class="info-label">Phone</span><span>{{ handoff.user_phone or '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span>{{ handoff.user_email or '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Created</span><span>{{ handoff.created_at[:16] | replace('T',' ') }}</span></div>
+    </div>
+
+    <!-- Quick Actions Card -->
+    <div class="card actions-card">
+        <div class="card-title">⚡ Actions</div>
+        <div class="action-group">
+            <label class="action-label">Set Status</label>
+            <div class="btn-status-group">
+                <button class="btn-status {% if handoff.status == 'Waiting' %}btn-status-active{% endif %}" onclick="updateHandoffStatus('{{ handoff.id }}', 'Waiting')">Waiting</button>
+                <button class="btn-status {% if handoff.status == 'Active' %}btn-status-active{% endif %}" onclick="updateHandoffStatus('{{ handoff.id }}', 'Active')">Active</button>
+                <button class="btn-status {% if handoff.status == 'Resolved' %}btn-status-active{% endif %}" onclick="updateHandoffStatus('{{ handoff.id }}', 'Resolved')">Resolved</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card chat-card">
+    <div class="card-title">
+      <span>💬 Conversation History</span>
+      <span class="msg-count" id="msgCount">{{ all_messages | length }} messages</span>
+    </div>
+
+    <div class="chat-scroll" id="chatScroll">
+      {% for msg in all_messages %}
+        <div class="chat-msg chat-{{ 'user' if msg.role == 'user' else 'bot' if msg.role == 'bot' else 'admin-reply' }}">
+          <div class="chat-avatar">
+            {{ '👤' if msg.role == 'user' else '🤖' if msg.role == 'bot' else '🛡️' }}
+          </div>
+          <div class="chat-bubble-wrap">
+            <div class="chat-bubble {{ 'admin-bubble' if msg.role == 'admin' else '' }}">{{ msg.text }}</div>
+            <div class="chat-meta">
+              <span class="chat-time"><strong>{{ msg.by }}</strong> · {{ msg.time[11:16] }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Send Manual Reply Box -->
+    <div class="reply-box">
+      <div class="reply-box-header">📤 Live Agent Response</div>
+      <textarea
+        id="replyText"
+        class="reply-textarea"
+        placeholder="Type your message to the user..."
+        rows="3"
+      ></textarea>
+      <div class="reply-footer">
+        <span class="reply-hint">The user will see this message immediately in their chat.</span>
+        <button class="btn-send-reply" id="btnSendHandoff" onclick="sendHandoffReply('{{ handoff.id }}')">
+          Send Message
+        </button>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+let lastMessageCount = 0;
+const handoffId = '{{ handoff.id }}';
+
+function updateHandoffStatus(handoffId, newStatus) {
+    fetch(`/api/handoff/${handoffId}/status`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+            // Update UI instead of reload
+            const badge = document.getElementById('currentStatus');
+            badge.innerText = newStatus;
+            badge.className = `status-badge status-${newStatus.toLowerCase()}`;
+            
+            // Update buttons
+            document.querySelectorAll('.btn-status').forEach(btn => {
+                btn.classList.toggle('btn-status-active', btn.innerText === newStatus);
+            });
+        } else {
+            alert("Error updating status: " + data.error);
+        }
+    });
+}
+
+function sendHandoffReply(handoffId) {
+    const textarea = document.getElementById('replyText');
+    const text = textarea.value.trim();
+    if (!text) return;
+
+    const btn = document.getElementById('btnSendHandoff');
+    btn.disabled = true;
+    btn.innerText = 'Sending...';
+
+    fetch(`/api/handoff/${handoffId}/reply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+            textarea.value = '';
+            btn.disabled = false;
+            btn.innerText = 'Send Reply';
+            // Immediate poll to show the new message
+            pollMessages();
+        } else {
+            alert("Error sending reply: " + data.error);
+            btn.disabled = false;
+            btn.innerText = 'Send Reply';
+        }
+    });
+}
+
+function pollMessages() {
+    fetch(`/api/handoff/${handoffId}/messages`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+            if (data.messages.length !== lastMessageCount) {
+                renderMessages(data.messages);
+                lastMessageCount = data.messages.length;
+                document.getElementById('msgCount').innerText = `${lastMessageCount} messages`;
+            }
+            
+            // Sync status if it changed elsewhere
+            const currentStatus = document.getElementById('currentStatus').innerText;
+            if (data.status !== currentStatus) {
+                 const badge = document.getElementById('currentStatus');
+                 badge.innerText = data.status;
+                 badge.className = `status-badge status-${data.status.toLowerCase()}`;
+                 document.querySelectorAll('.btn-status').forEach(btn => {
+                    btn.classList.toggle('btn-status-active', btn.innerText === data.status);
+                });
+            }
+        }
+    })
+    .catch(err => console.error("Polling error:", err));
+}
+
+function renderMessages(messages) {
+    const scroll = document.getElementById('chatScroll');
+    const wasAtBottom = scroll.scrollHeight - scroll.scrollTop <= scroll.clientHeight + 50;
+    
+    let html = '';
+    messages.forEach(msg => {
+        const roleClass = msg.role === 'user' ? 'user' : (msg.role === 'bot' ? 'bot' : 'admin-reply');
+        const avatar = msg.role === 'user' ? '👤' : (msg.role === 'bot' ? '🤖' : '🛡️');
+        const bubbleClass = msg.role === 'admin' ? 'admin-bubble' : '';
+        
+        html += `
+            <div class="chat-msg chat-${roleClass}">
+              <div class="chat-avatar">${avatar}</div>
+              <div class="chat-bubble-wrap">
+                <div class="chat-bubble ${bubbleClass}">${msg.text}</div>
+                <div class="chat-meta">
+                  <span class="chat-time">${msg.by}: ${msg.time.substring(11, 16)}</span>
+                </div>
+              </div>
+            </div>
+        `;
+    });
+    
+    scroll.innerHTML = html;
+    
+    if (wasAtBottom) {
+        scroll.scrollTop = scroll.scrollHeight;
+    }
+}
+
+// Initial count and start polling
+lastMessageCount = {{ all_messages | length }};
+setInterval(pollMessages, 2000);
+
+// Scroll chat to bottom on first load
+window.onload = function() {
+    const scroll = document.getElementById('chatScroll');
+    scroll.scrollTop = scroll.scrollHeight;
+}
+</script>
+{% endblock %}

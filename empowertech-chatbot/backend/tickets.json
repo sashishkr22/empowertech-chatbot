@@ -1,0 +1,56 @@
+[
+  {
+    "ticketId": "EMP-1001",
+    "status": "closed",
+    "priority": "Low",
+    "issueType": "General",
+    "description": "Create a support ticket",
+    "sessionId": "session-1777472071575-f6bn8u59v",
+    "createdAt": "2026-04-29T14:15:40.400Z",
+    "updatedAt": "2026-04-29T14:15:40.400Z",
+    "assignedTo": "General Support Team",
+    "updates": [
+      {
+        "time": "2026-04-29T14:15:40.401Z",
+        "message": "Ticket created via AI Chatbot",
+        "by": "EmpowerTech Bot"
+      }
+    ]
+  },
+  {
+    "ticketId": "EMP-1002",
+    "status": "Open",
+    "priority": "Low",
+    "issueType": "General",
+    "description": "Create a support ticket",
+    "sessionId": "session-1777477681336-k350xq9nq",
+    "createdAt": "2026-04-29T15:52:46.014Z",
+    "updatedAt": "2026-04-29T15:52:46.014Z",
+    "assignedTo": "General Support Team",
+    "updates": [
+      {
+        "time": "2026-04-29T15:52:46.014Z",
+        "message": "Ticket created via AI Chatbot",
+        "by": "EmpowerTech Bot"
+      }
+    ]
+  },
+  {
+    "ticketId": "EMP-1003",
+    "status": "Open",
+    "priority": "Low",
+    "issueType": "General",
+    "description": "Create a support ticket",
+    "sessionId": "session-1777601187512-60sxlp0ml",
+    "createdAt": "2026-05-01T02:06:49.194Z",
+    "updatedAt": "2026-05-01T02:06:49.194Z",
+    "assignedTo": "General Support Team",
+    "updates": [
+      {
+        "time": "2026-05-01T02:06:49.195Z",
+        "message": "Ticket created via AI Chatbot",
+        "by": "EmpowerTech Bot"
+      }
+    ]
+  }
+]

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmpowerTech Support – AI Assistant</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="modern-theme">
+
+  <!-- TOP NAVIGATION / HEADER -->
+  <header class="support-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-icon">⚡</span>
+        <div class="brand-text">
+          <h1>EmpowerTech Solutions</h1>
+          <p>Chennai, India • 24/7 AI Support</p>
+        </div>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <span>System Online</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+    
+    <!-- LEFT: ACTION HUB -->
+    <aside class="action-hub">
+      <div class="hub-section">
+        <h2 class="section-title">What do you need help with?</h2>
+        <div class="intent-cards">
+          <button class="intent-card" onclick="startTicketFlow()">
+            <span class="intent-icon">🎫</span>
+            <div class="intent-info">
+              <h3>Create Ticket</h3>
+              <p>Log a new issue for our team</p>
+            </div>
+          </button>
+
+          <button class="intent-card highlight" onclick="toggleStatusInput()">
+            <span class="intent-icon">📋</span>
+            <div class="intent-info">
+              <h3>Check Status</h3>
+              <p>Track your existing ticket</p>
+            </div>
+          </button>
+
+          <button class="intent-card" onclick="sendQuickMessage('I need to speak with a human agent')">
+            <span class="intent-icon">👤</span>
+            <div class="intent-info">
+              <h3>Talk to Human</h3>
+              <p>Connect with a person</p>
+            </div>
+          </button>
+        </div>
+
+        <!-- Latest Ticket Info -->
+        <div id="latestTicketHub" class="latest-ticket-hub" style="display:none; margin-top: 24px;">
+          <h2 class="section-title">Latest Ticket</h2>
+          <div id="latestTicketCard" class="hub-ticket-card"></div>
+        </div>
+
+        <!-- Hidden Status Input -->
+        <div id="statusInputArea" class="status-input-area" style="display:none;">
+          <input type="text" id="ticketInput" placeholder="Enter EMP-XXXX" class="hub-input" />
+          <button class="hub-btn" onclick="checkTicketStatus()">Check</button>
+        </div>
+      </div>
+
+      <div class="hub-footer">
+        <div class="session-stats">
+          <div class="stat-item">
+            <span class="stat-label">Messages</span>
+            <span class="stat-value" id="messageCount">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Tickets</span>
+            <span class="stat-value" id="ticketCount">0</span>
+          </div>
+        </div>
+        <p class="session-id">Session: <span id="sessionIdDisplay">...</span></p>
+      </div>
+    </aside>
+
+    <!-- RIGHT: CHAT INTERFACE -->
+    <section class="chat-interface">
+      <div class="chat-window">
+        <!-- Messages Area -->
+        <div class="messages-viewport" id="messagesContainer">
+          
+          <!-- Welcome Message -->
+          <div class="msg-wrapper bot-msg">
+            <div class="msg-avatar">🤖</div>
+            <div class="msg-bubble">
+              <p><strong>Hello! I'm TechBot.</strong></p>
+              <p>I'm your EmpowerTech AI assistant. You can use the buttons on the left or type your message below to get started.</p>
+              <span class="msg-time" id="welcomeTime"></span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-container" id="typingIndicator" style="display:none;">
+          <div class="typing-bubble">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="typing-text">TechBot is typing...</span>
+        </div>
+
+        <!-- Input Box Area -->
+        <div class="interaction-area">
+          <div class="input-container">
+            <textarea 
+              id="userInput" 
+              placeholder="Describe your issue or ask a question..." 
+              rows="1"
+              oninput="autoResize(this)"
+              onkeydown="handleKeyPress(event)"
+            ></textarea>
+            <button class="action-btn clear-chat" onclick="clearChat()" title="Clear Chat">🗑️</button>
+            <button class="send-action" id="sendBtn" onclick="sendMessage()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+          <div class="interaction-footer">
+            <span id="charCount">0/500</span>
+            <p>EmpowerTech Solutions • IT Support Specialist</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/chat.js"></script>
+  <script>
+    // Local UI helpers
+    function toggleStatusInput() {
+      const area = document.getElementById('statusInputArea');
+      area.style.display = area.style.display === 'none' ? 'flex' : 'none';
+      if (area.style.display === 'flex') document.getElementById('ticketInput').focus();
+    }
+    
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight) + 'px';
+      document.getElementById('charCount').textContent = `${textarea.value.length}/500`;
+    }
+  </script>
+</body>
+</html>

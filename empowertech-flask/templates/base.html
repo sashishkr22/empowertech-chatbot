@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}EmpowerTech Admin{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       TOP NAVIGATION BAR
+  ════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <div class="nav-logo">
+        <span class="logo-badge">ET</span>
+        <div>
+          <div class="logo-title">EmpowerTech</div>
+          <div class="logo-sub">Enterprise Admin Portal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <a href="{{ url_for('dashboard') }}"
+         class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+        📊 Overview
+      </a>
+      <a href="{{ url_for('tickets_page') }}"
+         class="nav-link {% if request.endpoint in ['tickets_page','ticket_detail'] %}active{% endif %}">
+        🎫 Tickets
+      </a>
+      <a href="{{ url_for('handoffs_page') }}"
+         class="nav-link {% if request.endpoint in ['handoffs_page','handoff_detail'] %}active{% endif %}">
+        💬 Human Chat
+      </a>
+      <a href="{{ url_for('export_csv') }}" class="nav-link">
+        ⬇️ Export
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <!-- Theme Toggle Switch -->
+      <div class="theme-switch-wrapper">
+        <span class="theme-icon">☀️</span>
+        <label class="theme-switch" for="checkbox">
+          <input type="checkbox" id="checkbox" />
+          <div class="slider"></div>
+        </label>
+        <span class="theme-icon">🌙</span>
+      </div>
+
+      <div class="admin-badge">
+        <span class="admin-dot"></span>
+        <span>{{ admin }}</span>
+      </div>
+      <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       FLASH MESSAGES (success / error alerts)
+  ════════════════════════════════════════════ -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">
+            {{ '✅' if category == 'success' else '❌' }} {{ message }}
+            <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- ═══════════════════════════════════════════
+       MAIN PAGE CONTENT (each page fills this)
+  ════════════════════════════════════════════ -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  {% block scripts %}{% endblock %}
+  <script src="{{ url_for('static', filename='js/live_sync.js') }}"></script>
+</body>
+</html>

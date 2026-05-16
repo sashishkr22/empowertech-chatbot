@@ -1,0 +1,40 @@
+{
+  "name": "TechnicalSupport",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": [
+            "I understand you're having a technical issue. I'm here to help! Could you please describe: 1) What exactly is the problem? 2) When did it start? 3) Which device/software is affected?",
+            "I'm sorry to hear you're having trouble. Let me help you resolve this! Please tell me more about the issue - what happens and when did it first occur?",
+            "Our EmpowerTech team is ready to assist! To get you the best help, please describe the issue in detail including any error messages you see."
+          ]
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "trainingPhrases": [
+    { "type": "EXAMPLE", "parts": [{ "text": "my internet is not working" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I can't connect to the network" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "wifi is down" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "my laptop won't start" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "software is crashing" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "my computer is slow" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I have a technical problem" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "printer is not working" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I'm getting an error message" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "application keeps crashing" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I cannot access my email" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "the server is down" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I lost my data" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "system is not responding" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I have a hardware issue" }] }
+  ]
+}

@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+{% block title %}{{ ticket.id }} — EmpowerTech Admin{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════ -->
+<div class="page-header">
+  <div style="display:flex; align-items:center; gap:12px;">
+    <a href="{{ url_for('tickets_page') }}" class="btn-back">← Back</a>
+    <div>
+      <h1 class="page-title">{{ ticket.id }}</h1>
+      <p class="page-sub">{{ ticket.subject }}</p>
+    </div>
+  </div>
+  <div class="header-badges">
+    <span class="status-badge status-{{ ticket.status | replace(' ','') | lower }}" id="currentStatus">
+      {{ ticket.status }}
+    </span>
+    <span class="priority-badge priority-{{ ticket.priority | lower }}" id="currentPriority">
+      {{ ticket.priority }}
+    </span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TOP INFO ROW — user info + quick actions
+════════════════════════════════════════════ -->
+<div class="detail-top-row">
+
+  <!-- User Info Card -->
+  <div class="card info-card">
+    <div class="card-title">👤 Customer Info</div>
+    <div class="info-row"><span class="info-label">Name</span><span>{{ ticket.user_name }}</span></div>
+    <div class="info-row"><span class="info-label">Email</span><span>{{ ticket.user_email or '—' }}</span></div>
+    <div class="info-row"><span class="info-label">Phone</span><span>{{ ticket.user_phone or '—' }}</span></div>
+    <div class="info-row"><span class="info-label">Session</span><span>{{ ticket.session_id }}</span></div>
+    <div class="info-row"><span class="info-label">Service</span><span>{{ ticket.service }}</span></div>
+    <div class="info-row"><span class="info-label">Intent</span><span class="intent-pill">{{ ticket.intent }}</span></div>
+    <div class="info-row"><span class="info-label">Created</span><span>{{ ticket.created_at[:16] | replace('T',' ') }}</span></div>
+    <div class="info-row"><span class="info-label">Updated</span><span id="updatedAt">{{ ticket.updated_at[:16] | replace('T',' ') }}</span></div>
+  </div>
+
+  <!-- Quick Actions Card -->
+  <div class="card actions-card">
+    <div class="card-title">⚡ Quick Actions</div>
+
+    <!-- Update Status -->
+    <div class="action-group">
+      <label class="action-label">Update Status</label>
+      <div class="btn-status-group">
+        {% for s in all_statuses %}
+          <button
+            class="btn-status {% if ticket.status == s %}btn-status-active{% endif %}"
+            data-status="{{ s }}"
+            onclick="updateStatus('{{ ticket.id }}', '{{ s }}', this)"
+          >{{ s }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Update Priority -->
+    <div class="action-group">
+      <label class="action-label">Update Priority</label>
+      <div class="btn-priority-group">
+        {% for p in all_priorities %}
+          <button
+            class="btn-priority btn-priority-{{ p | lower }} {% if ticket.priority == p %}btn-priority-active{% endif %}"
+            data-priority="{{ p }}"
+            onclick="updatePriority('{{ ticket.id }}', '{{ p }}', this)"
+          >{{ p }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Toast notification area -->
+    <div id="actionToast" class="action-toast" style="display:none;"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     THREE-COLUMN: Chat | Notes | Replies
+════════════════════════════════════════════ -->
+<div class="detail-three-col">
+
+  <!-- ── COLUMN 1: CHATBOT CONVERSATION ── -->
+  <div class="card chat-card">
+    <div class="card-title">💬 Chatbot Conversation
+      <span class="msg-count">{{ ticket.messages | length }} messages</span>
+    </div>
+
+    <div class="chat-scroll" id="chatScroll">
+      {% for msg in ticket.messages %}
+        <div class="chat-msg chat-{{ msg.role }}">
+
+          <div class="chat-avatar">
+            {{ '👤' if msg.role == 'user' else '🤖' }}
+          </div>
+
+          <div class="chat-bubble-wrap">
+            <div class="chat-bubble">{{ msg.text }}</div>
+            <div class="chat-meta">
+              {% if msg.role == 'user' and msg.get('intent') %}
+                <span class="intent-pill small">{{ msg.intent }}</span>
+                {% if msg.get('confidence') %}
+                  <span class="confidence">{{ (msg.confidence * 100) | round(0) | int }}% conf</span>
+                {% endif %}
+              {% endif %}
+              <span class="chat-time">{{ msg.time[11:16] }}</span>
+            </div>
+          </div>
+
+        </div>
+      {% else %}
+        <p class="empty-msg">No conversation recorded.</p>
+      {% endfor %}
+
+      <!-- Manual admin replies shown inside the chat -->
+      {% for reply in ticket.manual_replies %}
+        <div class="chat-msg chat-admin-reply">
+          <div class="chat-avatar">🛡️</div>
+          <div class="chat-bubble-wrap">
+            <div class="chat-bubble admin-bubble">{{ reply.text }}</div>
+            <div class="chat-meta">
+              <span class="admin-tag">Admin: {{ reply.by }}</span>
+              <span class="chat-time">{{ reply.time[11:16] }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Send Manual Reply Box -->
+    <div class="reply-box">
+      <div class="reply-box-header">📤 Send Manual Reply to User</div>
+      <textarea
+        id="replyText"
+        class="reply-textarea"
+        placeholder="Type your reply to the customer here..."
+        rows="3"
+      ></textarea>
+      <div class="reply-footer">
+        <span class="reply-hint">This reply will be saved and visible in the conversation above.</span>
+        <button class="btn-send-reply" onclick="sendReply('{{ ticket.id }}')">
+          Send Reply
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COLUMN 2: ADMIN NOTES ── -->
+  <div class="card notes-card">
+    <div class="card-title">📝 Internal Notes
+      <span class="msg-count" id="notesCount">{{ ticket.admin_notes | length }}</span>
+    </div>
+
+    <div class="notes-scroll" id="notesList">
+      {% for note in ticket.admin_notes %}
+        <div class="note-item">
+          <div class="note-header">
+            <span class="note-by">🛡️ {{ note.by }}</span>
+            <span class="note-time">{{ note.time[:16] | replace('T',' ') }}</span>
+          </div>
+          <div class="note-text">{{ note.note }}</div>
+        </div>
+      {% else %}
+        <p class="empty-msg" id="emptyNotes">No notes yet. Add the first one below.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Add Note Box -->
+    <div class="note-input-box">
+      <textarea
+        id="noteText"
+        class="note-textarea"
+        placeholder="Add an internal note... (only visible to admins)"
+        rows="3"
+      ></textarea>
+      <button class="btn-add-note" onclick="addNote('{{ ticket.id }}')">
+        + Add Note
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
+
+<!-- ═══════════════════════════════════════════
+     PAGE-SPECIFIC JAVASCRIPT
+════════════════════════════════════════════ -->
+{% block scripts %}
+<script>
+const TICKET_ID = "{{ ticket.id }}";
+
+/* ── Scroll chat to bottom on load ── */
+window.addEventListener('load', () => {
+  const chat = document.getElementById('chatScroll');
+  if (chat) chat.scrollTop = chat.scrollHeight;
+});
+
+/* ── Show a toast notification ── */
+function showToast(msg, ok=true) {
+  const toast = document.getElementById('actionToast');
+  toast.textContent = (ok ? '✅ ' : '❌ ') + msg;
+  toast.style.background = ok ? '#064e3b' : '#450a0a';
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+
+/* ── UPDATE STATUS ── */
+function updateStatus(ticketId, newStatus, btn) {
+  fetch(`/api/ticket/${ticketId}/status`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: newStatus })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      // Update all status buttons visually
+      document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('btn-status-active'));
+      btn.classList.add('btn-status-active');
+      // Update the badge in the header
+      const badge = document.getElementById('currentStatus');
+      badge.textContent = newStatus;
+      badge.className = `status-badge status-${newStatus.replace(' ','').toLowerCase()}`;
+      // Update "last updated" time
+      document.getElementById('updatedAt').textContent = data.updated_at.slice(0,16).replace('T',' ');
+      showToast(`Status updated to "${newStatus}"`);
+    } else {
+      showToast('Failed to update status', false);
+    }
+  })
+  .catch(() => showToast('Network error', false));
+}
+
+/* ── UPDATE PRIORITY ── */
+function updatePriority(ticketId, newPriority, btn) {
+  fetch(`/api/ticket/${ticketId}/priority`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ priority: newPriority })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      document.querySelectorAll('.btn-priority').forEach(b => b.classList.remove('btn-priority-active'));
+      btn.classList.add('btn-priority-active');
+      const badge = document.getElementById('currentPriority');
+      badge.textContent = newPriority;
+      badge.className = `priority-badge priority-${newPriority.toLowerCase()}`;
+      showToast(`Priority updated to "${newPriority}"`);
+    } else {
+      showToast('Failed to update priority', false);
+    }
+  })
+  .catch(() => showToast('Network error', false));
+}
+
+/* ── ADD INTERNAL NOTE ── */
+function addNote(ticketId) {
+  const textarea = document.getElementById('noteText');
+  const text = textarea.value.trim();
+  if (!text) { showToast('Note cannot be empty', false); return; }
+
+  fetch(`/api/ticket/${ticketId}/note`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ note: text })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      // Remove "no notes" placeholder
+      const empty = document.getElementById('emptyNotes');
+      if (empty) empty.remove();
+
+      // Build new note HTML and append to list
+      const list  = document.getElementById('notesList');
+      const div   = document.createElement('div');
+      div.className = 'note-item new-note';
+      div.innerHTML = `
+        <div class="note-header">
+          <span class="note-by">🛡️ ${data.note.by}</span>
+          <span class="note-time">${data.note.time.slice(0,16).replace('T',' ')}</span>
+        </div>
+        <div class="note-text">${data.note.note}</div>
+      `;
+      list.appendChild(div);
+      list.scrollTop = list.scrollHeight;
+
+      // Update count badge
+      const cnt = document.getElementById('notesCount');
+      cnt.textContent = parseInt(cnt.textContent || 0) + 1;
+
+      textarea.value = '';
+      showToast('Note added successfully');
+    } else {
+      showToast(data.error || 'Failed to add note', false);
+    }
+  })
+  .catch(() => showToast('Network error', false));
+}
+
+let lastMessageCount = {{ ticket.messages | length }};
+let lastReplyCount = {{ ticket.manual_replies | length }};
+
+/* ── Polling for live updates ── */
+async function pollForLiveUpdates() {
+  try {
+    const res = await fetch(`/api/tickets/live`);
+    if (!res.ok) return;
+    const data = await res.json();
+    
+    // Find this ticket in the live data
+    const updatedTicket = data.tickets.find(t => t.id === TICKET_ID);
+    if (!updatedTicket) return;
+
+    // 1. Check for new User/Bot messages
+    if (updatedTicket.messages.length > lastMessageCount) {
+      const newMessages = updatedTicket.messages.slice(lastMessageCount);
+      const chat = document.getElementById('chatScroll');
+      
+      newMessages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = `chat-msg chat-${msg.role}`;
+        div.innerHTML = `
+          <div class="chat-avatar">${msg.role === 'user' ? '👤' : '🤖'}</div>
+          <div class="chat-bubble-wrap">
+            <div class="chat-bubble">${msg.text}</div>
+            <div class="chat-meta">
+              ${msg.intent ? `<span class="intent-pill small">${msg.intent}</span>` : ''}
+              <span class="chat-time">${msg.time.slice(11, 16)}</span>
+            </div>
+          </div>
+        `;
+        // Insert BEFORE the first admin reply or at the end if no admin replies
+        const firstAdminReply = chat.querySelector('.chat-admin-reply');
+        if (firstAdminReply) {
+          chat.insertBefore(div, firstAdminReply);
+        } else {
+          chat.appendChild(div);
+        }
+      });
+      
+      lastMessageCount = updatedTicket.messages.length;
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // 2. Check for new Admin replies (from OTHER admins)
+    if (updatedTicket.manual_replies.length > lastReplyCount) {
+       // Note: In a simple setup, we might see our own replies here too.
+       // For simplicity, we just reload the reply section if it changed
+       // or we could filter by 'by' field if we tracked current user.
+       // Let's just refresh if counts don't match after our own send.
+       // window.location.reload(); // Simple but effective fallback
+    }
+
+  } catch (err) {
+    console.error('Polling error:', err);
+  }
+}
+
+// Start polling every 5 seconds
+setInterval(pollForLiveUpdates, 5000);
+
+/* ── SEND MANUAL REPLY ── */
+function sendReply(ticketId) {
+  const textarea = document.getElementById('replyText');
+  const text = textarea.value.trim();
+  if (!text) { showToast('Reply cannot be empty', false); return; }
+
+  fetch(`/api/ticket/${ticketId}/reply`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: text })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      // Update local count so polling doesn't think it's a "new" external reply
+      lastReplyCount++;
+      
+      // Append reply to the chat window
+      const chat = document.getElementById('chatScroll');
+      const div  = document.createElement('div');
+      div.className = 'chat-msg chat-admin-reply new-reply';
+      div.innerHTML = `
+        <div class="chat-avatar">🛡️</div>
+        <div class="chat-bubble-wrap">
+          <div class="chat-bubble admin-bubble">${data.reply.text}</div>
+          <div class="chat-meta">
+            <span class="admin-tag">Admin: ${data.reply.by}</span>
+            <span class="chat-time">${data.reply.time.slice(11,16)}</span>
+          </div>
+        </div>
+      `;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+
+      textarea.value = '';
+      showToast('Reply sent successfully');
+    } else {
+      showToast(data.error || 'Failed to send reply', false);
+    }
+  })
+  .catch(() => showToast('Network error', false));
+}
+</script>
+{% endblock %}

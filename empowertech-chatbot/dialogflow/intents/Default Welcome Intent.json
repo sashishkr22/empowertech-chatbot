@@ -1,0 +1,42 @@
+{
+  "name": "Default Welcome Intent",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "Hello! Welcome to EmpowerTech Solutions support. I'm TechBot, your AI assistant. How can I help you today?",
+            "Hi there! Welcome to EmpowerTech IT Support. I'm here to help you with any technical issues. What can I assist you with?",
+            "Welcome to EmpowerTech Solutions, Chennai! I'm TechBot. I can help with network issues, software problems, hardware support, or creating a support ticket. What do you need help with?"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1699999999,
+  "fallbackIntent": false,
+  "events": [
+    { "name": "WELCOME" }
+  ],
+  "trainingPhrases": [
+    { "type": "EXAMPLE", "parts": [{ "text": "hi" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "hello" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "hey" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "good morning" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "good afternoon" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "greetings" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "what's up" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I need help" }] }
+  ]
+}

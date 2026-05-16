@@ -1,0 +1,48 @@
+{
+  "name": "issue-type",
+  "isOverridable": true,
+  "isEnum": false,
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "network issue",
+      "synonyms": ["internet problem", "wifi issue", "no internet", "network down", "connectivity issue", "LAN problem"]
+    },
+    {
+      "value": "software crash",
+      "synonyms": ["app crash", "application error", "software not working", "program crash", "software bug"]
+    },
+    {
+      "value": "hardware issue",
+      "synonyms": ["laptop problem", "computer hardware", "physical damage", "broken hardware", "device issue"]
+    },
+    {
+      "value": "email issue",
+      "synonyms": ["email not working", "outlook problem", "cannot send email", "email error", "mail issue"]
+    },
+    {
+      "value": "server down",
+      "synonyms": ["server not responding", "server outage", "server error", "server offline"]
+    },
+    {
+      "value": "printer issue",
+      "synonyms": ["printer not working", "printer offline", "print error", "cannot print"]
+    },
+    {
+      "value": "password reset",
+      "synonyms": ["forgot password", "locked out", "cannot login", "account locked", "reset credentials"]
+    },
+    {
+      "value": "slow performance",
+      "synonyms": ["computer is slow", "slow system", "performance issue", "lagging", "freezing"]
+    },
+    {
+      "value": "security issue",
+      "synonyms": ["virus", "malware", "hacked", "security breach", "suspicious activity", "ransomware"]
+    },
+    {
+      "value": "data loss",
+      "synonyms": ["lost data", "deleted files", "data recovery", "missing files", "data backup"]
+    }
+  ]
+}

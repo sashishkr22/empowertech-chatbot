@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}Tickets — EmpowerTech Admin{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════ -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">🎫 All Tickets</h1>
+    <p class="page-sub">{{ total }} ticket{{ 's' if total != 1 }} found</p>
+  </div>
+  <a href="{{ url_for('export_csv') }}" class="btn-primary">⬇️ Export CSV</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SEARCH & FILTER BAR
+════════════════════════════════════════════ -->
+<div class="card filter-card">
+  <form method="GET" action="{{ url_for('tickets_page') }}" class="filter-form" id="filterForm">
+
+    <!-- Search box -->
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        name="search"
+        value="{{ search }}"
+        placeholder="Search by ID, name, email, subject..."
+        class="search-input"
+        oninput="this.form.submit()"
+      />
+      {% if search %}
+        <a href="{{ url_for('tickets_page') }}" class="search-clear">×</a>
+      {% endif %}
+    </div>
+
+    <div style="display: flex; gap: 12px;">
+      <!-- Status filter -->
+      <select name="status" class="filter-select" onchange="this.form.submit()">
+        <option value="all" {% if status_filter=='all' %}selected{% endif %}>All Statuses</option>
+        {% for s in all_statuses %}
+          <option value="{{ s }}" {% if status_filter==s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+
+      <!-- Service filter -->
+      <select name="service" class="filter-select" onchange="this.form.submit()">
+        <option value="all" {% if service_filter=='all' %}selected{% endif %}>All Services</option>
+        {% for s in all_services %}
+          <option value="{{ s }}" {% if service_filter==s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+
+      <!-- Priority filter -->
+      <select name="priority" class="filter-select" onchange="this.form.submit()">
+        <option value="all" {% if priority_filter=='all' %}selected{% endif %}>All Priorities</option>
+        {% for p in all_priorities %}
+          <option value="{{ p }}" {% if priority_filter==p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Reset -->
+    <a href="{{ url_for('tickets_page') }}" class="btn-reset">Reset Filters</a>
+
+  </form>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ACTIVE FILTERS TAGS
+════════════════════════════════════════════ -->
+{% if search or status_filter != 'all' or service_filter != 'all' or priority_filter != 'all' %}
+<div class="active-filters">
+  <span class="filter-label">Active filters:</span>
+  {% if search %}<span class="filter-tag">Search: "{{ search }}"</span>{% endif %}
+  {% if status_filter != 'all' %}<span class="filter-tag">Status: {{ status_filter }}</span>{% endif %}
+  {% if service_filter != 'all' %}<span class="filter-tag">Service: {{ service_filter }}</span>{% endif %}
+  {% if priority_filter != 'all' %}<span class="filter-tag">Priority: {{ priority_filter }}</span>{% endif %}
+</div>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════
+     TICKETS TABLE
+════════════════════════════════════════════ -->
+<div class="card">
+  <table class="ticket-table">
+    <thead>
+      <tr>
+        <th>Ticket ID</th>
+        <th>User</th>
+        <th>Subject</th>
+        <th>Service</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Assigned</th>
+        <th>Notes</th>
+        <th>Updated</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in tickets %}
+      <tr class="ticket-row" onclick="window.location='{{ url_for('ticket_detail', ticket_id=t.id) }}'">
+
+        <td><span class="ticket-id">{{ t.id }}</span></td>
+
+        <td>
+          <div class="user-cell">
+            <div class="user-name">{{ t.user_name }}</div>
+            {% if t.user_email %}
+            <div class="user-email">{{ t.user_email }}</div>
+            {% endif %}
+          </div>
+        </td>
+
+        <td class="subject-cell">{{ t.subject }}</td>
+
+        <td>
+          {% set svc_icons = {
+            'App Development':    '📱',
+            'Website Design':     '🌐',
+            'Consulting':         '💼',
+            'Legal Tech Support': '⚖️'
+          } %}
+          <span class="service-tag">
+            {{ svc_icons.get(t.service, '🔧') }} {{ t.service }}
+          </span>
+        </td>
+
+        <td>
+          <span class="status-badge status-{{ t.status | replace(' ','') | lower }}">
+            {{ t.status }}
+          </span>
+        </td>
+
+        <td>
+          <span class="priority-badge priority-{{ t.priority | lower }}">
+            {{ t.priority }}
+          </span>
+        </td>
+
+        <td>
+          {% if t.assigned_to %}
+            <span class="assigned-tag">{{ t.assigned_to }}</span>
+          {% else %}
+            <span class="unassigned">Unassigned</span>
+          {% endif %}
+        </td>
+
+        <td class="center-cell">
+          <span class="notes-count">{{ t.admin_notes | length }}</span>
+        </td>
+
+        <td class="time-cell">{{ t.updated_at[:16] | replace('T',' ') }}</td>
+
+        <td onclick="event.stopPropagation()">
+          <a href="{{ url_for('ticket_detail', ticket_id=t.id) }}" class="btn-view">
+            View →
+          </a>
+        </td>
+
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="10" class="empty-msg">
+          No tickets match your filters.
+          <a href="{{ url_for('tickets_page') }}">Clear filters</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

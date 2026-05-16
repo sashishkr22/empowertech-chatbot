@@ -1,0 +1,44 @@
+{
+  "name": "CreateTicket",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": [
+            "I'll create a support ticket for you right away! Our team at EmpowerTech will be assigned to your issue. You'll receive a ticket ID to track progress. Please hold on...",
+            "Creating your support ticket now! Our IT specialists will be notified immediately. You'll get a unique ticket ID to track your issue status.",
+            "No problem! I'm logging your request in our system. Your ticket will be assigned to the right EmpowerTech specialist based on the issue type."
+          ]
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "parameters": [
+    {
+      "id": "issue-type",
+      "name": "issue-type",
+      "required": false,
+      "dataType": "@issue-type",
+      "value": "$issue-type"
+    }
+  ],
+  "trainingPhrases": [
+    { "type": "EXAMPLE", "parts": [{ "text": "create a support ticket" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "log a ticket" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I want to raise a ticket" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "open a new ticket" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "submit a request" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "raise an issue" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I need to file a complaint" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "register my problem" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "create ticket for network issue" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "log this issue please" }] }
+  ]
+}

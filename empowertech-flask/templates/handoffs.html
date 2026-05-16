@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Talk to User — EmpowerTech Admin{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════ -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">💬 Talk to User (Human Handoffs)</h1>
+    <p class="page-sub">{{ handoffs | length }} request{{ 's' if handoffs | length != 1 }} found</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SEARCH & FILTER BAR
+════════════════════════════════════════════ -->
+<div class="card filter-card">
+  <form method="GET" action="{{ url_for('handoffs_page') }}" class="filter-form" id="filterForm">
+
+    <!-- Status filter -->
+    <div class="tab-filters">
+        <a href="{{ url_for('handoffs_page', status='Active') }}" 
+           class="tab-link {% if status_filter == 'Active' %}active{% endif %}">
+           Active Requests
+        </a>
+        <a href="{{ url_for('handoffs_page', status='Resolved') }}" 
+           class="tab-link {% if status_filter == 'Resolved' %}active{% endif %}">
+           Resolved
+        </a>
+        <a href="{{ url_for('handoffs_page', status='All') }}" 
+           class="tab-link {% if status_filter == 'All' %}active{% endif %}">
+           All
+        </a>
+    </div>
+
+  </form>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HANDOFFS TABLE
+════════════════════════════════════════════ -->
+<div class="card">
+  <table class="ticket-table">
+    <thead>
+      <tr>
+        <th>Token No</th>
+        <th>User</th>
+        <th>Last Message</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h in handoffs %}
+      <tr class="ticket-row" onclick="window.location='{{ url_for('handoff_detail', handoff_id=h.id) }}'">
+
+        <td><span class="ticket-id">{{ h.id }}</span></td>
+
+        <td>
+          <div class="user-cell">
+            <div class="user-name">{{ h.user_name }}</div>
+            {% if h.user_phone %}
+            <div class="user-email">{{ h.user_phone }}</div>
+            {% endif %}
+          </div>
+        </td>
+
+        <td class="subject-cell">
+          {% if h.messages %}
+            {{ h.messages[-1].text | truncate(60) }}
+          {% else %}
+            <span class="muted">No messages</span>
+          {% endif %}
+        </td>
+
+        <td>
+          <span class="status-badge status-{{ h.status | lower }}">
+            {{ h.status }}
+          </span>
+        </td>
+
+        <td class="time-cell">{{ h.created_at[:16] | replace('T',' ') }}</td>
+        <td class="time-cell">{{ h.updated_at[:16] | replace('T',' ') }}</td>
+
+        <td onclick="event.stopPropagation()">
+          <a href="{{ url_for('handoff_detail', handoff_id=h.id) }}" class="btn-view">
+            Chat →
+          </a>
+        </td>
+
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7" class="empty-msg">
+          No handoff requests found.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

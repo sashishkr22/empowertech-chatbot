@@ -1,0 +1,28 @@
+# =============================================
+# .gitignore - Files NOT uploaded to GitHub
+# =============================================
+
+# Environment variables (contains secret keys!)
+.env
+
+# Google Service Account (contains secret keys!)
+backend/serviceAccount.json
+serviceAccount.json
+*.json.key
+
+# Node.js installed packages (too large, reinstalled with npm install)
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Log files
+*.log
+npm-debug.log*
+
+# Ticket database (optional - remove this line if you want to track tickets)
+# backend/tickets.json

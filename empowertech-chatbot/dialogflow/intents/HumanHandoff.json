@@ -1,0 +1,33 @@
+{
+  "name": "HumanHandoff",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": [
+            "I understand you'd like to speak with a human agent. Our EmpowerTech support team is available Monday-Friday, 9 AM to 6 PM IST. I'll create an urgent ticket and our team will call you back within 2 hours. Your case ID: EMP-URGENT. Phone: +91-44-XXXX-XXXX",
+            "Of course! Let me connect you with our Chennai support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I'm creating a priority ticket for you now. Alternatively, call us: +91-44-XXXX-XXXX",
+            "Understood! Sometimes it's better to talk to a person. I'm flagging your session for our senior support team at EmpowerTech. Expected response time: 30-60 minutes during business hours. 📞 Direct line: +91-44-XXXX-XXXX"
+          ]
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "trainingPhrases": [
+    { "type": "EXAMPLE", "parts": [{ "text": "I want to talk to a human" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "connect me to an agent" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I need to speak with a person" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "talk to support agent" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "human support please" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "escalate my issue" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "the bot can't help me" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "I need real person" }] },
+    { "type": "EXAMPLE", "parts": [{ "text": "get me a supervisor" }] }
+  ]
+}
