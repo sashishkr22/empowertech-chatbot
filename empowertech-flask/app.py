@@ -13,8 +13,14 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 
 # MongoDB Setup
-client = MongoClient(os.getenv("MONGODB_URI"))
-db = client.get_database()
+try:
+    client = MongoClient(os.getenv("MONGODB_URI"))
+    # Provide a default name 'empowertech' if the URI doesn't specify one
+    db = client.get_database("empowertech") if client.get_database().name == 'test' else client.get_default_database(default="empowertech")
+except Exception:
+    client = MongoClient(os.getenv("MONGODB_URI"))
+    db = client["empowertech"] # Safe fallback
+
 tickets_col = db.tickets
 
 def format_db_object(obj):
