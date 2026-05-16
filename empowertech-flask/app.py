@@ -49,7 +49,6 @@ def dashboard():
         raw_tickets = list(tickets_col.find().sort("created_at", -1))
         formatted_tickets = [format_db_object(t) for t in raw_tickets]
         
-        # 1. Main Stats
         stats = {
             "total": len(formatted_tickets),
             "open": len([t for t in formatted_tickets if t['status'] == 'Open']),
@@ -58,14 +57,11 @@ def dashboard():
             "closed": len([t for t in formatted_tickets if t['status'] == 'Closed'])
         }
         
-        # 2. Service Breakdown (Required by dashboard.html)
         services = [t.get('service', 'General') for t in formatted_tickets]
         service_counts = dict(Counter(services))
-        # Ensure core services exist in dict even if 0
         for s in ['App Development', 'Website Design', 'Consulting', 'Legal Tech Support']:
             service_counts.setdefault(s, 0)
 
-        # 3. Top Intents (Required by dashboard.html)
         intents = [t.get('intent', 'N/A') for t in formatted_tickets if t.get('intent')]
         top_intents = Counter(intents).most_common(6)
 
@@ -149,9 +145,28 @@ def logout():
 
 @app.route('/api/tickets/live')
 def live_tickets():
-    tickets = list(tickets_col.find().sort("updated_at", -1).limit(20))
-    formatted = [format_db_object(t) for t in tickets]
-    return jsonify({"tickets": formatted})
+    try:
+        raw_tickets = list(tickets_col.find().sort("updated_at", -1))
+        formatted_tickets = [format_db_object(t) for t in raw_tickets]
+        
+        # Calculate full stats for the frontend JS
+        stats = {
+            "total": len(formatted_tickets),
+            "open": len([t for t in formatted_tickets if t['status'] == 'Open']),
+            "in_progress": len([t for t in formatted_tickets if t['status'] == 'In Progress']),
+            "resolved": len([t for t in formatted_tickets if t['status'] == 'Resolved']),
+            "closed": len([t for t in formatted_tickets if t['status'] == 'Closed'])
+        }
+
+        return jsonify({
+            "total": stats["total"],
+            "stats": stats,
+            "active_handoffs": 0,    # Placeholder
+            "handoffs_count": 0,     # Placeholder
+            "tickets": formatted_tickets[:20]
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/ticket/<ticket_id>/status', methods=['POST'])
 def api_update_status(ticket_id):
