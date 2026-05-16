@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from datetime import datetime
+from collections import Counter
 
 load_dotenv()
 
@@ -15,22 +16,19 @@ app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 # MongoDB Setup
 try:
     client = MongoClient(os.getenv("MONGODB_URI"))
-    # Provide a default name 'empowertech' if the URI doesn't specify one
-    db = client.get_database("empowertech") if client.get_database().name == 'test' else client.get_default_database(default="empowertech")
+    db = client.get_default_database(default="empowertech")
 except Exception:
     client = MongoClient(os.getenv("MONGODB_URI"))
-    db = client["empowertech"] # Safe fallback
+    db = client["empowertech"]
 
 tickets_col = db.tickets
 
 def format_db_object(obj):
     if not obj: return None
     obj['_id'] = str(obj['_id'])
-    # Critical fix: Ensure 'id' is ALWAYS present to avoid url_for BuildError
     if 'id' not in obj:
-        obj['id'] = obj.get('ticketId') or obj.get('id') or str(obj['_id'])
+        obj['id'] = obj.get('ticketId') or str(obj['_id'])
     
-    # Ensure other fields expected by templates are present
     obj.setdefault('user_name', 'Anonymous')
     obj.setdefault('subject', 'No Subject')
     obj.setdefault('service', 'General')
@@ -41,26 +39,41 @@ def format_db_object(obj):
     obj.setdefault('admin_notes', [])
     return obj
 
-# Context processor to provide 'admin' variable to all templates
 @app.context_processor
-def inject_admin():
-    return dict(admin="Project Admin")
+def inject_globals():
+    return dict(admin="Project Admin", now=datetime.now())
 
 @app.route('/')
 def dashboard():
     try:
-        tickets = list(tickets_col.find().sort("created_at", -1))
-        formatted_tickets = [format_db_object(t) for t in tickets]
+        raw_tickets = list(tickets_col.find().sort("created_at", -1))
+        formatted_tickets = [format_db_object(t) for t in raw_tickets]
         
+        # 1. Main Stats
         stats = {
-            "total": len(tickets),
-            "open": len([t for t in tickets if t.get('status') == 'Open']),
-            "in_progress": len([t for t in tickets if t.get('status') == 'In Progress']),
-            "resolved": len([t for t in tickets if t.get('status') == 'Resolved']),
-            "closed": len([t for t in tickets if t.get('status') == 'Closed'])
+            "total": len(formatted_tickets),
+            "open": len([t for t in formatted_tickets if t['status'] == 'Open']),
+            "in_progress": len([t for t in formatted_tickets if t['status'] == 'In Progress']),
+            "resolved": len([t for t in formatted_tickets if t['status'] == 'Resolved']),
+            "closed": len([t for t in formatted_tickets if t['status'] == 'Closed'])
         }
         
-        return render_template('dashboard.html', stats=stats, recent_tickets=formatted_tickets[:5])
+        # 2. Service Breakdown (Required by dashboard.html)
+        services = [t.get('service', 'General') for t in formatted_tickets]
+        service_counts = dict(Counter(services))
+        # Ensure core services exist in dict even if 0
+        for s in ['App Development', 'Website Design', 'Consulting', 'Legal Tech Support']:
+            service_counts.setdefault(s, 0)
+
+        # 3. Top Intents (Required by dashboard.html)
+        intents = [t.get('intent', 'N/A') for t in formatted_tickets if t.get('intent')]
+        top_intents = Counter(intents).most_common(6)
+
+        return render_template('dashboard.html', 
+                               stats=stats, 
+                               service_counts=service_counts,
+                               top_intents=top_intents,
+                               recent_tickets=formatted_tickets[:5])
     except Exception as e:
         print(f"Dashboard Error: {e}")
         return f"Internal Server Error: {e}", 500
@@ -88,25 +101,7 @@ def tickets_page():
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
-    if request.method == 'POST':
-        action = request.form.get('action')
-        if action == 'add_reply':
-            reply_text = request.form.get('reply')
-            tickets_col.update_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}, {
-                "$push": {"manual_replies": {"text": reply_text, "by": "admin", "time": datetime.now().isoformat()}},
-                "$set": {"updated_at": datetime.now().isoformat()}
-            })
-            flash("Reply sent")
-        return redirect(url_for('ticket_detail', ticket_id=ticket_id))
-
     t = tickets_col.find_one({"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]})
-    if not t:
-        # Try finding by MongoDB ObjectId as last resort
-        try:
-            t = tickets_col.find_one({"_id": ObjectId(ticket_id)})
-        except:
-            pass
-
     if not t:
         flash("Ticket not found")
         return redirect(url_for('tickets_page'))
@@ -122,7 +117,6 @@ def handoffs_page():
 
 @app.route('/handoff/<handoff_id>')
 def handoff_detail(handoff_id):
-    # For now, just a placeholder
     return render_template('handoff_detail.html', handoff={'id': handoff_id, 'messages': []})
 
 @app.route('/export')
