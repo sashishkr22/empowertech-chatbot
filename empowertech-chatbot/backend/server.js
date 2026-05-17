@@ -34,13 +34,18 @@ app.post('/api/chat', async (req, res) => {
       confidence: null
     };
 
-    // Check for active handoff
-    const activeHandoff = await ticketManager.getHandoffStatus(sessionId);
+    // 1. Check for active handoff
+    let activeHandoff = null;
+    try {
+        activeHandoff = await ticketManager.getHandoffStatus(sessionId);
+    } catch (dbErr) {
+        console.error('DB Error checking handoff:', dbErr.message);
+    }
+
     const msgLower = message.toLowerCase().trim();
     const isExitMsg = ['bye', 'exit', 'quit', 'goodbye', 'end chat'].includes(msgLower);
 
     if (activeHandoff && !isExitMsg) {
-        console.log(`🤫 [${sessionId}] Handoff is active. Bot staying silent.`);
         await ticketManager.updateTicketMessages(sessionId, userMsg);
         return res.json({
             reply: null,
@@ -50,13 +55,23 @@ app.post('/api/chat', async (req, res) => {
         });
     }
 
-    const dfResponse  = await sendMessageToDialogflow(message, sessionId);
-    let botReply    = dfResponse.queryResult.fulfillmentText;
-    let intent      = dfResponse.queryResult.intent.displayName;
-    let confidence  = dfResponse.queryResult.intentDetectionConfidence;
+    // 2. Get Dialogflow Response
+    let botReply = "I'm sorry, I'm having trouble thinking right now.";
+    let intent = "Default Fallback Intent";
+    let confidence = 0;
 
-    if (intent === 'Default Fallback Intent') {
-      botReply = getFallbackResponse(message);
+    try {
+        const dfResponse = await sendMessageToDialogflow(message, sessionId);
+        botReply = dfResponse?.queryResult?.fulfillmentText || botReply;
+        intent = dfResponse?.queryResult?.intent?.displayName || intent;
+        confidence = dfResponse?.queryResult?.intentDetectionConfidence || 0;
+
+        if (intent === 'Default Fallback Intent') {
+            botReply = getFallbackResponse(message);
+        }
+    } catch (dfErr) {
+        console.error('Dialogflow Error:', dfErr.message);
+        botReply = "I'm connected to the database, but my AI engine is having a moment. How else can I help?";
     }
 
     userMsg.intent = intent;
@@ -73,41 +88,52 @@ app.post('/api/chat', async (req, res) => {
     let ticketId = null;
     let finalReply = botReply;
 
-    if (intent === 'HumanHandoff') {
-        const handoffInfo = await ticketManager.createHandoffRequest({
-            sessionId,
-            conversationHistory: sessionHistory[sessionId],
-            userData: ticketData
-        });
-        finalReply = `I have notified our support team. Your token number is **${handoffInfo.id}**. Please wait for an agent to respond.`;
-        botMsg.text = finalReply;
-    } else if (intent === 'CreateTicket' || ticketData) {
-      // Avoid double message creation if it's a partial sync or specific step
-      const isPartial = req.body.isPartialSync;
-      
-      ticketId = await ticketManager.createTicket({ sessionId }, sessionHistory[sessionId], ticketData);
-      
-      if (ticketData && !isPartial) {
-        finalReply = `✅ Ticket **${ticketId}** created! We will contact you at ${ticketData.email || ticketData.phone}.`;
-        botMsg.text = finalReply;
-      }
-    } else if (intent === 'CheckTicketStatus' || message.toUpperCase().includes('EMP-')) {
-      const match = message.match(/EMP-\d{4}/i);
-      if (match) {
-        const ticket = await ticketManager.getTicketStatus(match[0].toUpperCase());
-        if (ticket) {
-          finalReply = `🔍 **Ticket Found!**\n\n**ID:** ${ticket.id}\n**Status:** ${ticket.status}\n**Priority:** ${ticket.priority}\n**Service:** ${ticket.service}`;
-        } else {
-          finalReply = `❌ Sorry, I couldn't find a ticket with ID **${match[0].toUpperCase()}**. Please double-check the number.`;
+    // 3. Handle Special Actions (Handoff / Ticket)
+    try {
+        if (intent === 'HumanHandoff') {
+            const handoffInfo = await ticketManager.createHandoffRequest({
+                sessionId,
+                conversationHistory: sessionHistory[sessionId],
+                userData: ticketData
+            });
+            finalReply = `I have notified our support team. Your token number is **${handoffInfo.id}**. Please wait for an agent to respond.`;
+            botMsg.text = finalReply;
+        } 
+        else if (intent === 'CreateTicket' || (ticketData && !req.body.isPartialSync)) {
+            // Finalize Ticket
+            ticketId = await ticketManager.createTicket({ sessionId }, sessionHistory[sessionId], ticketData || {});
+            finalReply = `✅ Ticket **${ticketId}** created! Our team will contact you soon.`;
+            botMsg.text = finalReply;
+        } 
+        else if (req.body.isPartialSync && ticketData) {
+            // Just update details in real-time
+            await ticketManager.createHandoffRequest({
+                sessionId,
+                conversationHistory: sessionHistory[sessionId],
+                userData: ticketData
+            });
         }
-      } else if (intent === 'CheckTicketStatus') {
-        finalReply = "To check your ticket status, please type your Ticket ID (e.g., **EMP-1001**).";
-      }
-      botMsg.text = finalReply;
-    } else {
-      // Sync regular conversation to existing ticket/handoff if it exists
-      await ticketManager.updateTicketMessages(sessionId, userMsg);
-      await ticketManager.updateTicketMessages(sessionId, botMsg);
+        else if (intent === 'CheckTicketStatus' || message.toUpperCase().includes('EMP-')) {
+            const match = message.match(/EMP-\d{4}/i);
+            if (match) {
+                const ticket = await ticketManager.getTicketStatus(match[0].toUpperCase());
+                if (ticket) {
+                    finalReply = `🔍 **Ticket Found!**\n\n**ID:** ${ticket.id}\n**Status:** ${ticket.status}\n**Priority:** ${ticket.priority}\n**Service:** ${ticket.service}`;
+                } else {
+                    finalReply = `❌ Sorry, I couldn't find a ticket with ID **${match[0].toUpperCase()}**.`;
+                }
+            } else if (intent === 'CheckTicketStatus') {
+                finalReply = "Please provide your Ticket ID (e.g., **EMP-1001**) to check the status.";
+            }
+            botMsg.text = finalReply;
+        } else {
+            // Save messages to existing records if any
+            await ticketManager.updateTicketMessages(sessionId, userMsg);
+            await ticketManager.updateTicketMessages(sessionId, botMsg);
+        }
+    } catch (actionErr) {
+        console.error('Action Error (Handoff/Ticket):', actionErr.message);
+        // Don't crash the whole response, just log it
     }
 
     res.json({
@@ -119,46 +145,44 @@ app.post('/api/chat', async (req, res) => {
     });
 
   } catch (err) {
-    console.error('Chat error:', err.message);
-    res.status(500).json({ reply: "Service temporarily unavailable.", error: true });
+    console.error('Global Chat error:', err);
+    res.status(500).json({ 
+        reply: "Something went wrong in my brain. Please try again in a few seconds.", 
+        error: err.message 
+    });
   }
 });
 
-// Admin reply check polling (for frontend chat)
+// Admin updates polling
 app.get('/api/chat/updates', async (req, res) => {
-    const { sessionId, lastSeenTime } = req.query;
-    if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
+    try {
+        const { sessionId, lastSeenTime } = req.query;
+        if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
 
-    let allReplies = [];
-
-    const handoff = await ticketManager.getHandoffStatus(sessionId);
-    if (handoff) {
-        // Return only admin replies from the messages array
-        allReplies = handoff.messages.filter(m => m.role === 'admin');
-    } else {
-        const ticket = await ticketManager.getTicketStatusBySession(sessionId);
-        if (ticket) {
-            allReplies = ticket.manual_replies;
+        let allReplies = [];
+        const handoff = await ticketManager.getHandoffStatus(sessionId);
+        
+        if (handoff) {
+            allReplies = handoff.messages.filter(m => m.role === 'admin');
+        } else {
+            const ticket = await ticketManager.getTicketStatusBySession(sessionId);
+            if (ticket) allReplies = ticket.manual_replies || [];
         }
-    }
 
-    // Filter by time if lastSeenTime is provided
-    if (lastSeenTime && lastSeenTime !== 'null' && lastSeenTime !== 'undefined') {
-        allReplies = allReplies.filter(r => r.time > lastSeenTime);
+        if (lastSeenTime && lastSeenTime !== 'null' && lastSeenTime !== 'undefined') {
+            allReplies = allReplies.filter(r => r.time > lastSeenTime);
+        }
+        res.json({ replies: allReplies });
+    } catch (err) {
+        res.json({ replies: [] });
     }
-
-    res.json({ replies: allReplies });
 });
 
-// Single ticket status check API (for sidebar)
+// Sidebar ticket check
 app.get('/api/ticket/:id', async (req, res) => {
     try {
         const ticket = await ticketManager.getTicketStatus(req.params.id.toUpperCase());
-        if (ticket) {
-            res.json({ success: true, ticket });
-        } else {
-            res.json({ success: false, message: 'Ticket not found' });
-        }
+        res.json({ success: !!ticket, ticket });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
