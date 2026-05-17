@@ -51,10 +51,25 @@ def format_doc(raw_doc):
     
     t = safe_serialize(raw_doc)
     
-    # Ensure ID is present
+    # CRITICAL: Ensure ID is present for url_for in templates
     if 'id' not in t:
         t['id'] = t.get('ticketId') or t.get('id') or str(t.get('_id'))
     
+    # Fill standard defaults
+    t.setdefault('user_name', t.get('userName', 'Anonymous'))
+    t.setdefault('subject', 'New Support Request')
+    t.setdefault('service', 'General')
+    t.setdefault('status', 'Open')
+    t.setdefault('priority', 'Low')
+    t.setdefault('created_at', get_now_ist_str())
+    t.setdefault('updated_at', t.get('created_at'))
+    
+    # Generate a subject from the first message if missing
+    if t['subject'] == "New Support Request" and t.get('messages'):
+        first_msg = t['messages'][0]
+        if isinstance(first_msg, dict):
+            t['subject'] = first_msg.get('text', 'New Request')[:50] + "..."
+
     # Normalize nested lists and their timestamps
     for field in ['messages', 'manual_replies', 'admin_notes']:
         if field not in t or not isinstance(t[field], list):
@@ -62,7 +77,6 @@ def format_doc(raw_doc):
         else:
             for item in t[field]:
                 if isinstance(item, dict):
-                    # If time is a string from JS (Z format), try to adjust it
                     raw_time = item.get('time') or item.get('timestamp')
                     if isinstance(raw_time, str) and raw_time.endswith('Z'):
                         try:
@@ -112,14 +126,47 @@ def dashboard():
                                recent_tickets=tickets[:5],
                                active_handoffs=len(active_h))
     except Exception as e:
+        print(f"Error in dashboard: {e}")
         return f"Dashboard Error: {e}", 500
 
 @app.route('/tickets')
 def tickets_page():
-    status = request.args.get('status', 'All')
-    query = {} if status == 'All' else {'status': status}
-    tickets = [format_doc(t) for t in tickets_col.find(query).sort("created_at", -1)]
-    return render_template('tickets.html', tickets=tickets)
+    try:
+        search = request.args.get('search', '')
+        status_filter = request.args.get('status', 'all')
+        service_filter = request.args.get('service', 'all')
+        priority_filter = request.args.get('priority', 'all')
+
+        query = {}
+        if status_filter != 'all': query['status'] = status_filter
+        if service_filter != 'all': query['service'] = service_filter
+        if priority_filter != 'all': query['priority'] = priority_filter
+        
+        if search:
+            query['$or'] = [
+                {'ticketId': {'$regex': search, '$options': 'i'}},
+                {'id': {'$regex': search, '$options': 'i'}},
+                {'userName': {'$regex': search, '$options': 'i'}},
+                {'user_name': {'$regex': search, '$options': 'i'}},
+                {'subject': {'$regex': search, '$options': 'i'}}
+            ]
+
+        raw_tickets = list(tickets_col.find(query).sort("created_at", -1))
+        tickets = [format_doc(t) for t in raw_tickets]
+        
+        return render_template('tickets.html', 
+                               tickets=tickets,
+                               total=len(tickets),
+                               search=search,
+                               status_filter=status_filter,
+                               service_filter=service_filter,
+                               priority_filter=priority_filter,
+                               all_statuses=['Open', 'In Progress', 'Resolved', 'Closed'],
+                               all_services=['App Development', 'Website Design', 'Consulting', 'Legal Tech Support'],
+                               all_priorities=['Low', 'Medium', 'High'])
+    except Exception as e:
+        print(f"Tickets Page Error: {e}")
+        return f"Error: {e}", 500
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
@@ -233,17 +280,6 @@ def live_tickets():
         "tickets": tickets
     })
 
-@app.route('/export')
-def export_csv():
-    tickets = list(tickets_col.find())
-    si = io.StringIO()
-    cw = csv.writer(si)
-    cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
-    for t in tickets:
-        obj = format_doc(t)
-        cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
-    return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST': return redirect(url_for('dashboard'))
@@ -252,6 +288,20 @@ def login():
 @app.route('/logout')
 def logout():
     return redirect(url_for('login'))
+
+@app.route('/export')
+def export_csv():
+    try:
+        tickets = list(tickets_col.find())
+        si = io.StringIO()
+        cw = csv.writer(si)
+        cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
+        for t in tickets:
+            obj = format_doc(t)
+            cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
+        return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
+    except Exception as e:
+        return str(e), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
