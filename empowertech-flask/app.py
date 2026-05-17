@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from collections import Counter
 
 load_dotenv()
@@ -27,9 +27,16 @@ except Exception as e:
 tickets_col = db.tickets
 handoffs_col = db.handoffs
 
+def get_now_ist_str():
+    """Returns current IST time as ISO string."""
+    ist_time = datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)
+    return ist_time.isoformat()
+
 def safe_serialize(obj):
     if isinstance(obj, datetime):
-        return obj.isoformat()
+        # Convert UTC datetime to IST string
+        ist_time = obj.replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=5, minutes=30)))
+        return ist_time.isoformat()
     if isinstance(obj, ObjectId):
         return str(obj)
     if isinstance(obj, list):
@@ -44,20 +51,31 @@ def format_doc(raw_doc):
     
     t = safe_serialize(raw_doc)
     
-    # CRITICAL: Ensure 'id' exists for url_for in templates
+    # Ensure ID is present
     if 'id' not in t:
         t['id'] = t.get('ticketId') or t.get('id') or str(t.get('_id'))
     
-    # Fill defaults for nested lists to prevent template crashes
+    # Normalize nested lists and their timestamps
     for field in ['messages', 'manual_replies', 'admin_notes']:
         if field not in t or not isinstance(t[field], list):
             t[field] = []
         else:
-            # Ensure each item in the list has a 'time' attribute
             for item in t[field]:
                 if isinstance(item, dict):
-                    if 'time' not in item:
-                        item['time'] = item.get('timestamp') or t.get('created_at', datetime.now().isoformat())
+                    # If time is a string from JS (Z format), try to adjust it
+                    raw_time = item.get('time') or item.get('timestamp')
+                    if isinstance(raw_time, str) and raw_time.endswith('Z'):
+                        try:
+                            dt = datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
+                            ist = dt.astimezone(timezone(timedelta(hours=5, minutes=30)))
+                            item['time'] = ist.isoformat()
+                        except:
+                            item['time'] = raw_time
+                    elif not raw_time:
+                        item['time'] = t.get('created_at', get_now_ist_str())
+                    else:
+                        item['time'] = raw_time
+                    
                     if 'by' not in item:
                         item['by'] = 'User' if item.get('role') == 'user' else 'AI Bot'
     
@@ -94,7 +112,6 @@ def dashboard():
                                recent_tickets=tickets[:5],
                                active_handoffs=len(active_h))
     except Exception as e:
-        print(f"Error in dashboard: {e}")
         return f"Dashboard Error: {e}", 500
 
 @app.route('/tickets')
@@ -106,9 +123,8 @@ def tickets_page():
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
-    # Flexible ID lookup
     query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
-    if len(ticket_id) == 24: # Check if it's a MongoDB ObjectId
+    if len(ticket_id) == 24:
         try: query["$or"].append({"_id": ObjectId(ticket_id)})
         except: pass
         
@@ -145,21 +161,23 @@ def handoff_detail(handoff_id):
 @app.route('/api/handoff/<handoff_id>/status', methods=['POST'])
 def api_handoff_status(handoff_id):
     status = request.json.get('status')
-    handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
+    now = get_now_ist_str()
+    handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {"$set": {"status": status, "updated_at": now}})
     return jsonify({"ok": True})
 
 @app.route('/api/handoff/<handoff_id>/reply', methods=['POST'])
 def api_handoff_reply(handoff_id):
     text = request.json.get('text')
+    now = get_now_ist_str()
     reply = {
         "role": "admin",
         "text": text,
         "by": "Human Agent",
-        "time": datetime.now().isoformat()
+        "time": now
     }
     handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {
         "$push": {"messages": reply},
-        "$set": {"updated_at": datetime.now().isoformat()}
+        "$set": {"updated_at": now}
     })
     return jsonify({"ok": True})
 
@@ -175,8 +193,6 @@ def api_handoff_messages(handoff_id):
     handoff = format_doc(h)
     return jsonify({"ok": True, "messages": handoff.get('messages', []), "status": handoff.get('status')})
 
-# --- TICKET MANAGEMENT APIs ---
-
 @app.route('/api/ticket/<ticket_id>/status', methods=['POST'])
 def api_update_status(ticket_id):
     query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
@@ -185,7 +201,8 @@ def api_update_status(ticket_id):
         except: pass
     
     status = request.json.get('status')
-    tickets_col.update_one(query, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
+    now = get_now_ist_str()
+    tickets_col.update_one(query, {"$set": {"status": status, "updated_at": now}})
     return jsonify({"ok": True})
 
 @app.route('/api/ticket/<ticket_id>/priority', methods=['POST'])
@@ -196,37 +213,9 @@ def api_update_priority(ticket_id):
         except: pass
         
     priority = request.json.get('priority')
-    tickets_col.update_one(query, {"$set": {"priority": priority, "updated_at": datetime.now().isoformat()}})
+    now = get_now_ist_str()
+    tickets_col.update_one(query, {"$set": {"priority": priority, "updated_at": now}})
     return jsonify({"ok": True})
-
-@app.route('/api/ticket/<ticket_id>/note', methods=['POST'])
-def api_add_note(ticket_id):
-    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
-    if len(ticket_id) == 24:
-        try: query["$or"].append({"_id": ObjectId(ticket_id)})
-        except: pass
-        
-    note = request.json.get('text')
-    tickets_col.update_one(query, {
-        "$push": {"admin_notes": {"note": note, "by": "admin", "time": datetime.now().isoformat()}},
-        "$set": {"updated_at": datetime.now().isoformat()}
-    })
-    return jsonify({"ok": True})
-
-@app.route('/api/ticket/<ticket_id>/reply', methods=['POST'])
-def api_add_ticket_reply(ticket_id):
-    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
-    if len(ticket_id) == 24:
-        try: query["$or"].append({"_id": ObjectId(ticket_id)})
-        except: pass
-        
-    text = request.json.get('text')
-    reply = {"text": text, "by": "admin", "time": datetime.now().isoformat()}
-    tickets_col.update_one(query, {
-        "$push": {"manual_replies": reply},
-        "$set": {"updated_at": datetime.now().isoformat()}
-    })
-    return jsonify({"ok": True, "reply": reply})
 
 @app.route('/api/tickets/live')
 def live_tickets():
