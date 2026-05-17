@@ -70,9 +70,19 @@ app.post('/api/chat', async (req, res) => {
 
     // 1. Check for active handoff
     const activeHandoff = await ticketManager.getHandoffStatus(sessionId);
-    if (activeHandoff && !['bye', 'exit'].includes(message.toLowerCase().trim())) {
-        await ticketManager.updateTicketMessages(sessionId, userMsg);
-        return res.json({ reply: null, intent: 'HumanHandoff_Active', handoff: activeHandoff });
+    const msgLower = message.toLowerCase().trim();
+    const isExitMsg = ['bye', 'exit', 'stop', 'goodbye', 'end chat'].includes(msgLower);
+
+    if (activeHandoff) {
+        if (isExitMsg) {
+            // User wants to return to AI - resolve handoff
+            await ticketManager.resolveHandoff(sessionId);
+            console.log(`👋 [${sessionId}] Handoff ended by user. Returning to AI.`);
+        } else {
+            // Quietly sync message to handoff and stop bot from replying
+            await ticketManager.updateTicketMessages(sessionId, userMsg);
+            return res.json({ reply: null, intent: 'HumanHandoff_Active', handoff: activeHandoff });
+        }
     }
 
     // 2. Normal AI Chat

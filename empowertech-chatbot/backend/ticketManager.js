@@ -140,6 +140,14 @@ const ticketManager = {
         return await Ticket.findOne({ session_id: sessionId }).sort({ created_at: -1 });
     },
 
+    resolveHandoff: async (sessionId) => {
+        const timestamp = new Date().toISOString();
+        await Handoff.updateMany(
+            { session_id: sessionId, status: { $ne: 'Resolved' } },
+            { $set: { status: 'Resolved', updated_at: timestamp } }
+        );
+    },
+
     updateTicketMessages: async (sessionId, message) => {
         const timestamp = new Date().toISOString();
         const ticket = await Ticket.findOne({ session_id: sessionId }).sort({ created_at: -1 });
