@@ -12,9 +12,26 @@
   --text-main: #0f172a;
   --text-muted: #64748b;
   --border: #e2e8f0;
+  --border2: #cbd5e1;
   --radius: 12px;
+  --radius-sm:  8px;
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --font: 'Inter', system-ui, -apple-system, sans-serif;
+  --form-bg: #ffffff;
+  --input-bg: #f8fafc;
+}
+
+[data-theme="dark"] {
+  --bg-page: #0a0f1e;
+  --bg-card: #0d1427;
+  --bg3: #111827;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #1e293b;
+  --border2: #243044;
+  --form-bg: #1e293b;
+  --input-bg: #0f172a;
+  --primary-light: rgba(37, 99, 235, 0.2);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +50,7 @@ body.modern-theme {
    HEADER
    ============================================= */
 .support-header {
-  background: #ffffff;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--border);
   padding: 12px 24px;
   z-index: 10;
@@ -100,7 +117,7 @@ body.modern-theme {
   flex-direction: column;
   gap: 24px;
   border-right: 1px solid var(--border);
-  background: #ffffff;
+  background: var(--bg-card);
   overflow-y: auto;
 }
 
@@ -134,7 +151,7 @@ body.modern-theme {
 }
 
 .intent-card:hover {
-  background: #ffffff;
+  background: var(--bg-page);
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: var(--shadow);
@@ -142,12 +159,12 @@ body.modern-theme {
 
 .intent-card.highlight {
   border-color: var(--primary-light);
-  background: #eff6ff;
+  background: var(--primary-light);
 }
 
 .intent-icon {
   font-size: 24px;
-  background: #ffffff;
+  background: var(--bg-page);
   width: 44px;
   height: 44px;
   display: flex;
@@ -228,7 +245,7 @@ body.modern-theme {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #f1f5f9;
+  background: var(--bg-page);
 }
 
 .chat-window {
@@ -281,9 +298,10 @@ body.modern-theme {
 }
 
 .bot-msg .msg-bubble {
-  background: #ffffff;
+  background: var(--bg-card);
   color: var(--text-main);
   border-top-left-radius: 4px;
+  border: 1px solid var(--border);
 }
 
 .user-msg .msg-bubble {

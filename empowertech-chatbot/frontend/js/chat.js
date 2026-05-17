@@ -39,7 +39,21 @@ function startAdminPolling() {
   adminPollInterval = setInterval(checkAdminReplies, 5000);
 }
 
+/** Toggles between Dark and Light mode */
+function toggleTheme() {
+    const body = document.body;
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('chat-theme', newTheme);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Load saved theme
+  const savedTheme = localStorage.getItem('chat-theme') || 'dark'; // Default to dark for pro look
+  document.body.setAttribute('data-theme', savedTheme);
+  
   startAdminPolling();
   const inputEl = document.getElementById('userInput');
   if (inputEl) inputEl.focus();
@@ -65,15 +79,15 @@ function startTicketFlow(type = 'ticket') {
   const placeholder = type === 'handoff' ? "Briefly describe what you'd like to discuss..." : "Describe your issue or query in detail...";
 
   const formHtml = `
-    <div class="ticket-form-card" style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: white; box-shadow: var(--shadow);">
-      <h3 style="margin-bottom: 12px; color: #6366f1; font-size: 16px; border-bottom: 1px solid #334155; padding-bottom: 8px;">${title}</h3>
+    <div class="ticket-form-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: var(--text-main); box-shadow: var(--shadow);">
+      <h3 style="margin-bottom: 12px; color: var(--primary); font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">${title}</h3>
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="text" id="form-name" placeholder="Your Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 13px;">
-        <input type="text" id="form-contact" placeholder="Mobile No. or Email" style="padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 13px;">
-        <textarea id="form-query" placeholder="${placeholder}" rows="3" style="padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 13px; resize: none;"></textarea>
+        <input type="text" id="form-name" placeholder="Your Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
+        <input type="text" id="form-contact" placeholder="Mobile No. or Email" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
+        <textarea id="form-query" placeholder="${placeholder}" rows="3" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px; resize: none;"></textarea>
         <div style="display: flex; gap: 8px;">
-            <button onclick="submitTicketForm()" id="btn-submit-form" style="flex: 1; padding: 10px; background: #6366f1; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">${buttonText}</button>
-            <button onclick="cancelTicketFlow()" style="padding: 10px; background: #334155; color: #94a3b8; border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
+            <button onclick="submitTicketForm()" id="btn-submit-form" style="flex: 1; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">${buttonText}</button>
+            <button onclick="cancelTicketFlow()" style="padding: 10px; background: var(--bg3); color: var(--text2); border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
         </div>
       </div>
     </div>
