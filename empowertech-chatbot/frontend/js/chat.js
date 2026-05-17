@@ -31,9 +31,7 @@ async function checkAdminReplies() {
         }
       });
     }
-  } catch (error) {
-    console.error('Error polling for admin replies:', error);
-  }
+  } catch (error) { console.error('Error polling for admin replies:', error); }
 }
 
 function startAdminPolling() {
@@ -49,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =============================================
-// NEW: FORM-BASED TICKET FLOW
+// TICKET / HANDOFF FORM FLOW
 // =============================================
 
 function startTicketFlow(type = 'ticket') {
   ticketState.active = true;
   ticketState.type = type;
   
-  // Disable main chat input to focus on the form
+  // Disable main chat input
   const mainInput = document.getElementById('userInput');
   const mainSend = document.getElementById('sendBtn');
   if (mainInput) mainInput.disabled = true;
@@ -67,7 +65,7 @@ function startTicketFlow(type = 'ticket') {
   const placeholder = type === 'handoff' ? "Briefly describe what you'd like to discuss..." : "Describe your issue or query in detail...";
 
   const formHtml = `
-    <div class="ticket-form-card" style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: white;">
+    <div class="ticket-form-card" style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: white; box-shadow: var(--shadow);">
       <h3 style="margin-bottom: 12px; color: #6366f1; font-size: 16px; border-bottom: 1px solid #334155; padding-bottom: 8px;">${title}</h3>
       <div style="display: flex; flex-direction: column; gap: 10px;">
         <input type="text" id="form-name" placeholder="Your Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 13px;">
@@ -80,20 +78,16 @@ function startTicketFlow(type = 'ticket') {
       </div>
     </div>
   `;
-  
   addMessage(formHtml, 'bot', null, true);
 }
 
 function cancelTicketFlow() {
     ticketState.active = false;
-    
-    // Re-enable main chat input
     const mainInput = document.getElementById('userInput');
     const mainSend = document.getElementById('sendBtn');
     if (mainInput) mainInput.disabled = false;
     if (mainSend) mainSend.disabled = false;
-    
-    addMessage("Creation cancelled. How else can I help?", 'bot');
+    addMessage("Cancelled. How else can I help?", 'bot');
 }
 
 async function submitTicketForm() {
@@ -108,78 +102,59 @@ async function submitTicketForm() {
     }
 
     btn.disabled = true;
-    btn.innerText = "Processing...";
+    btn.innerText = "Saving...";
 
     const emailMatch = contact.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-    ticketState.data = {
+    const data = {
         name: name,
         email: emailMatch ? emailMatch[0] : "",
         phone: !emailMatch ? contact : "",
-        issue: query
+        issue: query,
+        sessionId: SESSION_ID
     };
 
     try {
-        await finalizeTicket();
-        ticketState.active = false;
+        const endpoint = ticketState.type === 'handoff' ? '/api/handoff/create' : '/api/ticket/create';
+        const res = await fetch(`${SERVER_URL}${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await res.json();
+
+        if (result.success) {
+            // Re-enable main chat
+            document.getElementById('userInput').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            
+            if (ticketState.type === 'handoff') {
+                addMessage(`⏳ **Handoff Token: ${result.handoffId}**\n\nSupport team notified. Please wait for an executive to respond.`, 'bot');
+            } else {
+                addMessage(`✅ **Success!**\n\nYour ticket **${result.ticketId}** has been created. Our team will contact you soon.`, 'bot');
+                showTicketInSidebar({ id: result.ticketId, status: 'Open' });
+                ticketCount++;
+                document.getElementById('ticketCount').textContent = ticketCount;
+            }
+            ticketState.active = false;
+        } else { throw new Error(result.error); }
     } catch (err) {
-        alert("Error connecting to server. Please try again.");
+        alert("Error: " + err.message);
         btn.disabled = false;
         btn.innerText = "Try Again";
     }
 }
 
-async function finalizeTicket(isPartialSync = false) {
-  try {
-    const response = await fetch(`${SERVER_URL}/api/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: ticketState.data.issue || "New Request",
-        sessionId: SESSION_ID,
-        intent: ticketState.type === 'handoff' ? 'HumanHandoff' : 'CreateTicket',
-        ticketData: ticketState.data,
-        isPartialSync: isPartialSync
-      })
-    });
-
-    const data = await response.json();
-    
-    // Re-enable main chat input
-    const mainInput = document.getElementById('userInput');
-    const mainSend = document.getElementById('sendBtn');
-    if (mainInput) mainInput.disabled = false;
-    if (mainSend) mainSend.disabled = false;
-
-    if (!isPartialSync) {
-        if (ticketState.type === 'handoff') {
-            addMessage("### ⏳ Connecting to Agent...\n\nI have notified our support team. **Please wait for a human customer care executive to respond.**", 'bot');
-        } else {
-            addMessage(data.reply, 'bot', data.ticket);
-        }
-    }
-
-    if (data.ticketId) {
-      ticketCount++;
-      document.getElementById('ticketCount').textContent = ticketCount;
-      showTicketInSidebar({ id: data.ticketId, status: 'Open' });
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
 // =============================================
-// MAIN SEND LOGIC
+// MAIN CHAT LOGIC
 // =============================================
 
 async function sendMessage() {
   const inputElement = document.getElementById('userInput');
   const userText = inputElement.value.trim();
-  if (!userText) return;
+  if (!userText || inputElement.disabled) return;
   
   inputElement.value = '';
   updateCharCount();
-  
   addMessage(userText, 'user');
   messageCount++;
   document.getElementById('messageCount').textContent = messageCount;
@@ -191,31 +166,16 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: userText, sessionId: SESSION_ID })
     });
-    
     const data = await response.json();
 
-    if (data.intent === 'HumanHandoff') {
-        startTicketFlow('handoff');
-        setLoading(false);
-        return;
-    }
+    if (data.intent === 'HumanHandoff') return startTicketFlow('handoff');
+    if (data.intent === 'CreateTicket') return startTicketFlow('ticket');
     
-    if (data.intent === 'CreateTicket') {
-        startTicketFlow('ticket');
-        setLoading(false);
-        return;
-    }
-    
-    if (data.reply) {
-      addMessage(data.reply, 'bot');
-    }
-    
+    if (data.reply) addMessage(data.reply, 'bot');
   } catch (error) {
-    addMessage("⚠️ Server connection error. Please try again.", 'bot');
+    addMessage("⚠️ Server error. Please check your connection.", 'bot');
   }
-  
   setLoading(false);
-  inputElement.focus();
 }
 
 function addMessage(text, type, ticket = null, isRaw = false) {
@@ -223,15 +183,7 @@ function addMessage(text, type, ticket = null, isRaw = false) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `msg-wrapper ${type}-msg`;
   const avatarEmoji = type === 'bot' ? '🤖' : '👤';
-  
-  messageDiv.innerHTML = `
-    <div class="msg-avatar">${avatarEmoji}</div>
-    <div class="msg-bubble">
-      ${isRaw ? text : formatMessage(text)}
-      ${ticket ? createTicketCard(ticket) : ''}
-      <span class="msg-time">${getCurrentTime()}</span>
-    </div>
-  `;
+  messageDiv.innerHTML = `<div class="msg-avatar">${avatarEmoji}</div><div class="msg-bubble">${isRaw ? text : formatMessage(text)}${ticket ? createTicketCard(ticket) : ''}<span class="msg-time">${getCurrentTime()}</span></div>`;
   container.appendChild(messageDiv);
   scrollToBottom();
 }
@@ -242,13 +194,7 @@ function formatMessage(text) {
 }
 
 function createTicketCard(ticket) {
-  return `
-    <div class="ticket-created-card" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px; margin-top: 10px;">
-      <p style="font-size: 12px; color: #166534; margin-bottom: 4px;">✅ <strong>Support Ticket Created!</strong></p>
-      <p style="font-weight: 700; font-size: 16px; color: #15803d;">#${ticket.id}</p>
-      <p style="font-size: 11px; margin-top: 4px;">Status: <strong>${ticket.status || 'Open'}</strong></p>
-    </div>
-  `;
+  return `<div class="ticket-created-card" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px; margin-top: 10px;"><p style="font-size: 12px; color: #166534; margin-bottom: 4px;">✅ <strong>Support Ticket Created!</strong></p><p style="font-weight: 700; font-size: 16px; color: #15803d;">#${ticket.id}</p><p style="font-size: 11px; margin-top: 4px;">Status: <strong>${ticket.status || 'Open'}</strong></p></div>`;
 }
 
 async function checkTicketStatus() {
@@ -260,9 +206,7 @@ async function checkTicketStatus() {
     if (data.success) {
       const t = data.ticket;
       addMessage(`**Status for ${t.id}:**\n📋 Status: ${t.status}\n🔥 Priority: ${t.priority}`, 'bot');
-    } else {
-      addMessage(`❌ No ticket found with ID "${ticketInput}".`, 'bot');
-    }
+    } else { addMessage(`❌ No ticket found with ID "${ticketInput}".`, 'bot'); }
   } catch (error) { addMessage(`Error checking status.`, 'bot'); }
   document.getElementById('ticketInput').value = '';
 }
@@ -282,21 +226,26 @@ function clearChat() {
 }
 
 function setLoading(isLoading) {
-  document.getElementById('typingIndicator').style.display = isLoading ? 'flex' : 'none';
-  document.getElementById('sendBtn').disabled = isLoading;
-  document.getElementById('userInput').disabled = isLoading;
+  const typing = document.getElementById('typingIndicator');
+  const btn = document.getElementById('sendBtn');
+  const input = document.getElementById('userInput');
+  if (typing) typing.style.display = isLoading ? 'flex' : 'none';
+  if (btn && !ticketState.active) btn.disabled = isLoading;
+  if (input && !ticketState.active) input.disabled = isLoading;
 }
 
 function showTicketInSidebar(ticket) {
   const hub = document.getElementById('latestTicketHub');
   const card = document.getElementById('latestTicketCard');
-  card.innerHTML = `<p class="ticket-id">${ticket.id}</p><p>Status: <strong>${ticket.status}</strong></p>`;
-  hub.style.display = 'block';
+  if (hub && card) {
+    card.innerHTML = `<p class="ticket-id">${ticket.id}</p><p>Status: <strong>${ticket.status}</strong></p>`;
+    hub.style.display = 'block';
+  }
 }
 
 function scrollToBottom() {
   const container = document.getElementById('messagesContainer');
-  container.scrollTop = container.scrollHeight;
+  if (container) container.scrollTop = container.scrollHeight;
 }
 
 function getCurrentTime() {
@@ -305,7 +254,8 @@ function getCurrentTime() {
 
 function updateCharCount() {
   const input = document.getElementById('userInput');
-  document.getElementById('charCount').textContent = `${input.value.length}/500`;
+  const char = document.getElementById('charCount');
+  if (input && char) char.textContent = `${input.value.length}/500`;
 }
 
 function handleKeyPress(event) {

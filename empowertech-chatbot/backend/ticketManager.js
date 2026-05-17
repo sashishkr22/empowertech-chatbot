@@ -29,7 +29,7 @@ const ticketSchema = new mongoose.Schema({
     user_email: { type: String, default: "" },
     user_phone: { type: String, default: "" },
     subject: String,
-    service: String,
+    service: { type: String, default: "General" },
     intent: String,
     status: { type: String, default: 'Open' },
     priority: { type: String, default: 'Low' },
@@ -66,50 +66,45 @@ const ticketManager = {
         }
     },
 
-    createTicket: async (sessionData, messages, userData = {}) => {
+    // NEW: Robust Direct Ticket Creation
+    createDirectTicket: async (data) => {
         const count = await Ticket.countDocuments();
         const ticketId = `EMP-${1001 + count}`;
         
-        // Handle empty messages array safely
-        const lastMsg = (messages && messages.length > 0) ? messages[messages.length - 1] : { text: userData.issue || "New Request" };
-        
-        const cleanedMessages = (messages || []).map(m => ({
-            ...m,
-            by: m.role === 'user' ? (userData.name || "User") : "AI Bot"
-        }));
+        // Auto-detect service from text keywords
+        let service = "General Support";
+        const issue = (data.issue || "").toLowerCase();
+        if (issue.includes("app") || issue.includes("android") || issue.includes("ios")) service = "App Development";
+        else if (issue.includes("web") || issue.includes("site") || issue.includes("design")) service = "Website Design";
+        else if (issue.includes("consult") || issue.includes("help") || issue.includes("advice")) service = "Consulting";
+        else if (issue.includes("legal") || issue.includes("law") || issue.includes("policy")) service = "Legal Tech Support";
 
         const newTicket = new Ticket({
             id: ticketId,
-            session_id: sessionData.sessionId,
-            user_name: userData.name || "Website User",
-            user_email: userData.email || "",
-            user_phone: userData.phone || "",
-            subject: (lastMsg.text || "No Subject").substring(0, 50) + "...",
+            session_id: data.sessionId,
+            user_name: data.name || "Anonymous User",
+            user_email: data.email || "",
+            user_phone: data.phone || "",
+            subject: (data.issue || "New Request").substring(0, 50) + "...",
+            service: service,
             status: "Open",
-            messages: cleanedMessages
+            priority: (service === "Legal Tech Support") ? "High" : "Low",
+            messages: [{
+                role: 'user',
+                text: data.issue || "No description provided",
+                time: new Date().toISOString(),
+                by: data.name || "User"
+            }]
         });
+
         await newTicket.save();
-        return ticketId;
+        return newTicket;
     },
 
-    createHandoffRequest: async (data) => {
-        let handoff = await Handoff.findOne({ session_id: data.sessionId, status: { $ne: 'Resolved' } });
-        
-        const cleanedMessages = (data.conversationHistory || []).map(m => ({
-            ...m,
-            by: m.role === 'user' ? (data.userData?.name || "User") : "AI Bot"
-        }));
-
-        if (handoff) {
-            // Update existing
-            handoff.messages = cleanedMessages;
-            if (data.userData?.name) handoff.user_name = data.userData.name;
-            if (data.userData?.email) handoff.user_email = data.userData.email;
-            if (data.userData?.phone) handoff.user_phone = data.userData.phone;
-            handoff.updated_at = new Date().toISOString();
-            await handoff.save();
-            return handoff;
-        }
+    // NEW: Robust Direct Handoff Creation
+    createDirectHandoff: async (data) => {
+        let existing = await Handoff.findOne({ session_id: data.sessionId, status: { $ne: 'Resolved' } });
+        if (existing) return existing;
 
         const count = await Handoff.countDocuments();
         const handoffId = `H-${1001 + count}`;
@@ -117,11 +112,18 @@ const ticketManager = {
         const newHandoff = new Handoff({
             id: handoffId,
             session_id: data.sessionId,
-            user_name: data.userData?.name || "Anonymous User",
-            user_phone: data.userData?.phone || "",
+            user_name: data.name || "Anonymous User",
+            user_email: data.email || "",
+            user_phone: data.phone || "",
             status: "Waiting",
-            messages: cleanedMessages
+            messages: [{
+                role: 'user',
+                text: data.issue || "Human agent requested",
+                time: new Date().toISOString(),
+                by: data.name || "User"
+            }]
         });
+
         await newHandoff.save();
         return newHandoff;
     },
@@ -131,7 +133,7 @@ const ticketManager = {
     },
 
     getTicketStatus: async (ticketId) => {
-        return await Ticket.findOne({ id: ticketId });
+        return await Ticket.findOne({ id: ticketId.toUpperCase() });
     },
 
     getTicketStatusBySession: async (sessionId) => {
@@ -140,16 +142,12 @@ const ticketManager = {
 
     updateTicketMessages: async (sessionId, message) => {
         const timestamp = new Date().toISOString();
-        
-        // Update Ticket
         const ticket = await Ticket.findOne({ session_id: sessionId }).sort({ created_at: -1 });
         if (ticket) {
             ticket.messages.push({ ...message, time: timestamp, by: message.role === 'user' ? (ticket.user_name || "User") : "AI Bot" });
             ticket.updated_at = timestamp;
             await ticket.save();
         }
-        
-        // Update Handoff
         const handoff = await Handoff.findOne({ session_id: sessionId, status: { $ne: 'Resolved' } });
         if (handoff) {
             handoff.messages.push({ ...message, time: timestamp, by: message.role === 'user' ? (handoff.user_name || "User") : "AI Bot" });
