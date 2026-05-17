@@ -82,11 +82,15 @@ app.post('/api/chat', async (req, res) => {
         finalReply = `I have notified our support team. Your token number is **${handoffInfo.id}**. Please wait for an agent to respond.`;
         botMsg.text = finalReply;
     } else if (intent === 'CreateTicket' || ticketData) {
+      // Avoid double message creation if it's a partial sync or specific step
+      const isPartial = req.body.isPartialSync;
+      
       ticketId = await ticketManager.createTicket({ sessionId }, sessionHistory[sessionId], ticketData);
-      if (ticketData) {
-        finalReply = `✅ Ticket ${ticketId} created! We will contact you at ${ticketData.email || ticketData.phone}.`;
+      
+      if (ticketData && !isPartial) {
+        finalReply = `✅ Ticket **${ticketId}** created! We will contact you at ${ticketData.email || ticketData.phone}.`;
+        botMsg.text = finalReply;
       }
-      botMsg.text = finalReply;
     } else if (intent === 'CheckTicketStatus' || message.toUpperCase().includes('EMP-')) {
       const match = message.match(/EMP-\d{4}/i);
       if (match) {
