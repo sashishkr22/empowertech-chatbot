@@ -43,7 +43,7 @@ def safe_serialize(obj):
 def format_ticket_for_template(raw_doc):
     """
     Ensures a ticket document is 100% safe for Jinja2 templates.
-    Prevents 'subscriptable' errors by ensuring the result is a dict.
+    Prevents 'subscriptable' and 'no attribute' errors.
     """
     if not raw_doc or not isinstance(raw_doc, dict):
         return {}
@@ -55,22 +55,33 @@ def format_ticket_for_template(raw_doc):
     if 'id' not in t:
         t['id'] = t.get('ticketId') or t.get('_id')
     
-    # Fill standard defaults to avoid 'undefined' errors in templates
-    defaults = {
-        "user_name": t.get("userName", "Anonymous"),
-        "subject": "New Support Request",
-        "service": "General",
-        "status": "Open",
-        "priority": "Low",
-        "messages": [],
-        "manual_replies": [],
-        "admin_notes": [],
-        "created_at": datetime.now().isoformat()
-    }
+    # Fill standard defaults
+    t.setdefault('user_name', t.get('userName', 'Anonymous'))
+    t.setdefault('subject', 'New Support Request')
+    t.setdefault('service', 'General')
+    t.setdefault('status', 'Open')
+    t.setdefault('priority', 'Low')
+    t.setdefault('created_at', datetime.now().isoformat())
     
-    for key, value in defaults.items():
-        if key not in t or t[key] is None:
-            t[key] = value
+    # Normalize and ensure 'time' exists in nested objects
+    # This prevents the "'dict object' has no attribute 'time'" error
+    for field in ['messages', 'manual_replies', 'admin_notes']:
+        if field not in t or not isinstance(t[field], list):
+            t[field] = []
+        
+        for item in t[field]:
+            if isinstance(item, dict):
+                # If 'time' is missing but 'timestamp' exists, use it
+                if 'time' not in item and 'timestamp' in item:
+                    item['time'] = item['timestamp']
+                # If still missing, use a placeholder or current time
+                if 'time' not in item:
+                    item['time'] = t['created_at']
+                
+                # Special case for messages: ensure role exists
+                if field == 'messages':
+                    item.setdefault('role', 'bot')
+                    item.setdefault('text', '')
 
     # Generate a subject from the first message if missing
     if t['subject'] == "New Support Request" and t['messages']:
