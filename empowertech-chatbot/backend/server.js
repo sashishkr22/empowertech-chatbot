@@ -55,23 +55,27 @@ app.post('/api/chat', async (req, res) => {
         });
     }
 
-    // 2. Get Dialogflow Response
-    let botReply = "I'm sorry, I'm having trouble thinking right now.";
-    let intent = "Default Fallback Intent";
-    let confidence = 0;
+    // 2. Get Dialogflow Response (Skip if direct form submission)
+    let botReply = "I'm processing your request...";
+    let intent = req.body.intent || "Default Fallback Intent";
+    let confidence = 1.0;
+    
+    const isFinalSubmission = ticketData && !req.body.isPartialSync;
 
-    try {
-        const dfResponse = await sendMessageToDialogflow(message, sessionId);
-        botReply = dfResponse?.queryResult?.fulfillmentText || botReply;
-        intent = dfResponse?.queryResult?.intent?.displayName || intent;
-        confidence = dfResponse?.queryResult?.intentDetectionConfidence || 0;
+    if (!isFinalSubmission) {
+        try {
+            const dfResponse = await sendMessageToDialogflow(message, sessionId);
+            botReply = dfResponse?.queryResult?.fulfillmentText || botReply;
+            intent = dfResponse?.queryResult?.intent?.displayName || intent;
+            confidence = dfResponse?.queryResult?.intentDetectionConfidence || 0;
 
-        if (intent === 'Default Fallback Intent') {
-            botReply = getFallbackResponse(message);
+            if (intent === 'Default Fallback Intent') {
+                botReply = getFallbackResponse(message);
+            }
+        } catch (dfErr) {
+            console.error('Dialogflow Error:', dfErr.message);
+            botReply = "I'm connected, but my AI engine is having a moment. How else can I help?";
         }
-    } catch (dfErr) {
-        console.error('Dialogflow Error:', dfErr.message);
-        botReply = "I'm connected to the database, but my AI engine is having a moment. How else can I help?";
     }
 
     userMsg.intent = intent;

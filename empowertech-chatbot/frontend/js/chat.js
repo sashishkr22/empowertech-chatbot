@@ -56,6 +56,12 @@ function startTicketFlow(type = 'ticket') {
   ticketState.active = true;
   ticketState.type = type;
   
+  // Disable main chat input to focus on the form
+  const mainInput = document.getElementById('userInput');
+  const mainSend = document.getElementById('sendBtn');
+  if (mainInput) mainInput.disabled = true;
+  if (mainSend) mainSend.disabled = true;
+  
   const title = type === 'handoff' ? "Talk to Human Expert" : "Create Support Ticket";
   const buttonText = type === 'handoff' ? "Request Handoff" : "Create Ticket";
   const placeholder = type === 'handoff' ? "Briefly describe what you'd like to discuss..." : "Describe your issue or query in detail...";
@@ -80,6 +86,13 @@ function startTicketFlow(type = 'ticket') {
 
 function cancelTicketFlow() {
     ticketState.active = false;
+    
+    // Re-enable main chat input
+    const mainInput = document.getElementById('userInput');
+    const mainSend = document.getElementById('sendBtn');
+    if (mainInput) mainInput.disabled = false;
+    if (mainSend) mainSend.disabled = false;
+    
     addMessage("Creation cancelled. How else can I help?", 'bot');
 }
 
@@ -131,6 +144,12 @@ async function finalizeTicket(isPartialSync = false) {
 
     const data = await response.json();
     
+    // Re-enable main chat input
+    const mainInput = document.getElementById('userInput');
+    const mainSend = document.getElementById('sendBtn');
+    if (mainInput) mainInput.disabled = false;
+    if (mainSend) mainSend.disabled = false;
+
     if (!isPartialSync) {
         if (ticketState.type === 'handoff') {
             addMessage("### ⏳ Connecting to Agent...\n\nI have notified our support team. **Please wait for a human customer care executive to respond.**", 'bot');
