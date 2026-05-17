@@ -34,6 +34,9 @@ app.post('/api/chat', async (req, res) => {
       confidence: 1.0
     };
 
+    // 0. Push user message to history immediately
+    sessionHistory[sessionId].push(userMsg);
+
     // 1. Check for active handoff
     const activeHandoff = await ticketManager.getHandoffStatus(sessionId);
     if (activeHandoff && !['bye', 'exit'].includes(message.toLowerCase().trim())) {

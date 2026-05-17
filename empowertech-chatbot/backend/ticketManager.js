@@ -69,9 +69,11 @@ const ticketManager = {
     createTicket: async (sessionData, messages, userData = {}) => {
         const count = await Ticket.countDocuments();
         const ticketId = `EMP-${1001 + count}`;
-        const lastMsg = messages[messages.length - 1];
         
-        const cleanedMessages = messages.map(m => ({
+        // Handle empty messages array safely
+        const lastMsg = (messages && messages.length > 0) ? messages[messages.length - 1] : { text: userData.issue || "New Request" };
+        
+        const cleanedMessages = (messages || []).map(m => ({
             ...m,
             by: m.role === 'user' ? (userData.name || "User") : "AI Bot"
         }));
@@ -82,7 +84,7 @@ const ticketManager = {
             user_name: userData.name || "Website User",
             user_email: userData.email || "",
             user_phone: userData.phone || "",
-            subject: lastMsg.text.substring(0, 50) + "...",
+            subject: (lastMsg.text || "No Subject").substring(0, 50) + "...",
             status: "Open",
             messages: cleanedMessages
         });
@@ -91,10 +93,9 @@ const ticketManager = {
     },
 
     createHandoffRequest: async (data) => {
-        // Check if handoff already exists for this session
         let handoff = await Handoff.findOne({ session_id: data.sessionId, status: { $ne: 'Resolved' } });
         
-        const cleanedMessages = data.conversationHistory.map(m => ({
+        const cleanedMessages = (data.conversationHistory || []).map(m => ({
             ...m,
             by: m.role === 'user' ? (data.userData?.name || "User") : "AI Bot"
         }));
