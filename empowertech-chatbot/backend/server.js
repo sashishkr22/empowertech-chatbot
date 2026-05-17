@@ -87,15 +87,17 @@ app.post('/api/chat', async (req, res) => {
         finalReply = `✅ Ticket ${ticketId} created! We will contact you at ${ticketData.email || ticketData.phone}.`;
       }
       botMsg.text = finalReply;
-    } else if (intent === 'CheckTicketStatus') {
+    } else if (intent === 'CheckTicketStatus' || message.toUpperCase().includes('EMP-')) {
       const match = message.match(/EMP-\d{4}/i);
       if (match) {
         const ticket = await ticketManager.getTicketStatus(match[0].toUpperCase());
         if (ticket) {
-          finalReply = `🔍 **Ticket ${ticket.id}**: Status is **${ticket.status}**.`;
+          finalReply = `🔍 **Ticket Found!**\n\n**ID:** ${ticket.id}\n**Status:** ${ticket.status}\n**Priority:** ${ticket.priority}\n**Service:** ${ticket.service}`;
         } else {
-          finalReply = `❌ Ticket ${match[0]} not found.`;
+          finalReply = `❌ Sorry, I couldn't find a ticket with ID **${match[0].toUpperCase()}**. Please double-check the number.`;
         }
+      } else if (intent === 'CheckTicketStatus') {
+        finalReply = "To check your ticket status, please type your Ticket ID (e.g., **EMP-1001**).";
       }
       botMsg.text = finalReply;
     } else {
@@ -142,6 +144,20 @@ app.get('/api/chat/updates', async (req, res) => {
     }
 
     res.json({ replies: allReplies });
+});
+
+// Single ticket status check API (for sidebar)
+app.get('/api/ticket/:id', async (req, res) => {
+    try {
+        const ticket = await ticketManager.getTicketStatus(req.params.id.toUpperCase());
+        if (ticket) {
+            res.json({ success: true, ticket });
+        } else {
+            res.json({ success: false, message: 'Ticket not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 const PORT = process.env.PORT || 3000;
