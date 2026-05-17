@@ -7,6 +7,7 @@
   --primary-dark: #1e40af;
   --primary-light: #dbeafe;
   --success: #059669;
+  --success-bg: #ecfdf5;
   --bg-page: #f8fafc;
   --bg-card: #ffffff;
   --text-main: #0f172a;
@@ -32,7 +33,12 @@
   --form-bg: #1e293b;
   --input-bg: #0f172a;
   --primary-light: rgba(37, 99, 235, 0.2);
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
 }
+
+[data-theme="dark"] .action-btn:hover { background: var(--bg3); }
+[data-theme="dark"] .intent-icon { background: var(--bg3); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -76,7 +82,7 @@ body.modern-theme {
   font-size: 12px;
   font-weight: 500;
   color: var(--success);
-  background: #ecfdf5;
+  background: var(--success-bg);
   padding: 6px 12px;
   border-radius: 20px;
 }
@@ -174,7 +180,7 @@ body.modern-theme {
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.intent-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.intent-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 2px; color: var(--text-main); }
 .intent-info p { font-size: 12px; color: var(--text-muted); }
 
 .status-input-area {
@@ -196,6 +202,8 @@ body.modern-theme {
   border-radius: 8px;
   font-size: 13px;
   outline: none;
+  background: var(--bg-page);
+  color: var(--text-main);
 }
 
 .hub-btn {
@@ -227,14 +235,14 @@ body.modern-theme {
 
 .hub-ticket-card {
   padding: 16px;
-  background: #f0fdf4;
-  border: 1px solid #86efac;
+  background: var(--success-bg);
+  border: 1px solid var(--success);
   border-radius: var(--radius);
   animation: fadeIn 0.4s ease;
 }
 
-.hub-ticket-card p { font-size: 12px; margin-bottom: 4px; }
-.hub-ticket-card .ticket-id { font-size: 16px; font-weight: 700; color: #15803d; }
+.hub-ticket-card p { font-size: 12px; margin-bottom: 4px; color: var(--text-main); }
+.hub-ticket-card .ticket-id { font-size: 16px; font-weight: 700; color: var(--success); }
 
 .session-id { font-size: 10px; color: var(--text-muted); text-align: center; }
 
@@ -279,7 +287,7 @@ body.modern-theme {
 .msg-avatar {
   width: 36px;
   height: 36px;
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -287,6 +295,7 @@ body.modern-theme {
   font-size: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   flex-shrink: 0;
+  border: 1px solid var(--border);
 }
 
 .msg-bubble {
@@ -319,7 +328,7 @@ body.modern-theme {
 
 /* Interaction Area */
 .interaction-area {
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 24px;
   border-top: 1px solid var(--border);
 }
@@ -328,7 +337,7 @@ body.modern-theme {
   display: flex;
   align-items: flex-end;
   gap: 12px;
-  background: #f8fafc;
+  background: var(--bg-page);
   border: 1px solid var(--border);
   padding: 8px 12px;
   border-radius: 16px;
@@ -344,6 +353,7 @@ body.modern-theme {
   font-size: 14px;
   resize: none;
   max-height: 120px;
+  color: var(--text-main);
 }
 
 .send-action {
@@ -395,8 +405,9 @@ body.modern-theme {
   display: flex;
   gap: 4px;
   padding: 8px 12px;
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 16px;
+  border: 1px solid var(--border);
 }
 
 .typing-bubble span {
