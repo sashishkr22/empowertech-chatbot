@@ -23,7 +23,7 @@ const manualReplySchema = new mongoose.Schema({
 });
 
 const ticketSchema = new mongoose.Schema({
-    id: { type: String, unique: true },
+    ticketId: { type: String, unique: true },
     session_id: String,
     user_name: { type: String, default: "Anonymous" },
     user_email: { type: String, default: "" },
@@ -42,7 +42,7 @@ const ticketSchema = new mongoose.Schema({
 }, { collection: 'tickets' });
 
 const handoffSchema = new mongoose.Schema({
-    id: { type: String, unique: true },
+    handoffId: { type: String, unique: true },
     session_id: String,
     user_name: { type: String, default: "Anonymous" },
     user_email: { type: String, default: "" },
@@ -69,7 +69,7 @@ const ticketManager = {
     // NEW: Robust Direct Ticket Creation
     createDirectTicket: async (data) => {
         const count = await Ticket.countDocuments();
-        const ticketId = `EMP-${1001 + count}`;
+        const tId = `EMP-${1001 + count}`;
         
         // Auto-detect service from text keywords
         let service = "General Support";
@@ -80,7 +80,7 @@ const ticketManager = {
         else if (issue.includes("legal") || issue.includes("law") || issue.includes("policy")) service = "Legal Tech Support";
 
         const newTicket = new Ticket({
-            id: ticketId,
+            ticketId: tId,
             session_id: data.sessionId,
             user_name: data.name || "Anonymous User",
             user_email: data.email || "",
@@ -107,10 +107,10 @@ const ticketManager = {
         if (existing) return existing;
 
         const count = await Handoff.countDocuments();
-        const handoffId = `H-${1001 + count}`;
+        const hId = `H-${1001 + count}`;
 
         const newHandoff = new Handoff({
-            id: handoffId,
+            handoffId: hId,
             session_id: data.sessionId,
             user_name: data.name || "Anonymous User",
             user_email: data.email || "",
@@ -133,7 +133,7 @@ const ticketManager = {
     },
 
     getTicketStatus: async (ticketId) => {
-        return await Ticket.findOne({ id: ticketId.toUpperCase() });
+        return await Ticket.findOne({ ticketId: ticketId.toUpperCase() });
     },
 
     getTicketStatusBySession: async (sessionId) => {

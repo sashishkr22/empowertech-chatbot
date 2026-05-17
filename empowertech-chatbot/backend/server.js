@@ -27,9 +27,9 @@ app.post('/api/ticket/create', async (req, res) => {
         
         // Save to local history for consistency
         if (!sessionHistory[sessionId]) sessionHistory[sessionId] = [];
-        sessionHistory[sessionId].push({ role: 'bot', text: `✅ Ticket ${ticket.id} created!`, time: new Date().toISOString() });
+        sessionHistory[sessionId].push({ role: 'bot', text: `✅ Ticket ${ticket.ticketId} created!`, time: new Date().toISOString() });
         
-        res.json({ success: true, ticketId: ticket.id, message: "Ticket created successfully" });
+        res.json({ success: true, ticketId: ticket.ticketId, message: "Ticket created successfully" });
     } catch (err) {
         console.error('API Error (Create Ticket):', err);
         res.status(500).json({ success: false, error: err.message });
@@ -43,9 +43,9 @@ app.post('/api/handoff/create', async (req, res) => {
         const handoff = await ticketManager.createDirectHandoff({ name, email, phone, issue, sessionId });
         
         if (!sessionHistory[sessionId]) sessionHistory[sessionId] = [];
-        sessionHistory[sessionId].push({ role: 'bot', text: `Handoff requested. Token: ${handoff.id}`, time: new Date().toISOString() });
+        sessionHistory[sessionId].push({ role: 'bot', text: `Handoff requested. Token: ${handoff.handoffId}`, time: new Date().toISOString() });
         
-        res.json({ success: true, handoffId: handoff.id });
+        res.json({ success: true, handoffId: handoff.handoffId });
     } catch (err) {
         console.error('API Error (Create Handoff):', err);
         res.status(500).json({ success: false, error: err.message });
@@ -89,7 +89,7 @@ app.post('/api/chat', async (req, res) => {
         const match = message.match(/EMP-\d{4}/i);
         if (match) {
             const ticket = await ticketManager.getTicketStatus(match[0]);
-            finalReply = ticket ? `🔍 **Ticket Found!**\n\n**ID:** ${ticket.id}\n**Status:** ${ticket.status}\n**Priority:** ${ticket.priority}\n**Service:** ${ticket.service}` : `❌ No ticket found with ID **${match[0].toUpperCase()}**.`;
+            finalReply = ticket ? `🔍 **Ticket Found!**\n\n**ID:** ${ticket.ticketId}\n**Status:** ${ticket.status}\n**Priority:** ${ticket.priority}\n**Service:** ${ticket.service}` : `❌ No ticket found with ID **${match[0].toUpperCase()}**.`;
         }
     }
 

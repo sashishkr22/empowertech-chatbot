@@ -34,7 +34,6 @@ def get_now_ist_str():
 
 def safe_serialize(obj):
     if isinstance(obj, datetime):
-        # Convert UTC datetime to IST string
         ist_time = obj.replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=5, minutes=30)))
         return ist_time.isoformat()
     if isinstance(obj, ObjectId):
@@ -51,45 +50,25 @@ def format_doc(raw_doc):
     
     t = safe_serialize(raw_doc)
     
-    # CRITICAL: Ensure ID is present for url_for in templates
+    # CRITICAL: Align with Mongoose Schema and existing Indexes
+    # We map 'ticketId' or 'handoffId' to 'id' for the HTML templates
     if 'id' not in t:
-        t['id'] = t.get('ticketId') or t.get('id') or str(t.get('_id'))
+        t['id'] = t.get('ticketId') or t.get('handoffId') or str(t.get('_id'))
     
-    # Fill standard defaults
+    # Fill defaults
     t.setdefault('user_name', t.get('userName', 'Anonymous'))
-    t.setdefault('subject', 'New Support Request')
+    t.setdefault('subject', 'New Request')
     t.setdefault('service', 'General')
     t.setdefault('status', 'Open')
     t.setdefault('priority', 'Low')
-    t.setdefault('created_at', get_now_ist_str())
-    t.setdefault('updated_at', t.get('created_at'))
     
-    # Generate a subject from the first message if missing
-    if t['subject'] == "New Support Request" and t.get('messages'):
-        first_msg = t['messages'][0]
-        if isinstance(first_msg, dict):
-            t['subject'] = first_msg.get('text', 'New Request')[:50] + "..."
-
     # Normalize nested lists and their timestamps
     for field in ['messages', 'manual_replies', 'admin_notes']:
-        if field not in t or not isinstance(t[field], list):
-            t[field] = []
-        else:
+        if field in t and isinstance(t[field], list):
             for item in t[field]:
                 if isinstance(item, dict):
-                    raw_time = item.get('time') or item.get('timestamp')
-                    if isinstance(raw_time, str) and raw_time.endswith('Z'):
-                        try:
-                            dt = datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
-                            ist = dt.astimezone(timezone(timedelta(hours=5, minutes=30)))
-                            item['time'] = ist.isoformat()
-                        except:
-                            item['time'] = raw_time
-                    elif not raw_time:
-                        item['time'] = t.get('created_at', get_now_ist_str())
-                    else:
-                        item['time'] = raw_time
-                    
+                    if 'time' not in item:
+                        item['time'] = item.get('timestamp') or t.get('created_at', get_now_ist_str())
                     if 'by' not in item:
                         item['by'] = 'User' if item.get('role') == 'user' else 'AI Bot'
     
@@ -126,7 +105,6 @@ def dashboard():
                                recent_tickets=tickets[:5],
                                active_handoffs=len(active_h))
     except Exception as e:
-        print(f"Error in dashboard: {e}")
         return f"Dashboard Error: {e}", 500
 
 @app.route('/tickets')
@@ -145,8 +123,6 @@ def tickets_page():
         if search:
             query['$or'] = [
                 {'ticketId': {'$regex': search, '$options': 'i'}},
-                {'id': {'$regex': search, '$options': 'i'}},
-                {'userName': {'$regex': search, '$options': 'i'}},
                 {'user_name': {'$regex': search, '$options': 'i'}},
                 {'subject': {'$regex': search, '$options': 'i'}}
             ]
@@ -165,12 +141,11 @@ def tickets_page():
                                all_services=['App Development', 'Website Design', 'Consulting', 'Legal Tech Support'],
                                all_priorities=['Low', 'Medium', 'High'])
     except Exception as e:
-        print(f"Tickets Page Error: {e}")
         return f"Error: {e}", 500
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
-    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    query = {"$or": [{"ticketId": ticket_id}, {"id": ticket_id}]}
     if len(ticket_id) == 24:
         try: query["$or"].append({"_id": ObjectId(ticket_id)})
         except: pass
@@ -194,7 +169,7 @@ def handoffs_page():
 
 @app.route('/handoff/<handoff_id>')
 def handoff_detail(handoff_id):
-    query = {"$or": [{"id": handoff_id}]}
+    query = {"$or": [{"handoffId": handoff_id}, {"id": handoff_id}]}
     if len(handoff_id) == 24:
         try: query["$or"].append({"_id": ObjectId(handoff_id)})
         except: pass
@@ -209,20 +184,23 @@ def handoff_detail(handoff_id):
 def api_handoff_status(handoff_id):
     status = request.json.get('status')
     now = get_now_ist_str()
-    handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {"$set": {"status": status, "updated_at": now}})
+    query = {"$or": [{"handoffId": handoff_id}, {"id": handoff_id}]}
+    if len(handoff_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(handoff_id)})
+        except: pass
+    handoffs_col.update_one(query, {"$set": {"status": status, "updated_at": now}})
     return jsonify({"ok": True})
 
 @app.route('/api/handoff/<handoff_id>/reply', methods=['POST'])
 def api_handoff_reply(handoff_id):
     text = request.json.get('text')
     now = get_now_ist_str()
-    reply = {
-        "role": "admin",
-        "text": text,
-        "by": "Human Agent",
-        "time": now
-    }
-    handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {
+    reply = { "role": "admin", "text": text, "by": "Human Agent", "time": now }
+    query = {"$or": [{"handoffId": handoff_id}, {"id": handoff_id}]}
+    if len(handoff_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(handoff_id)})
+        except: pass
+    handoffs_col.update_one(query, {
         "$push": {"messages": reply},
         "$set": {"updated_at": now}
     })
@@ -230,11 +208,10 @@ def api_handoff_reply(handoff_id):
 
 @app.route('/api/handoff/<handoff_id>/messages')
 def api_handoff_messages(handoff_id):
-    query = {"$or": [{"id": handoff_id}]}
+    query = {"$or": [{"handoffId": handoff_id}, {"id": handoff_id}]}
     if len(handoff_id) == 24:
         try: query["$or"].append({"_id": ObjectId(handoff_id)})
         except: pass
-    
     h = handoffs_col.find_one(query)
     if not h: return jsonify({"ok": False, "error": "Not found"})
     handoff = format_doc(h)
@@ -242,11 +219,10 @@ def api_handoff_messages(handoff_id):
 
 @app.route('/api/ticket/<ticket_id>/status', methods=['POST'])
 def api_update_status(ticket_id):
-    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    query = {"$or": [{"ticketId": ticket_id}, {"id": ticket_id}]}
     if len(ticket_id) == 24:
         try: query["$or"].append({"_id": ObjectId(ticket_id)})
         except: pass
-    
     status = request.json.get('status')
     now = get_now_ist_str()
     tickets_col.update_one(query, {"$set": {"status": status, "updated_at": now}})
@@ -254,11 +230,10 @@ def api_update_status(ticket_id):
 
 @app.route('/api/ticket/<ticket_id>/priority', methods=['POST'])
 def api_update_priority(ticket_id):
-    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    query = {"$or": [{"ticketId": ticket_id}, {"id": ticket_id}]}
     if len(ticket_id) == 24:
         try: query["$or"].append({"_id": ObjectId(ticket_id)})
         except: pass
-        
     priority = request.json.get('priority')
     now = get_now_ist_str()
     tickets_col.update_one(query, {"$set": {"priority": priority, "updated_at": now}})
@@ -280,6 +255,17 @@ def live_tickets():
         "tickets": tickets
     })
 
+@app.route('/export')
+def export_csv():
+    tickets = list(tickets_col.find())
+    si = io.StringIO()
+    cw = csv.writer(si)
+    cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
+    for t in tickets:
+        obj = format_doc(t)
+        cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
+    return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST': return redirect(url_for('dashboard'))
@@ -288,20 +274,6 @@ def login():
 @app.route('/logout')
 def logout():
     return redirect(url_for('login'))
-
-@app.route('/export')
-def export_csv():
-    try:
-        tickets = list(tickets_col.find())
-        si = io.StringIO()
-        cw = csv.writer(si)
-        cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
-        for t in tickets:
-            obj = format_doc(t)
-            cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
-        return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
-    except Exception as e:
-        return str(e), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
