@@ -162,6 +162,20 @@ def login():
 def logout():
     return redirect(url_for('login'))
 
+@app.route('/export')
+def export_csv():
+    try:
+        tickets = list(tickets_col.find())
+        si = io.StringIO()
+        cw = csv.writer(si)
+        cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
+        for t in tickets:
+            obj = format_doc(t)
+            cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
+        return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
+    except Exception as e:
+        return str(e), 500
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
