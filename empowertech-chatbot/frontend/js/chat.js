@@ -52,14 +52,14 @@ async function checkAdminReplies() {
     
     if (data.replies && data.replies.length > 0) {
       data.replies.forEach(reply => {
-        // Update last seen time to the latest message's time
+        // Check if this is a new message we haven't shown yet
         if (!lastSeenAdminReplyTime || reply.time > lastSeenAdminReplyTime) {
           lastSeenAdminReplyTime = reply.time;
+          
+          // Show with a human/executive prefix to distinguish from bot
+          const adminText = `🛡️ **Support Executive (${reply.by}):**\n\n${reply.text}`;
+          addMessage(adminText, 'bot');
         }
-        
-        // Show with a human/executive prefix to distinguish from bot
-        const adminText = `🛡️ **Support Executive (${reply.by}):**\n\n${reply.text}`;
-        addMessage(adminText, 'bot');
       });
     }
   } catch (error) {

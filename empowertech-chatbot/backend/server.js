@@ -120,22 +120,28 @@ app.post('/api/chat', async (req, res) => {
 
 // Admin reply check polling (for frontend chat)
 app.get('/api/chat/updates', async (req, res) => {
-    const { sessionId } = req.query;
+    const { sessionId, lastSeenTime } = req.query;
     if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
+
+    let allReplies = [];
 
     const handoff = await ticketManager.getHandoffStatus(sessionId);
     if (handoff) {
         // Return only admin replies from the messages array
-        const adminReplies = handoff.messages.filter(m => m.role === 'admin');
-        return res.json({ replies: adminReplies });
+        allReplies = handoff.messages.filter(m => m.role === 'admin');
+    } else {
+        const ticket = await ticketManager.getTicketStatusBySession(sessionId);
+        if (ticket) {
+            allReplies = ticket.manual_replies;
+        }
     }
 
-    const ticket = await ticketManager.getTicketStatusBySession(sessionId);
-    if (ticket) {
-        return res.json({ replies: ticket.manual_replies });
+    // Filter by time if lastSeenTime is provided
+    if (lastSeenTime && lastSeenTime !== 'null' && lastSeenTime !== 'undefined') {
+        allReplies = allReplies.filter(r => r.time > lastSeenTime);
     }
 
-    res.json({ replies: [] });
+    res.json({ replies: allReplies });
 });
 
 const PORT = process.env.PORT || 3000;
