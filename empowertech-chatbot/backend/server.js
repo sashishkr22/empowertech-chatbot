@@ -141,7 +141,7 @@ app.post('/api/chat', async (req, res) => {
     }
 
     res.json({
-      reply: finalReply,
+      reply: botMsg.text,
       intent,
       confidence,
       ticketId,
