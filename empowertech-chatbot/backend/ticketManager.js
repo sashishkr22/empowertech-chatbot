@@ -103,6 +103,7 @@ const ticketManager = {
             // Update existing
             handoff.messages = cleanedMessages;
             if (data.userData?.name) handoff.user_name = data.userData.name;
+            if (data.userData?.email) handoff.user_email = data.userData.email;
             if (data.userData?.phone) handoff.user_phone = data.userData.phone;
             handoff.updated_at = new Date().toISOString();
             await handoff.save();

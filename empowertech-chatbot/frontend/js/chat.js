@@ -132,26 +132,35 @@ async function processTicketStep(userText) {
         return;
       }
       ticketState.data.name = userText;
+      
+      // Send partial update to backend for immediate visibility
+      if (ticketState.type === 'handoff') {
+          await finalizeTicket(true); // Partial sync
+      }
+      
       ticketState.step = 2;
       const contactPrompt = ticketState.type === 'handoff'
-        ? `Thanks, **${ticketState.data.name}**. Please provide your **mobile number** so our executive can call you if needed.`
+        ? `Thanks, **${ticketState.data.name}**. Please provide your **mobile number or email** so our executive can reach you.`
         : `Thanks, **${ticketState.data.name}**. Now, please provide your **email and phone number** so we can contact you. (Optional - type "skip" to continue)`;
       addMessage(contactPrompt, 'bot');
     } 
     else if (ticketState.step === 2) {
-      // Step 2: Contact (Optional for ticket, requested for handoff)
+      // Step 2: Contact
       if (userText.toLowerCase() !== 'skip') {
-        // Simple regex-ish extraction
         const emailMatch = userText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
         const phoneMatch = userText.match(/(\+?\d{1,3}[- ]?)?\d{10}/);
         
         if (emailMatch) ticketState.data.email = emailMatch[0];
         if (phoneMatch) ticketState.data.phone = phoneMatch[0];
 
-        // If handoff and no phone found via regex, just take the raw text
-        if (ticketState.type === 'handoff' && !phoneMatch) {
+        if (ticketState.type === 'handoff' && !phoneMatch && !emailMatch) {
             ticketState.data.phone = userText;
         }
+      }
+      
+      // Send partial update
+      if (ticketState.type === 'handoff') {
+          await finalizeTicket(true);
       }
       
       ticketState.step = 3;
@@ -182,25 +191,28 @@ async function processTicketStep(userText) {
 /**
  * Sends the collected ticket data to the backend
  */
-async function finalizeTicket() {
+async function finalizeTicket(isPartialSync = false) {
   try {
     const response = await fetch(`${SERVER_URL}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: ticketState.data.issue, // Send description as main message
+        message: ticketState.data.issue || "New Handoff Request",
         sessionId: SESSION_ID,
         intent: ticketState.type === 'handoff' ? 'HumanHandoff' : 'CreateTicket',
-        ticketData: ticketState.data // Pass name, email, phone separately
+        ticketData: ticketState.data,
+        isPartialSync: isPartialSync
       })
     });
 
     const data = await response.json();
     
-    if (ticketState.type === 'handoff') {
-        addMessage("### ⏳ Connecting to Agent...\n\nI have notified our support team. **Please wait for a human customer care executive to connect and respond.** They will see your request on a priority basis.", 'bot');
-    } else {
-        addMessage(data.reply, 'bot', data.ticket);
+    if (!isPartialSync) {
+        if (ticketState.type === 'handoff') {
+            addMessage("### ⏳ Connecting to Agent...\n\nI have notified our support team. **Please wait for a human customer care executive to connect and respond.**", 'bot');
+        } else {
+            addMessage(data.reply, 'bot', data.ticket);
+        }
     }
 
     if (data.ticket) {
@@ -279,7 +291,9 @@ async function sendMessage() {
     }
     
     // Show the bot's reply in the chat
-    addMessage(data.reply, 'bot', data.ticket);
+    if (data.reply) {
+      addMessage(data.reply, 'bot', data.ticket);
+    }
     
     // If a ticket was created, show it in the sidebar
     if (data.ticket) {
