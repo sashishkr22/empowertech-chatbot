@@ -175,6 +175,59 @@ def api_handoff_messages(handoff_id):
     handoff = format_doc(h)
     return jsonify({"ok": True, "messages": handoff.get('messages', []), "status": handoff.get('status')})
 
+# --- TICKET MANAGEMENT APIs ---
+
+@app.route('/api/ticket/<ticket_id>/status', methods=['POST'])
+def api_update_status(ticket_id):
+    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    if len(ticket_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(ticket_id)})
+        except: pass
+    
+    status = request.json.get('status')
+    tickets_col.update_one(query, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
+    return jsonify({"ok": True})
+
+@app.route('/api/ticket/<ticket_id>/priority', methods=['POST'])
+def api_update_priority(ticket_id):
+    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    if len(ticket_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(ticket_id)})
+        except: pass
+        
+    priority = request.json.get('priority')
+    tickets_col.update_one(query, {"$set": {"priority": priority, "updated_at": datetime.now().isoformat()}})
+    return jsonify({"ok": True})
+
+@app.route('/api/ticket/<ticket_id>/note', methods=['POST'])
+def api_add_note(ticket_id):
+    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    if len(ticket_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(ticket_id)})
+        except: pass
+        
+    note = request.json.get('text')
+    tickets_col.update_one(query, {
+        "$push": {"admin_notes": {"note": note, "by": "admin", "time": datetime.now().isoformat()}},
+        "$set": {"updated_at": datetime.now().isoformat()}
+    })
+    return jsonify({"ok": True})
+
+@app.route('/api/ticket/<ticket_id>/reply', methods=['POST'])
+def api_add_ticket_reply(ticket_id):
+    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    if len(ticket_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(ticket_id)})
+        except: pass
+        
+    text = request.json.get('text')
+    reply = {"text": text, "by": "admin", "time": datetime.now().isoformat()}
+    tickets_col.update_one(query, {
+        "$push": {"manual_replies": reply},
+        "$set": {"updated_at": datetime.now().isoformat()}
+    })
+    return jsonify({"ok": True, "reply": reply})
+
 @app.route('/api/tickets/live')
 def live_tickets():
     tickets = [format_doc(t) for t in tickets_col.find().sort("updated_at", -1).limit(20)]
