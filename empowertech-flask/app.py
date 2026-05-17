@@ -18,9 +18,9 @@ app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 try:
     client = MongoClient(os.getenv("MONGODB_URI"), serverSelectionTimeoutMS=5000)
     db = client.get_default_database(default="empowertech")
-    print(f"✅ Connected to MongoDB Database: {db.name}")
+    print(f"✅ Connected to MongoDB: {db.name}")
 except Exception as e:
-    print(f"⚠️ MongoDB Connection Warning: {e}")
+    print(f"⚠️ MongoDB Warning: {e}")
     client = MongoClient(os.getenv("MONGODB_URI"))
     db = client["empowertech"]
 
@@ -41,9 +41,26 @@ def safe_serialize(obj):
 def format_doc(raw_doc):
     if not raw_doc or not isinstance(raw_doc, dict):
         return {}
+    
     t = safe_serialize(raw_doc)
+    
+    # CRITICAL: Ensure 'id' exists for url_for in templates
     if 'id' not in t:
         t['id'] = t.get('ticketId') or t.get('id') or str(t.get('_id'))
+    
+    # Fill defaults for nested lists to prevent template crashes
+    for field in ['messages', 'manual_replies', 'admin_notes']:
+        if field not in t or not isinstance(t[field], list):
+            t[field] = []
+        else:
+            # Ensure each item in the list has a 'time' attribute
+            for item in t[field]:
+                if isinstance(item, dict):
+                    if 'time' not in item:
+                        item['time'] = item.get('timestamp') or t.get('created_at', datetime.now().isoformat())
+                    if 'by' not in item:
+                        item['by'] = 'User' if item.get('role') == 'user' else 'AI Bot'
+    
     return t
 
 @app.context_processor
@@ -54,7 +71,7 @@ def inject_globals():
 def dashboard():
     try:
         tickets = [format_doc(t) for t in tickets_col.find().sort("created_at", -1)]
-        handoffs = [format_doc(h) for h in handoffs_col.find({"status": {"$ne": "Resolved"}})]
+        active_h = list(handoffs_col.find({"status": {"$ne": "Resolved"}}))
         
         stats = {
             "total": len(tickets),
@@ -75,8 +92,9 @@ def dashboard():
                                service_counts=service_counts,
                                top_intents=top_intents,
                                recent_tickets=tickets[:5],
-                               active_handoffs=len(handoffs))
+                               active_handoffs=len(active_h))
     except Exception as e:
+        print(f"Error in dashboard: {e}")
         return f"Dashboard Error: {e}", 500
 
 @app.route('/tickets')
@@ -88,8 +106,17 @@ def tickets_page():
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
 def ticket_detail(ticket_id):
-    t = tickets_col.find_one({"id": ticket_id})
-    if not t: return redirect(url_for('tickets_page'))
+    # Flexible ID lookup
+    query = {"$or": [{"id": ticket_id}, {"ticketId": ticket_id}]}
+    if len(ticket_id) == 24: # Check if it's a MongoDB ObjectId
+        try: query["$or"].append({"_id": ObjectId(ticket_id)})
+        except: pass
+        
+    t = tickets_col.find_one(query)
+    if not t:
+        flash("Ticket not found", "error")
+        return redirect(url_for('tickets_page'))
+    
     return render_template('ticket_detail.html', 
                            ticket=format_doc(t),
                            all_statuses=['Open', 'In Progress', 'Resolved', 'Closed'],
@@ -104,15 +131,21 @@ def handoffs_page():
 
 @app.route('/handoff/<handoff_id>')
 def handoff_detail(handoff_id):
-    h = handoffs_col.find_one({"id": handoff_id})
+    query = {"$or": [{"id": handoff_id}]}
+    if len(handoff_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(handoff_id)})
+        except: pass
+        
+    h = handoffs_col.find_one(query)
     if not h: return redirect(url_for('handoffs_page'))
+    
     handoff = format_doc(h)
     return render_template('handoff_detail.html', handoff=handoff, all_messages=handoff.get('messages', []))
 
 @app.route('/api/handoff/<handoff_id>/status', methods=['POST'])
 def api_handoff_status(handoff_id):
     status = request.json.get('status')
-    handoffs_col.update_one({"id": handoff_id}, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
+    handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {"$set": {"status": status, "updated_at": datetime.now().isoformat()}})
     return jsonify({"ok": True})
 
 @app.route('/api/handoff/<handoff_id>/reply', methods=['POST'])
@@ -124,7 +157,7 @@ def api_handoff_reply(handoff_id):
         "by": "Human Agent",
         "time": datetime.now().isoformat()
     }
-    handoffs_col.update_one({"id": handoff_id}, {
+    handoffs_col.update_one({"$or": [{"id": handoff_id}, {"_id": ObjectId(handoff_id) if len(handoff_id)==24 else None}]}, {
         "$push": {"messages": reply},
         "$set": {"updated_at": datetime.now().isoformat()}
     })
@@ -132,7 +165,12 @@ def api_handoff_reply(handoff_id):
 
 @app.route('/api/handoff/<handoff_id>/messages')
 def api_handoff_messages(handoff_id):
-    h = handoffs_col.find_one({"id": handoff_id})
+    query = {"$or": [{"id": handoff_id}]}
+    if len(handoff_id) == 24:
+        try: query["$or"].append({"_id": ObjectId(handoff_id)})
+        except: pass
+    
+    h = handoffs_col.find_one(query)
     if not h: return jsonify({"ok": False, "error": "Not found"})
     handoff = format_doc(h)
     return jsonify({"ok": True, "messages": handoff.get('messages', []), "status": handoff.get('status')})
@@ -140,7 +178,7 @@ def api_handoff_messages(handoff_id):
 @app.route('/api/tickets/live')
 def live_tickets():
     tickets = [format_doc(t) for t in tickets_col.find().sort("updated_at", -1).limit(20)]
-    handoffs = list(handoffs_col.find({"status": "Waiting"}))
+    handoffs_count = handoffs_col.count_documents({"status": {"$ne": "Resolved"}})
     return jsonify({
         "total": tickets_col.count_documents({}),
         "stats": {
@@ -148,10 +186,21 @@ def live_tickets():
             "in_progress": tickets_col.count_documents({"status": "In Progress"}),
             "resolved": tickets_col.count_documents({"status": "Resolved"})
         },
-        "active_handoffs": len(handoffs),
+        "active_handoffs": handoffs_count,
         "handoffs_count": handoffs_col.count_documents({}),
-        "tickets": tickets[:20]
+        "tickets": tickets
     })
+
+@app.route('/export')
+def export_csv():
+    tickets = list(tickets_col.find())
+    si = io.StringIO()
+    cw = csv.writer(si)
+    cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
+    for t in tickets:
+        obj = format_doc(t)
+        cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
+    return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -161,20 +210,6 @@ def login():
 @app.route('/logout')
 def logout():
     return redirect(url_for('login'))
-
-@app.route('/export')
-def export_csv():
-    try:
-        tickets = list(tickets_col.find())
-        si = io.StringIO()
-        cw = csv.writer(si)
-        cw.writerow(['ID', 'User', 'Service', 'Status', 'Priority', 'Date'])
-        for t in tickets:
-            obj = format_doc(t)
-            cw.writerow([obj.get('id'), obj.get('user_name'), obj.get('service'), obj.get('status'), obj.get('priority'), obj.get('created_at')])
-        return Response(si.getvalue(), mimetype="text/csv", headers={"Content-disposition": "attachment; filename=tickets.csv"})
-    except Exception as e:
-        return str(e), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
