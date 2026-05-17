@@ -23,6 +23,7 @@ const manualReplySchema = new mongoose.Schema({
 });
 
 const ticketSchema = new mongoose.Schema({
+    id: { type: String }, // To satisfy old unique index if it exists
     ticketId: { type: String, unique: true },
     session_id: String,
     user_name: { type: String, default: "Anonymous" },
@@ -42,6 +43,7 @@ const ticketSchema = new mongoose.Schema({
 }, { collection: 'tickets' });
 
 const handoffSchema = new mongoose.Schema({
+    id: { type: String }, // To satisfy old unique index if it exists
     handoffId: { type: String, unique: true },
     session_id: String,
     user_name: { type: String, default: "Anonymous" },
@@ -66,12 +68,10 @@ const ticketManager = {
         }
     },
 
-    // NEW: Robust Direct Ticket Creation
     createDirectTicket: async (data) => {
         const count = await Ticket.countDocuments();
         const tId = `EMP-${1001 + count}`;
         
-        // Auto-detect service from text keywords
         let service = "General Support";
         const issue = (data.issue || "").toLowerCase();
         if (issue.includes("app") || issue.includes("android") || issue.includes("ios")) service = "App Development";
@@ -80,6 +80,7 @@ const ticketManager = {
         else if (issue.includes("legal") || issue.includes("law") || issue.includes("policy")) service = "Legal Tech Support";
 
         const newTicket = new Ticket({
+            id: tId, // Fill both to satisfy indexes
             ticketId: tId,
             session_id: data.sessionId,
             user_name: data.name || "Anonymous User",
@@ -101,7 +102,6 @@ const ticketManager = {
         return newTicket;
     },
 
-    // NEW: Robust Direct Handoff Creation
     createDirectHandoff: async (data) => {
         let existing = await Handoff.findOne({ session_id: data.sessionId, status: { $ne: 'Resolved' } });
         if (existing) return existing;
@@ -110,6 +110,7 @@ const ticketManager = {
         const hId = `H-${1001 + count}`;
 
         const newHandoff = new Handoff({
+            id: hId, // Fill both to satisfy indexes
             handoffId: hId,
             session_id: data.sessionId,
             user_name: data.name || "Anonymous User",
