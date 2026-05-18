@@ -1,12 +1,12 @@
 {
   "tickets": [
     {
-      "id": "EMP-1001",
+      "id": "PLG-1001",
       "session_id": "S-1001",
       "user_name": "James Carter",
       "user_email": "james@example.com",
-      "subject": "Need an Android + iOS app for our logistics company",
-      "service": "App Development",
+      "subject": "Need plagiarism check for our university",
+      "service": "Plagiarism Check",
       "intent": "AppDevelopment.Inquiry",
       "status": "Closed",
       "priority": "Medium",
@@ -23,26 +23,26 @@
       "messages": [
         {
           "role": "user",
-          "text": "Hi, I need to build a mobile app for our logistics company.",
+          "text": "Hi, I need to implement plagiarism checking for our logistics company.",
           "time": "2025-04-28T09:15:00",
           "intent": "Default Welcome Intent",
           "confidence": 0.97
         },
         {
           "role": "bot",
-          "text": "Welcome to EmpowerTech! We build apps for Android, iOS, Windows, Mac, Web, and Linux using C#/.NET, Blazor, MAUI, and Azure. What platform are you targeting?",
+          "text": "Welcome to PlagPro! We provide professional plagiarism checking services for academic and professional documents. Which type of document are you checking?",
           "time": "2025-04-28T09:15:03"
         },
         {
           "role": "user",
-          "text": "We need both Android and iOS with real-time tracking.",
+          "text": "We need to check 500+ papers for original content.",
           "time": "2025-04-28T09:16:10",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.94
         },
         {
           "role": "bot",
-          "text": "We build cross-platform apps using .NET MAUI which targets both Android and iOS from one codebase. Want to get in touch to discuss your project?",
+          "text": "We use advanced algorithms to detect copied content and provide detailed reports. Want to get in touch to discuss your requirements?",
           "time": "2025-04-28T09:16:12"
         },
         {
@@ -54,19 +54,19 @@
         },
         {
           "role": "bot",
-          "text": "We provide custom estimates based on your scope. Contact us at contact@empowertech.solutions for a free estimate!",
+          "text": "We provide custom estimates based on your scope. Contact us at support@plagpro.com for a free estimate!",
           "time": "2025-04-28T09:17:32"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1002",
+      "id": "PLG-1002",
       "session_id": "S-1002",
       "user_name": "Sarah Mitchell",
       "user_email": "sarah@lawfirm.com",
-      "subject": "SmartAdvocate document automation setup",
-      "service": "Legal Tech Support",
+      "subject": "Institutional billing setup inquiry",
+      "service": "Billing & Sales",
       "intent": "LegalTech.DocumentAutomation",
       "status": "Closed",
       "priority": "Medium",
@@ -75,7 +75,7 @@
       "updated_at": "2026-05-01T07:31:41",
       "admin_notes": [
         {
-          "note": "Spoke to Sarah on the phone. She has 15 SmartAdvocate templates to automate.",
+          "note": "Spoke to Sarah on the phone. She needs to set up institutional billing for 15 departments.",
           "by": "admin",
           "time": "2025-04-28T10:00:00"
         },
@@ -88,26 +88,26 @@
       "messages": [
         {
           "role": "user",
-          "text": "Hello, we are a law firm and need help with SmartAdvocate.",
+          "text": "Hello, we are a university and need help with billing.",
           "time": "2025-04-27T14:30:00",
           "intent": "LegalTech.Inquiry",
           "confidence": 0.95
         },
         {
           "role": "bot",
-          "text": "We provide legal tech support for law offices including SmartAdvocate document automation. Which service interests you?",
+          "text": "We assist with billing inquiries and enterprise sales for PlagPro. Are you looking for a quote or have a question about an invoice?",
           "time": "2025-04-27T14:30:02"
         },
         {
           "role": "user",
-          "text": "We want to automate our document templates.",
+          "text": "We want to set up an institutional account.",
           "time": "2025-04-27T14:31:00",
           "intent": "LegalTech.DocumentAutomation",
           "confidence": 0.93
         },
         {
           "role": "bot",
-          "text": "We configure SmartAdvocate templates so data auto-populates into documents \u00e2\u20ac\u201d saving your team hours weekly. Want to schedule a call?",
+          "text": "We configure Institutional Billing templates so data auto-populates into documents \u00e2\u20ac\u201d saving your team hours weekly. Want to schedule a call?",
           "time": "2025-04-27T14:31:03"
         },
         {
@@ -120,19 +120,19 @@
       ],
       "manual_replies": [
         {
-          "text": "Hi Sarah, thanks for reaching out! I have noted your requirement. Our team will contact you within 24 hours to schedule the SmartAdvocate setup call.",
+          "text": "Hi Sarah, thanks for reaching out! I have noted your requirement. Our team will contact you within 24 hours to schedule the institutional billing setup call.",
           "by": "admin",
           "time": "2025-04-28T10:05:00"
         }
       ]
     },
     {
-      "id": "EMP-1003",
+      "id": "PLG-1003",
       "session_id": "S-1003",
       "user_name": "David Chen",
       "user_email": "david@startup.io",
-      "subject": "Website design for our SaaS startup",
-      "service": "Website Design",
+      "subject": "AI content detection for our publishing house",
+      "service": "AI Content Detection",
       "intent": "WebsiteDesign.Inquiry",
       "status": "Closed",
       "priority": "High",
@@ -141,7 +141,7 @@
       "updated_at": "2026-05-01T14:53:05",
       "admin_notes": [
         {
-          "note": "Client chose Wix. Project kicked off. Design mockups sent via email.",
+          "note": "Client chose PlagPro Dashboard. Project kicked off. Design mockups sent via email.",
           "by": "admin",
           "time": "2025-04-27T16:00:00"
         },
@@ -154,45 +154,45 @@
       "messages": [
         {
           "role": "user",
-          "text": "I need a professional website for my SaaS product.",
+          "text": "I need a professional AI detection for my SaaS product.",
           "time": "2025-04-26T11:00:00",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.96
         },
         {
           "role": "bot",
-          "text": "We design responsive websites using Wix, Squarespace, and .NET Blazor. Is this a new site or a redesign?",
+          "text": "We specialize in detecting AI-generated content in essays, articles, and reports. Are you checking a single document or multiple?",
           "time": "2025-04-26T11:00:02"
         },
         {
           "role": "user",
-          "text": "Brand new site. Budget is around $2000.",
+          "text": "Large batch of articles. Budget is around $500.",
           "time": "2025-04-26T11:01:30",
           "intent": "Pricing.Estimate",
           "confidence": 0.88
         },
         {
           "role": "bot",
-          "text": "We provide custom estimates. Let's connect at contact@empowertech.solutions to discuss scope and pricing.",
+          "text": "We provide custom estimates. Let's connect at support@plagpro.com to discuss scope and pricing.",
           "time": "2025-04-26T11:01:33"
         }
       ],
       "manual_replies": [
         {
-          "text": "Hi David, great to hear from you! We can definitely build a great SaaS website within your budget. I will send over a proposal by end of day.",
+          "text": "Hi David, great to hear from you! We can definitely provide a great SaaS AI detection within your budget. I will send over a proposal by end of day.",
           "by": "admin",
           "time": "2025-04-26T12:00:00"
         }
       ]
     },
     {
-      "id": "EMP-1004",
+      "id": "PLG-1004",
       "session_id": "S-1004",
       "user_name": "Anonymous",
       "user_email": "",
-      "subject": "IT consulting for enterprise project",
-      "service": "Consulting",
-      "intent": "Consulting.Inquiry",
+      "subject": "Institutional account for large organization",
+      "service": "Institutional Accounts",
+      "intent": "Institutional Accounts.Inquiry",
       "status": "Open",
       "priority": "High",
       "assigned_to": null,
@@ -223,38 +223,38 @@
       "messages": [
         {
           "role": "user",
-          "text": "We need IT consulting for our enterprise software project.",
+          "text": "We are interested in setting up an institutional account for our university.",
           "time": "2025-04-28T08:00:00",
-          "intent": "Consulting.Inquiry",
+          "intent": "Institutional Accounts.Inquiry",
           "confidence": 0.92
         },
         {
           "role": "bot",
-          "text": "EmpowerTech offers consulting across all project phases \u00e2\u20ac\u201d business analysis, Adobe XD mockups, Azure infrastructure, and Microsoft 365 workflows. What phase are you in?",
+          "text": "PlagPro offers consulting across all project phases \u00e2\u20ac\u201d business analysis, Admin Console mockups, Cloud Infrastructure, and LMS workflows. What phase are you in?",
           "time": "2025-04-28T08:00:03"
         },
         {
           "role": "user",
-          "text": "We are in the design phase.",
+          "text": "We are in the evaluation phase.",
           "time": "2025-04-28T08:01:00",
-          "intent": "Consulting.ProjectPhase",
+          "intent": "Institutional Accounts.ProjectPhase",
           "confidence": 0.87
         },
         {
           "role": "bot",
-          "text": "The design phase is where we shine! We can create mockups in Adobe XD, define scope, and plan your timeline. Want to schedule a consultation?",
+          "text": "Institutional integration is where we shine! We can set up API access, define user roles, and plan your rollout. Want to schedule a consultation?",
           "time": "2025-04-28T08:01:02"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1005",
+      "id": "PLG-1005",
       "session_id": "S-1005",
       "user_name": "Monica Ray",
       "user_email": "monica@lawgroup.com",
-      "subject": "Trial preparation for upcoming case",
-      "service": "Legal Tech Support",
+      "subject": "Volume discount for high-volume checks",
+      "service": "Billing & Sales",
       "intent": "LegalTech.TrialPrep",
       "status": "Closed",
       "priority": "High",
@@ -263,7 +263,7 @@
       "updated_at": "2025-04-27T17:00:00",
       "admin_notes": [
         {
-          "note": "Delivered all PowerPoint slides and video edits. Client very happy.",
+          "note": "Delivered all PowerPoint slides and video edits. Client very hplagiarism checky.",
           "by": "admin",
           "time": "2025-04-27T17:00:00"
         }
@@ -271,14 +271,14 @@
       "messages": [
         {
           "role": "user",
-          "text": "I need help preparing materials for a trial next week.",
+          "text": "I need help with volume discounts for next month.",
           "time": "2025-04-25T10:00:00",
           "intent": "LegalTech.TrialPrep",
           "confidence": 0.93
         },
         {
           "role": "bot",
-          "text": "Our trial preparation service includes professional PowerPoint presentations, video editing, and document management at competitive rates. Want to connect with our team?",
+          "text": "Our sales team can provide custom quotes for high-volume users and academic institutions. Want to connect with our sales department?",
           "time": "2025-04-25T10:00:02"
         }
       ],
@@ -291,7 +291,7 @@
       ]
     },
     {
-      "id": "EMP-1006",
+      "id": "PLG-1006",
       "session_id": "session-1777628829308-ipuvzv5g9",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -306,7 +306,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-01T09:47:21"
         }
       ],
@@ -320,7 +320,7 @@
         },
         {
           "role": "bot",
-          "text": "Creating your support ticket now! Our IT specialists in Chennai will be notified immediately. You will receive a unique ticket ID to track your issue.",
+          "text": "Creating your support ticket now! Our Integrity experts in Noida will be notified immediately. You will receive a unique ticket ID to track your issue.",
           "time": "2026-05-01T09:47:21",
           "intent": null,
           "confidence": null
@@ -329,7 +329,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1007",
+      "id": "PLG-1007",
       "session_id": "session-1777628906664-f66bwzer7",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -344,7 +344,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-01T10:17:28"
         }
       ],
@@ -358,7 +358,7 @@
         },
         {
           "role": "bot",
-          "text": "Creating your support ticket now! Our IT specialists in Chennai will be notified immediately. You will receive a unique ticket ID to track your issue.",
+          "text": "Creating your support ticket now! Our Integrity experts in Noida will be notified immediately. You will receive a unique ticket ID to track your issue.",
           "time": "2026-05-01T10:17:28",
           "intent": null,
           "confidence": null
@@ -377,7 +377,7 @@
         },
         {
           "role": "user",
-          "text": "EMP-1001",
+          "text": "PLG-1001",
           "time": "2026-05-01T10:18:46",
           "intent": "ticket_status",
           "confidence": 0.30000001192092896
@@ -389,26 +389,26 @@
         },
         {
           "role": "user",
-          "text": "EMP-1004",
+          "text": "PLG-1004",
           "time": "2026-05-01T10:18:59",
           "intent": "CheckTicketStatus",
           "confidence": 0.5348460674285889
         },
         {
           "role": "bot",
-          "text": "Let me check that for you! What is your EmpowerTech ticket number? It should be in the format EMP-1001.",
+          "text": "Let me check that for you! What is your PlagPro ticket number? It should be in the format PLG-1001.",
           "time": "2026-05-01T10:19:00"
         },
         {
           "role": "user",
-          "text": "TICKET EMP-1004",
+          "text": "TICKET PLG-1004",
           "time": "2026-05-01T10:19:27",
           "intent": "CheckTicketStatus",
           "confidence": 0.8336730003356934
         },
         {
           "role": "bot",
-          "text": "Let me check that for you! What is your EmpowerTech ticket number? It should be in the format EMP-1001.",
+          "text": "Let me check that for you! What is your PlagPro ticket number? It should be in the format PLG-1001.",
           "time": "2026-05-01T10:19:31"
         },
         {
@@ -420,7 +420,7 @@
         },
         {
           "role": "bot",
-          "text": "EmpowerTech offers four main services:\n\n1. **App Development** \ud83d\udcf1 - We design and develop apps for Android, iOS, Linux, Mac, Web, and Windows. Whether you have a new idea or need help with an existing app, we can help.\n\n2. **Website Design** \ud83c\udf10 - We build responsive websites using Wix that look great on any device. Our sites are easy for you to maintain and update yourself.\n\n3. **IT Consulting** \ud83d\udcbc - We help with business analysis, design, troubleshooting, development, and any phase of your IT journey. We can assist with urgent IT issues or complete project navigation.\n\n4. **Legal Tech Support** \u2696\ufe0f - Specialized services for legal firms including trial preparation services and Smart Advocate document generation with data integration.\n\nWhich service would you like more information about?",
+          "text": "PlagPro offers four main services:\n\n1. **Plagiarism Check** \ud83d\udcf1 - We design and develop plagiarism checks for Android, iOS, Professional, Enterprise, Web, and Academic. Whether you have a new idea or need help with an existing plagiarism check, we can help.\n\n2. **AI Content Detection** \ud83c\udf10 - We provide responsive AI detections using PlagPro Dashboard that look great on any device. Our sites are easy for you to maintain and update yourself.\n\n3. **IT Institutional Accounts** \ud83d\udcbc - We help with business analysis, design, troubleshooting, development, and any phase of your IT journey. We can assist with urgent IT issues or complete project navigation.\n\n4. **Billing & Sales** \u2696\ufe0f - Specialized services for legal firms including trial preparation services and Institutional Billing document generation with data integration.\n\nWhich service would you like more information about?",
           "time": "2026-05-01T10:23:57"
         },
         {
@@ -432,7 +432,7 @@
         },
         {
           "role": "bot",
-          "text": "I did not quite catch that. I can help with App Development, Website Design, Consulting, or Legal Tech Support. Could you rephrase?",
+          "text": "I did not quite catch that. I can help with Plagiarism Check, AI Content Detection, Institutional Accounts, or Billing & Sales. Could you rephrase?",
           "time": "2026-05-01T10:24:02"
         },
         {
@@ -444,14 +444,14 @@
         },
         {
           "role": "bot",
-          "text": "Our Legal Tech Support specializes in:\n\u2696\ufe0f Trial preparation services (organizing evidence, documents)\n\u2696\ufe0f Smart Advocate document generation\n\u2696\ufe0f Data integration for legal firms\n\nThese services help legal teams work more efficiently and prepare thoroughly for trials.",
+          "text": "Our Billing & Sales specializes in:\n\u2696\ufe0f Trial preparation services (organizing evidence, documents)\n\u2696\ufe0f Institutional Billing document generation\n\u2696\ufe0f Data integration for legal firms\n\nThese services help legal teams work more efficiently and prepare thoroughly for trials.",
           "time": "2026-05-01T10:24:19"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1008",
+      "id": "PLG-1008",
       "session_id": "session-1778160673782-lgoitytx9",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -466,7 +466,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-07T13:33:18"
         },
         {
@@ -485,49 +485,49 @@
         },
         {
           "role": "bot",
-          "text": "Hello! Welcome to EmpowerTech LLC! We build apps, design websites, provide consulting, and support law firms with legal tech. How can I help you today?",
+          "text": "Hello! Welcome to PlagPro! We provide plagiarism checking, AI content detection, institutional accounts, and billing support. How can I help you today?",
           "time": "2026-05-07T13:31:18",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "check ticket status of EMP-1001",
+          "text": "check ticket status of PLG-1001",
           "time": "2026-05-07T13:32:00",
           "intent": "CheckTicketStatus",
           "confidence": 0.6027697324752808
         },
         {
           "role": "bot",
-          "text": "Sure! To check your ticket status, please share your ticket ID. It looks like EMP-1001. You received this when the ticket was first created.",
+          "text": "Sure! To check your ticket status, please share your ticket ID. It looks like PLG-1001. You received this when the ticket was first created.",
           "time": "2026-05-07T13:32:01",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "EMP-1001",
+          "text": "PLG-1001",
           "time": "2026-05-07T13:32:14",
           "intent": "CheckTicketStatus",
           "confidence": 0.7630963325500488
         },
         {
           "role": "bot",
-          "text": "I will look up your ticket status right away! Please provide your ticket number in the format EMP-XXXX and I will fetch the latest update for you.",
+          "text": "I will look up your ticket status right away! Please provide your ticket number in the format PLG-XXXX and I will fetch the latest update for you.",
           "time": "2026-05-07T13:32:15",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "EMP-1001",
+          "text": "PLG-1001",
           "time": "2026-05-07T13:32:30",
           "intent": "CheckTicketStatus",
           "confidence": 0.7630963325500488
         },
         {
           "role": "bot",
-          "text": "I will look up your ticket status right away! Please provide your ticket number in the format EMP-XXXX and I will fetch the latest update for you.",
+          "text": "I will look up your ticket status right away! Please provide your ticket number in the format PLG-XXXX and I will fetch the latest update for you.",
           "time": "2026-05-07T13:32:31",
           "intent": null,
           "confidence": null
@@ -541,7 +541,7 @@
         },
         {
           "role": "bot",
-          "text": "I'll create a support ticket for you right away! Our EmpowerTech team will be assigned to your issue. Please hold on while I log this in our system.",
+          "text": "I'll create a support ticket for you right away! Our PlagPro team will be assigned to your issue. Please hold on while I log this in our system.",
           "time": "2026-05-07T13:33:18",
           "intent": null,
           "confidence": null
@@ -550,7 +550,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1009",
+      "id": "PLG-1009",
       "session_id": "session-1778171736253-gdkcsj2nn",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -565,7 +565,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-07T16:37:57"
         }
       ],
@@ -586,14 +586,14 @@
         },
         {
           "role": "user",
-          "text": "EMP-1008",
+          "text": "PLG-1008",
           "time": "2026-05-07T16:35:52",
           "intent": "ticket_status",
           "confidence": 0.30000001192092896
         },
         {
           "role": "bot",
-          "text": "\ud83d\udd0d **Ticket Status Found!**\n\n\ud83d\udccb **ID:** EMP-1008\n\u2705 **Status:** Closed\n\ud83d\udc65 **Assigned:** Pending\n\ud83d\udcc5 **Created:** 7/5/2026\n\nIs there anything else I can help you with?",
+          "text": "\ud83d\udd0d **Ticket Status Found!**\n\n\ud83d\udccb **ID:** PLG-1008\n\u2705 **Status:** Closed\n\ud83d\udc65 **Assigned:** Pending\n\ud83d\udcc5 **Created:** 7/5/2026\n\nIs there anything else I can help you with?",
           "time": "2026-05-07T16:35:53",
           "intent": null,
           "confidence": null
@@ -607,21 +607,21 @@
         },
         {
           "role": "bot",
-          "text": "EmpowerTech offers four main services:\n\n1. **App Development** \ud83d\udcf1 - We design and develop apps for Android, iOS, Linux, Mac, Web, and Windows. Whether you have a new idea or need help with an existing app, we can help.\n\n2. **Website Design** \ud83c\udf10 - We build responsive websites using Wix that look great on any device. Our sites are easy for you to maintain and update yourself.\n\n3. **IT Consulting** \ud83d\udcbc - We help with business analysis, design, troubleshooting, development, and any phase of your IT journey. We can assist with urgent IT issues or complete project navigation.\n\n4. **Legal Tech Support** \u2696\ufe0f - Specialized services for legal firms including trial preparation services and Smart Advocate document generation with data integration.\n\nWhich service would you like more information about?",
+          "text": "PlagPro offers four main services:\n\n1. **Plagiarism Check** \ud83d\udcf1 - We design and develop plagiarism checks for Android, iOS, Professional, Enterprise, Web, and Academic. Whether you have a new idea or need help with an existing plagiarism check, we can help.\n\n2. **AI Content Detection** \ud83c\udf10 - We provide responsive AI detections using PlagPro Dashboard that look great on any device. Our sites are easy for you to maintain and update yourself.\n\n3. **IT Institutional Accounts** \ud83d\udcbc - We help with business analysis, design, troubleshooting, development, and any phase of your IT journey. We can assist with urgent IT issues or complete project navigation.\n\n4. **Billing & Sales** \u2696\ufe0f - Specialized services for legal firms including trial preparation services and Institutional Billing document generation with data integration.\n\nWhich service would you like more information about?",
           "time": "2026-05-07T16:36:54",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "app developement",
+          "text": "plagiarism check developement",
           "time": "2026-05-07T16:37:04",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 1
         },
         {
           "role": "bot",
-          "text": "We would love to build your app! We develop cross-platform apps using .NET MAUI, Blazor, and Azure supporting Android, iOS, Windows, Mac, Web, and Linux. Tell me more about your idea.",
+          "text": "We would love to build your plagiarism check! We develop cross-platform plagiarism checks using PlagPro Mobile, PlagPro Web, and Cloud Storage supporting Academic and Professional documents. Tell me more about your idea.",
           "time": "2026-05-07T16:37:07",
           "intent": null,
           "confidence": null
@@ -635,7 +635,7 @@
         },
         {
           "role": "bot",
-          "text": "We have built many apps for that platform. Depending on your needs we would use MAUI, Blazor, or Azure. Ready to get an estimate? I can help you reach our team at contact@empowertech.solutions",
+          "text": "We have built many plagiarism checks for that platform. Depending on your needs we would use PlagPro Mobile, PlagPro Web, or Cloud Storage. Ready to get an estimate? I can help you reach our team at support@plagpro.com",
           "time": "2026-05-07T16:37:14",
           "intent": null,
           "confidence": null
@@ -649,7 +649,7 @@
         },
         {
           "role": "bot",
-          "text": "Understood! I am flagging your session for our senior support team at EmpowerTech. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-44-XXXX-XXXX",
+          "text": "Understood! I am flagging your session for our senior support team at PlagPro. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-120-XXXX-XXXX",
           "time": "2026-05-07T16:37:27",
           "intent": null,
           "confidence": null
@@ -663,7 +663,7 @@
         },
         {
           "role": "bot",
-          "text": "I did not understand that. You can ask me about building an app, designing a website, consulting, or legal tech support for law offices.",
+          "text": "I did not understand that. You can ask me about building an plagiarism check, designing a AI detection, consulting, or legal tech support for law offices.",
           "time": "2026-05-07T16:37:41",
           "intent": null,
           "confidence": null
@@ -677,7 +677,7 @@
         },
         {
           "role": "bot",
-          "text": "I did not understand that. You can ask me about building an app, designing a website, consulting, or legal tech support for law offices.",
+          "text": "I did not understand that. You can ask me about building an plagiarism check, designing a AI detection, consulting, or legal tech support for law offices.",
           "time": "2026-05-07T16:37:49",
           "intent": null,
           "confidence": null
@@ -691,7 +691,7 @@
         },
         {
           "role": "bot",
-          "text": "I'll create a support ticket for you right away! Our EmpowerTech team will be assigned to your issue. Please hold on while I log this in our system.",
+          "text": "I'll create a support ticket for you right away! Our PlagPro team will be assigned to your issue. Please hold on while I log this in our system.",
           "time": "2026-05-07T16:37:57",
           "intent": null,
           "confidence": null
@@ -700,7 +700,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1010",
+      "id": "PLG-1010",
       "session_id": "session-1778604247439-514mc1dhj",
       "user_name": "ashish kumar",
       "user_email": "",
@@ -716,7 +716,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ashish kumar",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-12T16:45:07"
         }
       ],
@@ -730,7 +730,7 @@
         },
         {
           "role": "bot",
-          "text": "No problem! I am logging your request in our system. Your ticket will be assigned to the right EmpowerTech specialist based on the issue type.",
+          "text": "No problem! I am logging your request in our system. Your ticket will be assigned to the right PlagPro specialist based on the issue type.",
           "time": "2026-05-12T16:45:07",
           "intent": null,
           "confidence": null
@@ -739,14 +739,14 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1011",
+      "id": "PLG-1011",
       "session_id": "session-1778604819260-t91xciyq9",
       "user_name": "ak",
       "user_email": "",
       "user_phone": "",
-      "subject": "app crash",
-      "service": "App Development",
-      "intent": "app crash",
+      "subject": "check failed",
+      "service": "Plagiarism Check",
+      "intent": "check failed",
       "status": "Open",
       "priority": "Medium",
       "assigned_to": null,
@@ -755,21 +755,21 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ak",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-12T16:54:07"
         }
       ],
       "messages": [
         {
           "role": "user",
-          "text": "app crash",
+          "text": "check failed",
           "time": "2026-05-12T16:54:06",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.7485769391059875
         },
         {
           "role": "bot",
-          "text": "EmpowerTech builds apps for Android, iOS, Windows, Mac, Web, and Linux using C#/.NET, Blazor, MAUI, Azure, and Oracle Apex. Whether you just have an idea or an existing app, we would love to help. What platform are you targeting?",
+          "text": "PlagPro builds plagiarism checks for Academic and Professional documents using Advanced Algorithms, PlagPro Web, PlagPro Mobile, Cloud Storage, and Oracle Apex. Whether you just have an idea or an existing plagiarism check, we would love to help. What platform are you targeting?",
           "time": "2026-05-12T16:54:07",
           "intent": null,
           "confidence": null
@@ -778,14 +778,14 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1012",
+      "id": "PLG-1012",
       "session_id": "session-1778605647912-gd7ov7npg",
       "user_name": "ak",
       "user_email": "",
       "user_phone": "",
-      "subject": "app crash",
-      "service": "App Development",
-      "intent": "app crash",
+      "subject": "check failed",
+      "service": "Plagiarism Check",
+      "intent": "check failed",
       "status": "Open",
       "priority": "Medium",
       "assigned_to": null,
@@ -794,21 +794,21 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ak",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-12T17:09:24"
         }
       ],
       "messages": [
         {
           "role": "user",
-          "text": "app crash",
+          "text": "check failed",
           "time": "2026-05-12T17:09:23",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.7485769391059875
         },
         {
           "role": "bot",
-          "text": "We would love to build your app! We develop cross-platform apps using .NET MAUI, Blazor, and Azure supporting Android, iOS, Windows, Mac, Web, and Linux. Tell me more about your idea.",
+          "text": "We would love to build your plagiarism check! We develop cross-platform plagiarism checks using PlagPro Mobile, PlagPro Web, and Cloud Storage supporting Academic and Professional documents. Tell me more about your idea.",
           "time": "2026-05-12T17:09:24",
           "intent": null,
           "confidence": null
@@ -822,7 +822,7 @@
         },
         {
           "role": "bot",
-          "text": "I did not understand that. You can ask me about building an app, designing a website, consulting, or legal tech support for law offices.",
+          "text": "I did not understand that. You can ask me about building an plagiarism check, designing a AI detection, consulting, or legal tech support for law offices.",
           "time": "2026-05-12T17:09:55"
         },
         {
@@ -834,7 +834,7 @@
         },
         {
           "role": "bot",
-          "text": "Hmm, I am not sure I understood. Try asking about our services: App Development, Website Design, Consulting, or Legal Tech. What do you need?",
+          "text": "Hmm, I am not sure I understood. Try asking about our services: Plagiarism Check, AI Content Detection, Institutional Accounts, or Legal Tech. What do you need?",
           "time": "2026-05-12T17:10:00"
         },
         {
@@ -846,7 +846,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-12T17:11:32"
         },
         {
@@ -858,14 +858,14 @@
         },
         {
           "role": "bot",
-          "text": "EmpowerTech offers four main services:\n\n1. **App Development** \ud83d\udcf1 - We design and develop apps for Android, iOS, Linux, Mac, Web, and Windows. Whether you have a new idea or need help with an existing app, we can help.\n\n2. **Website Design** \ud83c\udf10 - We build responsive websites using Wix that look great on any device. Our sites are easy for you to maintain and update yourself.\n\n3. **IT Consulting** \ud83d\udcbc - We help with business analysis, design, troubleshooting, development, and any phase of your IT journey. We can assist with urgent IT issues or complete project navigation.\n\n4. **Legal Tech Support** \u2696\ufe0f - Specialized services for legal firms including trial preparation services and Smart Advocate document generation with data integration.\n\nWhich service would you like more information about?",
+          "text": "PlagPro offers four main services:\n\n1. **Plagiarism Check** \ud83d\udcf1 - We design and develop plagiarism checks for Android, iOS, Professional, Enterprise, Web, and Academic. Whether you have a new idea or need help with an existing plagiarism check, we can help.\n\n2. **AI Content Detection** \ud83c\udf10 - We provide responsive AI detections using PlagPro Dashboard that look great on any device. Our sites are easy for you to maintain and update yourself.\n\n3. **IT Institutional Accounts** \ud83d\udcbc - We help with business analysis, design, troubleshooting, development, and any phase of your IT journey. We can assist with urgent IT issues or complete project navigation.\n\n4. **Billing & Sales** \u2696\ufe0f - Specialized services for legal firms including trial preparation services and Institutional Billing document generation with data integration.\n\nWhich service would you like more information about?",
           "time": "2026-05-12T17:31:16"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1013",
+      "id": "PLG-1013",
       "session_id": "session-1778692458823-q0bd4ofuj",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -881,7 +881,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:16:23"
         }
       ],
@@ -923,7 +923,7 @@
         },
         {
           "role": "bot",
-          "text": "Creating your support ticket now! Our IT specialists in Chennai will be notified immediately. You will receive a unique ticket ID to track your issue.",
+          "text": "Creating your support ticket now! Our Integrity experts in Noida will be notified immediately. You will receive a unique ticket ID to track your issue.",
           "time": "2026-05-13T17:16:23",
           "intent": null,
           "confidence": null
@@ -937,14 +937,14 @@
         },
         {
           "role": "bot",
-          "text": "Of course! Let me connect you with our Chennai support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-44-XXXX-XXXX.",
+          "text": "Of course! Let me connect you with our Noida support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-120-XXXX-XXXX.",
           "time": "2026-05-13T17:16:37"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1014",
+      "id": "PLG-1014",
       "session_id": "session-1778693330232-52f6wjd8g",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -960,7 +960,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:28:54"
         }
       ],
@@ -974,7 +974,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-13T17:28:54",
           "intent": null,
           "confidence": null
@@ -983,12 +983,12 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1015",
+      "id": "PLG-1015",
       "session_id": "session-1778693330232-52f6wjd8g",
       "user_name": "ashish kumar",
       "user_email": "",
       "user_phone": "9876543210",
-      "subject": "discuss about app development",
+      "subject": "discuss about plagiarism checking",
       "service": "Human Handoff",
       "intent": "HumanHandoff",
       "status": "Open",
@@ -999,7 +999,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ashish kumar",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:29:57"
         },
         {
@@ -1033,21 +1033,21 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-13T17:28:54",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "discuss about app development",
+          "text": "discuss about plagiarism checking",
           "time": "2026-05-13T17:29:55",
           "intent": "project_inquiry",
           "confidence": 0.5128828883171082
         },
         {
           "role": "bot",
-          "text": "What type of project are you considering? (App, Website, Consulting, or Legal Tech?)",
+          "text": "What type of project are you considering? (App, Website, Institutional Accounts, or Legal Tech?)",
           "time": "2026-05-13T17:29:57",
           "intent": null,
           "confidence": null
@@ -1077,7 +1077,7 @@
       ]
     },
     {
-      "id": "EMP-1016",
+      "id": "PLG-1016",
       "session_id": "session-1778693834524-4fzo58ze0",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1093,7 +1093,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:37:18"
         }
       ],
@@ -1107,7 +1107,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-13T17:37:18",
           "intent": null,
           "confidence": null
@@ -1116,12 +1116,12 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1017",
+      "id": "PLG-1017",
       "session_id": "session-1778693834524-4fzo58ze0",
       "user_name": "ak",
       "user_email": "",
       "user_phone": "8956237412",
-      "subject": "website development",
+      "subject": "AI content detection",
       "service": "Human Handoff",
       "intent": "HumanHandoff",
       "status": "Open",
@@ -1132,7 +1132,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ak",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:38:00"
         },
         {
@@ -1156,21 +1156,21 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-13T17:37:18",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "website development",
+          "text": "AI content detection",
           "time": "2026-05-13T17:37:59",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.8156729936599731
         },
         {
           "role": "bot",
-          "text": "We would love to build your website! We use Wix, Squarespace, and Blazor to create sites that look great on any device. We also guide you through SEO and content creation. Is this a new site or a redesign?",
+          "text": "We would love to build your AI detection! We use PlagPro Dashboard, PlagPro API, and PlagPro Web to create sites that look great on any device. We also guide you through SEO and content creation. Is this a new site or a redesign?",
           "time": "2026-05-13T17:38:00",
           "intent": null,
           "confidence": null
@@ -1190,7 +1190,7 @@
       ]
     },
     {
-      "id": "EMP-1018",
+      "id": "PLG-1018",
       "session_id": "session-1778694580955-potqzht1c",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1206,7 +1206,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:49:48"
         }
       ],
@@ -1220,7 +1220,7 @@
         },
         {
           "role": "bot",
-          "text": "Of course! Let me connect you with our Chennai support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-44-XXXX-XXXX.",
+          "text": "Of course! Let me connect you with our Noida support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-120-XXXX-XXXX.",
           "time": "2026-05-13T17:49:48",
           "intent": null,
           "confidence": null
@@ -1229,7 +1229,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1019",
+      "id": "PLG-1019",
       "session_id": "session-1778694671732-kqmrxyjf9",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1245,7 +1245,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:51:15"
         }
       ],
@@ -1259,7 +1259,7 @@
         },
         {
           "role": "bot",
-          "text": "Understood! I am flagging your session for our senior support team at EmpowerTech. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-44-XXXX-XXXX",
+          "text": "Understood! I am flagging your session for our senior support team at PlagPro. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-120-XXXX-XXXX",
           "time": "2026-05-13T17:51:15",
           "intent": null,
           "confidence": null
@@ -1268,7 +1268,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1020",
+      "id": "PLG-1020",
       "session_id": "session-1778694723835-rgp7azgg8",
       "user_name": "HI",
       "user_email": "",
@@ -1284,7 +1284,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: HI",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:53:00"
         }
       ],
@@ -1298,7 +1298,7 @@
         },
         {
           "role": "bot",
-          "text": "I'll create a support ticket for you right away! Our EmpowerTech team will be assigned to your issue. Please hold on while I log this in our system.",
+          "text": "I'll create a support ticket for you right away! Our PlagPro team will be assigned to your issue. Please hold on while I log this in our system.",
           "time": "2026-05-13T17:53:00",
           "intent": null,
           "confidence": null
@@ -1312,14 +1312,14 @@
         },
         {
           "role": "bot",
-          "text": "Hi there! I am EmpowerTech's AI assistant. We specialize in App Development, Website Design, IT Consulting, and Legal Tech Support based in Oxnard, CA. What can I help with?",
+          "text": "Hi there! I am PlagPro's AI assistant. We specialize in Plagiarism Check, AI Content Detection, IT Institutional Accounts, and Billing & Sales based in Oxnard, CA. What can I help with?",
           "time": "2026-05-13T17:53:39"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1021",
+      "id": "PLG-1021",
       "session_id": "session-1778694723835-rgp7azgg8",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1335,7 +1335,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-13T17:53:13"
         }
       ],
@@ -1349,7 +1349,7 @@
         },
         {
           "role": "bot",
-          "text": "I'll create a support ticket for you right away! Our EmpowerTech team will be assigned to your issue. Please hold on while I log this in our system.",
+          "text": "I'll create a support ticket for you right away! Our PlagPro team will be assigned to your issue. Please hold on while I log this in our system.",
           "time": "2026-05-13T17:53:00",
           "intent": null,
           "confidence": null
@@ -1363,7 +1363,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-13T17:53:13",
           "intent": null,
           "confidence": null
@@ -1372,7 +1372,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1022",
+      "id": "PLG-1022",
       "session_id": "session-1778736093253-rc3watoar",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1388,7 +1388,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T05:21:40"
         }
       ],
@@ -1402,7 +1402,7 @@
         },
         {
           "role": "bot",
-          "text": "Of course! Let me connect you with our Chennai support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-44-XXXX-XXXX.",
+          "text": "Of course! Let me connect you with our Noida support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-120-XXXX-XXXX.",
           "time": "2026-05-14T05:21:40",
           "intent": null,
           "confidence": null
@@ -1411,7 +1411,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1023",
+      "id": "PLG-1023",
       "session_id": "session-1778737050553-2ax77vc8c",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1427,7 +1427,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T05:38:11"
         }
       ],
@@ -1441,21 +1441,21 @@
         },
         {
           "role": "bot",
-          "text": "Welcome to EmpowerTech! Whether you have an app idea, need a website, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
+          "text": "Welcome to PlagPro! Whether you have an plagiarism check idea, need a AI detection, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
           "time": "2026-05-14T05:37:35",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "website development",
+          "text": "AI content detection",
           "time": "2026-05-14T05:37:53",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.8156729936599731
         },
         {
           "role": "bot",
-          "text": "We would love to build your website! We use Wix, Squarespace, and Blazor to create sites that look great on any device. We also guide you through SEO and content creation. Is this a new site or a redesign?",
+          "text": "We would love to build your AI detection! We use PlagPro Dashboard, PlagPro API, and PlagPro Web to create sites that look great on any device. We also guide you through SEO and content creation. Is this a new site or a redesign?",
           "time": "2026-05-14T05:37:54",
           "intent": null,
           "confidence": null
@@ -1469,7 +1469,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-14T05:38:11",
           "intent": null,
           "confidence": null
@@ -1478,12 +1478,12 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1024",
+      "id": "PLG-1024",
       "session_id": "session-1778737050553-2ax77vc8c",
       "user_name": "ashish kumar",
       "user_email": "",
       "user_phone": "8975456662",
-      "subject": "website development",
+      "subject": "AI content detection",
       "service": "Human Handoff",
       "intent": "HumanHandoff",
       "status": "Open",
@@ -1494,7 +1494,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ashish kumar",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T05:38:52"
         }
       ],
@@ -1508,21 +1508,21 @@
         },
         {
           "role": "bot",
-          "text": "Welcome to EmpowerTech! Whether you have an app idea, need a website, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
+          "text": "Welcome to PlagPro! Whether you have an plagiarism check idea, need a AI detection, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
           "time": "2026-05-14T05:37:35",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "website development",
+          "text": "AI content detection",
           "time": "2026-05-14T05:37:53",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.8156729936599731
         },
         {
           "role": "bot",
-          "text": "We would love to build your website! We use Wix, Squarespace, and Blazor to create sites that look great on any device. We also guide you through SEO and content creation. Is this a new site or a redesign?",
+          "text": "We would love to build your AI detection! We use PlagPro Dashboard, PlagPro API, and PlagPro Web to create sites that look great on any device. We also guide you through SEO and content creation. Is this a new site or a redesign?",
           "time": "2026-05-14T05:37:54",
           "intent": null,
           "confidence": null
@@ -1536,21 +1536,21 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-14T05:38:11",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "website development",
+          "text": "AI content detection",
           "time": "2026-05-14T05:38:51",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.8156729936599731
         },
         {
           "role": "bot",
-          "text": "EmpowerTech designs beautiful responsive websites using Wix, Squarespace, and .NET Blazor. We handle content, SEO, accessibility, and legal pages too. Do you need a brand new website or an update to an existing one?",
+          "text": "PlagPro designs beautiful responsive AI detections using PlagPro Dashboard, PlagPro API, and PlagPro Web. We handle content, SEO, accessibility, and legal pages too. Do you need a brand new AI detection or an update to an existing one?",
           "time": "2026-05-14T05:38:52",
           "intent": null,
           "confidence": null
@@ -1559,7 +1559,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1025",
+      "id": "PLG-1025",
       "session_id": "session-1778737377432-45n20y7nx",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1575,7 +1575,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T05:43:02"
         }
       ],
@@ -1589,7 +1589,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-14T05:43:02",
           "intent": null,
           "confidence": null
@@ -1598,12 +1598,12 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1026",
+      "id": "PLG-1026",
       "session_id": "session-1778737377432-45n20y7nx",
       "user_name": "ak",
       "user_email": "",
       "user_phone": "7894561233",
-      "subject": "app",
+      "subject": "plagiarism check",
       "service": "Human Handoff",
       "intent": "HumanHandoff",
       "status": "Closed",
@@ -1614,7 +1614,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ak",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T05:43:27"
         },
         {
@@ -1643,21 +1643,21 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-14T05:43:02",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "app",
+          "text": "plagiarism check",
           "time": "2026-05-14T05:43:27",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.9259613752365112
         },
         {
           "role": "bot",
-          "text": "App development is one of our core services. We handle everything from early idea to deployment using C#/.NET, Blazor, MAUI, and Azure. What kind of app do you need?",
+          "text": "App development is one of our core services. We handle everything from early idea to deployment using Advanced Algorithms, PlagPro Web, PlagPro Mobile, and Cloud Storage. What kind of plagiarism check do you need?",
           "time": "2026-05-14T05:43:27",
           "intent": null,
           "confidence": null
@@ -1677,7 +1677,7 @@
       ]
     },
     {
-      "id": "EMP-1027",
+      "id": "PLG-1027",
       "session_id": "session-1778739326340-hayhtva3n",
       "user_name": "Chatbot User",
       "user_email": "",
@@ -1693,7 +1693,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: Chatbot User",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T06:17:50"
         }
       ],
@@ -1707,7 +1707,7 @@
         },
         {
           "role": "bot",
-          "text": "Welcome to EmpowerTech! Whether you have an app idea, need a website, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
+          "text": "Welcome to PlagPro! Whether you have an plagiarism check idea, need a AI detection, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
           "time": "2026-05-14T06:17:47",
           "intent": null,
           "confidence": null
@@ -1721,7 +1721,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-14T06:17:50",
           "intent": null,
           "confidence": null
@@ -1735,19 +1735,19 @@
         },
         {
           "role": "bot",
-          "text": "Hello! Welcome to EmpowerTech LLC! We build apps, design websites, provide consulting, and support law firms with legal tech. How can I help you today?",
+          "text": "Hello! Welcome to PlagPro! We provide plagiarism checking, AI content detection, institutional accounts, and billing support. How can I help you today?",
           "time": "2026-05-14T06:18:57"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1028",
+      "id": "PLG-1028",
       "session_id": "session-1778739326340-hayhtva3n",
       "user_name": "aks",
       "user_email": "",
       "user_phone": "7899558225",
-      "subject": "app related",
+      "subject": "plagiarism check related",
       "service": "Human Handoff",
       "intent": "HumanHandoff",
       "status": "Open",
@@ -1758,7 +1758,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: aks",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T06:18:17"
         },
         {
@@ -1777,7 +1777,7 @@
         },
         {
           "role": "bot",
-          "text": "Welcome to EmpowerTech! Whether you have an app idea, need a website, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
+          "text": "Welcome to PlagPro! Whether you have an plagiarism check idea, need a AI detection, want consulting, or need legal tech support for a law office \u2014 I am here. What do you need?",
           "time": "2026-05-14T06:17:47",
           "intent": null,
           "confidence": null
@@ -1791,21 +1791,21 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-14T06:17:50",
           "intent": null,
           "confidence": null
         },
         {
           "role": "user",
-          "text": "app related",
+          "text": "plagiarism check related",
           "time": "2026-05-14T06:18:17",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.9259613752365112
         },
         {
           "role": "bot",
-          "text": "App development is one of our core services. We handle everything from early idea to deployment using C#/.NET, Blazor, MAUI, and Azure. What kind of app do you need?",
+          "text": "App development is one of our core services. We handle everything from early idea to deployment using Advanced Algorithms, PlagPro Web, PlagPro Mobile, and Cloud Storage. What kind of plagiarism check do you need?",
           "time": "2026-05-14T06:18:17",
           "intent": null,
           "confidence": null
@@ -1820,12 +1820,12 @@
       ]
     },
     {
-      "id": "EMP-1029",
+      "id": "PLG-1029",
       "session_id": "session-1778742001756-lkpdps0ks",
       "user_name": "ashish",
       "user_email": "",
       "user_phone": "89586963555",
-      "subject": "website",
+      "subject": "AI detection",
       "service": "Human Handoff",
       "intent": "HumanHandoff",
       "status": "Open",
@@ -1836,7 +1836,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: ashish",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T07:00:44"
         }
       ],
@@ -1857,14 +1857,14 @@
         },
         {
           "role": "user",
-          "text": "website",
+          "text": "AI detection",
           "time": "2026-05-14T07:00:43",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.877854585647583
         },
         {
           "role": "bot",
-          "text": "Website design is a specialty of ours. We build on Wix for easy maintenance, Squarespace, and .NET Blazor. We help with content, SEO optimization, and accessibility. What kind of website do you need?",
+          "text": "Website design is a specialty of ours. We build on PlagPro Dashboard for easy maintenance, PlagPro API, and PlagPro Web. We help with content, SEO optimization, and accessibility. What kind of AI detection do you need?",
           "time": "2026-05-14T07:00:44",
           "intent": null,
           "confidence": null
@@ -1873,7 +1873,7 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1030",
+      "id": "PLG-1030",
       "session_id": "session-1778743516112-bp3malmsg",
       "user_name": "viksash",
       "user_email": "",
@@ -1889,7 +1889,7 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: viksash",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-14T07:26:54"
         }
       ],
@@ -1903,7 +1903,7 @@
         },
         {
           "role": "bot",
-          "text": "Hello! Welcome to EmpowerTech LLC! We build apps, design websites, provide consulting, and support law firms with legal tech. How can I help you today?",
+          "text": "Hello! Welcome to PlagPro! We provide plagiarism checking, AI content detection, institutional accounts, and billing support. How can I help you today?",
           "time": "2026-05-14T07:26:26",
           "intent": null,
           "confidence": null
@@ -1931,7 +1931,7 @@
         },
         {
           "role": "bot",
-          "text": "I'll create a support ticket for you right away! Our EmpowerTech team will be assigned to your issue. Please hold on while I log this in our system.",
+          "text": "I'll create a support ticket for you right away! Our PlagPro team will be assigned to your issue. Please hold on while I log this in our system.",
           "time": "2026-05-14T07:26:54",
           "intent": null,
           "confidence": null
@@ -1940,12 +1940,12 @@
       "manual_replies": []
     },
     {
-      "id": "EMP-1031",
+      "id": "PLG-1031",
       "session_id": "session-1778923358754-ff8923vaz",
       "user_name": "I need to speak with a human agent",
       "user_email": "",
       "user_phone": "",
-      "subject": "app related",
+      "subject": "plagiarism check related",
       "service": "General",
       "intent": "CreateTicket",
       "status": "Open",
@@ -1956,21 +1956,21 @@
       "admin_notes": [
         {
           "note": "Ticket created automatically via AI Chatbot. User: I need to speak with a human agent",
-          "by": "EmpowerTech Bot",
+          "by": "PlagPro Bot",
           "time": "2026-05-16T09:23:35"
         }
       ],
       "messages": [
         {
           "role": "user",
-          "text": "app related",
+          "text": "plagiarism check related",
           "time": "2026-05-16T09:23:33",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.9259613752365112
         },
         {
           "role": "bot",
-          "text": "EmpowerTech builds apps for Android, iOS, Windows, Mac, Web, and Linux using C#/.NET, Blazor, MAUI, Azure, and Oracle Apex. Whether you just have an idea or an existing app, we would love to help. What platform are you targeting?",
+          "text": "PlagPro builds plagiarism checks for Academic and Professional documents using Advanced Algorithms, PlagPro Web, PlagPro Mobile, Cloud Storage, and Oracle Apex. Whether you just have an idea or an existing plagiarism check, we would love to help. What platform are you targeting?",
           "time": "2026-05-16T09:23:35",
           "intent": null,
           "confidence": null
@@ -2003,19 +2003,19 @@
         },
         {
           "role": "bot",
-          "text": "Understood! I am flagging your session for our senior support team at EmpowerTech. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-44-XXXX-XXXX",
+          "text": "Understood! I am flagging your session for our senior support team at PlagPro. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-120-XXXX-XXXX",
           "time": "2026-05-14T07:00:18"
         },
         {
           "role": "user",
-          "text": "needs a website for hotel booking",
+          "text": "needs a AI detection for hotel booking",
           "time": "2026-05-14T07:06:07",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.6702664494514465
         },
         {
           "role": "bot",
-          "text": "EmpowerTech designs beautiful responsive websites using Wix, Squarespace, and .NET Blazor. We handle content, SEO, accessibility, and legal pages too. Do you need a brand new website or an update to an existing one?",
+          "text": "PlagPro designs beautiful responsive AI detections using PlagPro Dashboard, PlagPro API, and PlagPro Web. We handle content, SEO, accessibility, and legal pages too. Do you need a brand new AI detection or an update to an existing one?",
           "time": "2026-05-14T07:06:27"
         },
         {
@@ -2061,7 +2061,7 @@
         },
         {
           "role": "bot",
-          "text": "Hello! Welcome to EmpowerTech LLC! We build apps, design websites, provide consulting, and support law firms with legal tech. How can I help you today?",
+          "text": "Hello! Welcome to PlagPro! We provide plagiarism checking, AI content detection, institutional accounts, and billing support. How can I help you today?",
           "time": "2026-05-14T07:26:26"
         },
         {
@@ -2071,19 +2071,19 @@
         },
         {
           "role": "bot",
-          "text": "Of course! Let me connect you with our Chennai support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-44-XXXX-XXXX.",
+          "text": "Of course! Let me connect you with our Noida support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-120-XXXX-XXXX.",
           "time": "2026-05-14T07:26:28"
         },
         {
           "role": "user",
-          "text": "website developement",
+          "text": "AI detection developement",
           "time": "2026-05-14T07:30:30",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.7052537798881531
         },
         {
           "role": "bot",
-          "text": "Website design is a specialty of ours. We build on Wix for easy maintenance, Squarespace, and .NET Blazor. We help with content, SEO optimization, and accessibility. What kind of website do you need?",
+          "text": "Website design is a specialty of ours. We build on PlagPro Dashboard for easy maintenance, PlagPro API, and PlagPro Web. We help with content, SEO optimization, and accessibility. What kind of AI detection do you need?",
           "time": "2026-05-14T07:30:50"
         }
       ],
@@ -2117,7 +2117,7 @@
         },
         {
           "role": "bot",
-          "text": "Of course! Let me connect you with our Chennai support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-44-XXXX-XXXX.",
+          "text": "Of course! Let me connect you with our Noida support team. Our human agents are available Mon-Fri, 9AM-6PM IST. I am creating a priority ticket for you now. You can also call us at +91-120-XXXX-XXXX.",
           "time": "2026-05-14T07:54:45"
         },
         {
@@ -2129,7 +2129,7 @@
         },
         {
           "role": "user",
-          "text": "app development",
+          "text": "plagiarism check development",
           "time": "2026-05-14T07:59:15",
           "intent": null,
           "confidence": null
@@ -2142,7 +2142,7 @@
           "time": "2026-05-14T07:58:49"
         },
         {
-          "text": "ok sir which type of app development you need",
+          "text": "ok sir which type of plagiarism check development you need",
           "by": "admin",
           "time": "2026-05-14T07:59:53"
         }
@@ -2165,7 +2165,7 @@
         },
         {
           "role": "bot",
-          "text": "Understood! I am flagging your session for our senior support team at EmpowerTech. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-44-XXXX-XXXX",
+          "text": "Understood! I am flagging your session for our senior support team at PlagPro. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-120-XXXX-XXXX",
           "time": "2026-05-15T08:12:10"
         },
         {
@@ -2177,7 +2177,7 @@
         },
         {
           "role": "user",
-          "text": "I wants to know what services are offered by empowertech",
+          "text": "I want to know what services are offered by PlagPro",
           "time": "2026-05-15T08:14:56",
           "intent": null,
           "confidence": null
@@ -2213,7 +2213,7 @@
         },
         {
           "role": "bot",
-          "text": "I understand you would like to speak with a human agent. Our EmpowerTech support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-44-XXXX-XXXX",
+          "text": "I understand you would like to speak with a human agent. Our PlagPro support team is available Monday to Friday, 9 AM to 6 PM IST. I will create an urgent ticket and our team will contact you within 2 hours. Phone: +91-120-XXXX-XXXX",
           "time": "2026-05-15T08:12:18"
         }
       ],
@@ -2231,12 +2231,12 @@
       "messages": [
         {
           "role": "user",
-          "text": "app related",
+          "text": "plagiarism check related",
           "time": "2026-05-16T09:23:33"
         },
         {
           "role": "bot",
-          "text": "EmpowerTech builds apps for Android, iOS, Windows, Mac, Web, and Linux using C#/.NET, Blazor, MAUI, Azure, and Oracle Apex. Whether you just have an idea or an existing app, we would love to help. What platform are you targeting?",
+          "text": "PlagPro builds plagiarism checks for Academic and Professional documents using Advanced Algorithms, PlagPro Web, PlagPro Mobile, Cloud Storage, and Oracle Apex. Whether you just have an idea or an existing plagiarism check, we would love to help. What platform are you targeting?",
           "time": "2026-05-16T09:23:35"
         },
         {
@@ -2246,7 +2246,7 @@
         },
         {
           "role": "bot",
-          "text": "Understood! I am flagging your session for our senior support team at EmpowerTech. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-44-XXXX-XXXX",
+          "text": "Understood! I am flagging your session for our senior support team at PlagPro. Expected response time is 30 to 60 minutes during business hours. Direct line: +91-120-XXXX-XXXX",
           "time": "2026-05-16T09:24:25"
         },
         {

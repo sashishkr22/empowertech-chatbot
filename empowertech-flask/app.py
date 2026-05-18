@@ -17,12 +17,12 @@ app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 # MongoDB Setup
 try:
     client = MongoClient(os.getenv("MONGODB_URI"), serverSelectionTimeoutMS=5000)
-    db = client.get_default_database(default="empowertech")
+    db = client.get_default_database(default="plagpro")
     print(f"✅ Connected to MongoDB: {db.name}")
 except Exception as e:
     print(f"⚠️ MongoDB Warning: {e}")
     client = MongoClient(os.getenv("MONGODB_URI"))
-    db = client["empowertech"]
+    db = client["plagpro"]
 
 tickets_col = db.tickets
 handoffs_col = db.handoffs
@@ -93,7 +93,7 @@ def dashboard():
         }
         
         service_counts = dict(Counter([t.get('service', 'General') for t in tickets]))
-        for s in ['App Development', 'Website Design', 'Consulting', 'Legal Tech Support']:
+        for s in ['Plagiarism Check', 'AI Content Detection', 'Institutional Account', 'Billing & Sales']:
             service_counts.setdefault(s, 0)
 
         top_intents = Counter([t.get('intent') for t in tickets if t.get('intent')]).most_common(6)
@@ -138,7 +138,7 @@ def tickets_page():
                                service_filter=service_filter,
                                priority_filter=priority_filter,
                                all_statuses=['Open', 'In Progress', 'Resolved', 'Closed'],
-                               all_services=['App Development', 'Website Design', 'Consulting', 'Legal Tech Support'],
+                               all_services=['Plagiarism Check', 'AI Content Detection', 'Institutional Account', 'Billing & Sales'],
                                all_priorities=['Low', 'Medium', 'High'])
     except Exception as e:
         return f"Error: {e}", 500

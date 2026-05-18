@@ -74,10 +74,10 @@ const ticketManager = {
         
         let service = "General Support";
         const issue = (data.issue || "").toLowerCase();
-        if (issue.includes("app") || issue.includes("android") || issue.includes("ios")) service = "App Development";
-        else if (issue.includes("web") || issue.includes("site") || issue.includes("design")) service = "Website Design";
-        else if (issue.includes("consult") || issue.includes("help") || issue.includes("advice")) service = "Consulting";
-        else if (issue.includes("legal") || issue.includes("law") || issue.includes("policy")) service = "Legal Tech Support";
+        if (issue.includes("plag") || issue.includes("similarity") || issue.includes("report")) service = "Plagiarism Check";
+        else if (issue.includes("ai") || issue.includes("chatgpt") || issue.includes("bot")) service = "AI Content Detection";
+        else if (issue.includes("university") || issue.includes("college") || issue.includes("institution")) service = "Institutional Account";
+        else if (issue.includes("payment") || issue.includes("buy") || issue.includes("price")) service = "Billing & Sales";
 
         const newTicket = new Ticket({
             id: tId, // Fill both to satisfy indexes
@@ -89,7 +89,7 @@ const ticketManager = {
             subject: (data.issue || "New Request").substring(0, 50) + "...",
             service: service,
             status: "Open",
-            priority: (service === "Legal Tech Support") ? "High" : "Low",
+            priority: (service === "Institutional Account") ? "High" : "Low",
             messages: [{
                 role: 'user',
                 text: data.issue || "No description provided",

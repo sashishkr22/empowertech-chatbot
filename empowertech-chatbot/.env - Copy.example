@@ -1,18 +1,21 @@
 # ============================================
-# EmpowerTech Chatbot - Environment Variables
+# PlagPro Chatbot - Environment Variables
 # ============================================
 # INSTRUCTIONS:
 # 1. Copy this file and rename it to: .env
 # 2. Fill in YOUR values below
 # 3. NEVER share the .env file or upload it to GitHub!
 
-# Your Google Cloud Project ID
-# Find it at: https://console.cloud.google.com
-DIALOGFLOW_PROJECT_ID=your-google-project-id-here
+# Your Google Cloud Project ID (e.g. plagpro-ai-123)
+DIALOGFLOW_PROJECT_ID=your-project-id
 
-# Port the server will run on (3000 is default, don't change unless needed)
+# MongoDB Connection String (Atlas)
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/plagpro
+
+# Port the server will run on (3000 is default)
 PORT=3000
 
-# Company info (customize these)
-COMPANY_NAME=EmpowerTech Solutions
-COMPANY_CITY=Chennai
+# Company info
+COMPANY_NAME=PlagPro
+LOCATION=Noida, India
+

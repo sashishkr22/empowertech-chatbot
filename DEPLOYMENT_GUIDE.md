@@ -1,6 +1,6 @@
-# Beginner's Guide: Deploying EmpowerTech Chatbot to Render & MongoDB
+# Beginner's Guide: Deploying PlagPro Chatbot to Render & MongoDB
 
-This guide explains how to host your AI Chatbot project live using free cloud services.
+This guide explains how to host your Academic Integrity AI Chatbot project live using free cloud services.
 
 ## Prerequisites
 1.  A **GitHub** account.
@@ -47,7 +47,7 @@ This guide explains how to host your AI Chatbot project live using free cloud se
 2.  Click **"New"** -> **"Web Service"**.
 3.  Connect your GitHub repository.
 4.  **Configuration:**
-    *   **Name:** `empowertech-chatbot`
+    *   **Name:** `plagpro-chatbot`
     *   **Root Directory:** `empowertech-chatbot`
     *   **Runtime:** `Node`
     *   **Build Command:** `npm install`
@@ -63,7 +63,7 @@ This guide explains how to host your AI Chatbot project live using free cloud se
 1.  Click **"New"** -> **"Web Service"** again.
 2.  Connect the same GitHub repository.
 3.  **Configuration:**
-    *   **Name:** `empowertech-dashboard`
+    *   **Name:** `plagpro-dashboard`
     *   **Root Directory:** `empowertech-flask`
     *   **Runtime:** `Python`
     *   **Build Command:** `pip install -r requirements.txt` (Make sure you have a requirements.txt file)
@@ -75,9 +75,9 @@ This guide explains how to host your AI Chatbot project live using free cloud se
 ---
 
 ## Step 5: Final Check
-*   Open your Chatbot URL (e.g., `https://empowertech-chatbot.onrender.com`).
+*   Open your Chatbot URL (e.g., `https://plagpro-chatbot.onrender.com`).
 *   Chat with the bot.
 *   Check your MongoDB Atlas dashboard—you should see a `tickets` collection appearing!
 *   Open your Dashboard URL—you should see your chats live in the dashboard.
 
-**Success!** Your MCA project is now professional, secure, and hosted on the cloud.
+**Success!** Your Academic Integrity project is now professional, secure, and hosted on the cloud.

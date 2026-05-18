@@ -1,5 +1,5 @@
 // =============================================
-// dashboard.js — EmpowerTech Admin Dashboard
+// dashboard.js — PlagPro Admin Dashboard
 // Shared JavaScript loaded on every page
 // =============================================
 

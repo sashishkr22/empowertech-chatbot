@@ -1,7 +1,7 @@
 {
-  "name": "empowertech-chatbot",
+  "name": "plagpro-chatbot",
   "version": "1.0.0",
-  "description": "AI-powered customer service chatbot for EmpowerTech Solutions, Chennai - IT Sector",
+  "description": "AI-powered customer service chatbot for PlagPro, Noida - Plagiarism Detection Sector",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
@@ -11,11 +11,11 @@
     "chatbot",
     "dialogflow",
     "customer-service",
-    "IT-support",
+    "plagiarism-detection",
     "AI",
-    "EmpowerTech"
+    "PlagPro"
   ],
-  "author": "EmpowerTech Solutions, Chennai",
+  "author": "PlagPro, Noida",
   "license": "MIT",
   "dependencies": {
     "@google-cloud/dialogflow": "^5.5.0",

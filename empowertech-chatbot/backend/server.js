@@ -87,7 +87,7 @@ app.post('/api/chat', async (req, res) => {
 
     // 2. Normal AI Chat
     const dfResponse = await sendMessageToDialogflow(message, sessionId);
-    let finalReply = dfResponse?.queryResult?.fulfillmentText || "I'm here to help!";
+    let finalReply = dfResponse?.queryResult?.fulfillmentText || "I'm PlagPro AI, how can I help?";
     let finalIntent = dfResponse?.queryResult?.intent?.displayName || "Default Fallback Intent";
     
     if (finalIntent === 'Default Fallback Intent') {
@@ -144,4 +144,4 @@ app.get('/api/ticket/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🤖 Chatbot running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🛡️ PlagPro AI Bot running on port ${PORT}`));

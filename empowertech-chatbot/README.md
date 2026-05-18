@@ -1,7 +1,7 @@
-# 🤖 EmpowerTech Solutions – AI Chatbot for Customer Service
-### Chennai, Tamil Nadu | Information Technology Sector
+# 🛡️ PlagPro – AI-Powered Plagiarism & AI Content Detection
+### Noida, Uttar Pradesh | Academic Integrity & EdTech Sector
 
-> An AI-powered customer service chatbot built with **Google Dialogflow** + **Node.js** backend + **HTML/CSS/JS** frontend. Handles IT support tickets, technical queries, and user interactions 24/7.
+> An advanced AI-powered chatbot for **PlagPro**, an industry leader in plagiarism detection and AI content verification. Built with **Google Dialogflow** + **Node.js** backend + **HTML/CSS/JS** frontend.
 
 ---
 
@@ -20,11 +20,12 @@
 
 ## 📖 Project Overview
 
-**EmpowerTech Solutions** is a Chennai-based IT company. This chatbot:
-- Handles **technical support queries** (Wi-Fi issues, software errors, hardware problems)
-- Creates and tracks **support tickets** automatically
-- Provides **24/7 customer service** without human agents
-- Escalates complex issues to **human agents** when needed
+**PlagPro** is a Noida-based EdTech company specializing in academic integrity. This chatbot:
+- Handles **plagiarism check queries** (similarity reports, source identification)
+- Detects **AI-generated content** (ChatGPT, Gemini, etc.)
+- Manages **Institutional & University accounts**
+- Creates and tracks **support tickets** for similarity report issues
+- Escalates complex academic queries to **human integrity experts**
 
 ---
 
@@ -32,24 +33,24 @@
 
 | Feature | Description |
 |---|---|
-| 🎯 Intent Detection | Understands what the user wants using Dialogflow NLP |
-| 🎫 Ticket Creation | Automatically creates support tickets |
-| 📋 Ticket Status | Users can check their ticket status by ID |
-| 🔧 Technical FAQs | Answers common IT questions instantly |
-| 👤 Human Handoff | Escalates to human agent when bot can't help |
-| 📱 Responsive UI | Works on mobile and desktop |
-| 💬 Chat History | Stores conversation in session |
+| 🔍 Plagiarism Check | Guidance on scanning documents against billions of sources |
+| 🤖 AI Detection | Verifying if content is human or AI-generated |
+| 🎫 Report Support | Help with understanding similarity percentages |
+| 🏛️ Institutional Sales | Onboarding for universities and colleges |
+| 👤 Expert Handoff | Escalates to human support for complex cases |
+| 📱 Modern UI | Responsive, theme-aware dashboard for users |
 
 ---
 
 ## 🛠 Tech Stack
 
 ```
-Frontend  → HTML5, CSS3, JavaScript (Vanilla)
+Frontend  → HTML5, CSS3, JavaScript (Vanilla) + Modern Glassmorphism UI
 Backend   → Node.js + Express.js
-AI/NLP    → Google Dialogflow ES (Essentials)
-Database  → JSON file (beginner-friendly, no SQL needed)
-Hosting   → GitHub + Render.com (free)
+Admin     → Python Flask (Support Dashboard)
+AI/NLP    → Google Dialogflow ES
+Database  → MongoDB (Atlas)
+Hosting   → Render.com
 ```
 
 ---
@@ -57,38 +58,24 @@ Hosting   → GitHub + Render.com (free)
 ## 📁 Project Structure
 
 ```
-empowertech-chatbot/
+empowertech-chatbot/           # Main Chatbot Application
 │
 ├── frontend/                    # User interface files
 │   ├── index.html               # Main chat page
-│   ├── css/
-│   │   └── style.css            # All styling
-│   └── js/
-│       └── chat.js              # Chat logic (send/receive messages)
+│   ├── css/style.css            # Modern styling
+│   └── js/chat.js               # Chat logic
 │
 ├── backend/                     # Server files
 │   ├── server.js                # Main Express server
 │   ├── dialogflow.js            # Dialogflow API connection
-│   ├── ticketManager.js         # Create/read support tickets
-│   └── tickets.json             # Ticket database (JSON file)
+│   ├── ticketManager.js         # Mongoose-based ticket logic
 │
 ├── dialogflow/                  # Dialogflow export files
-│   ├── intents/                 # What users say → what bot replies
-│   │   ├── Default Welcome Intent.json
-│   │   ├── TechnicalSupport.json
-│   │   ├── CreateTicket.json
-│   │   ├── CheckTicketStatus.json
-│   │   └── HumanHandoff.json
-│   └── entities/                # Custom word lists
-│       └── issue-type.json
+│   ├── intents/                 # AI training data
 │
-├── docs/
-│   └── setup-guide.md           # Extra help for beginners
-│
-├── .env.example                 # Environment variable template
-├── .gitignore                   # Files NOT to upload to GitHub
-├── package.json                 # Node.js project config
-└── README.md                    # This file!
+├── empowertech-flask/           # Admin Support Dashboard
+│   ├── app.py                   # Flask server
+│   └── templates/               # HTML for support team
 ```
 
 ---
@@ -97,165 +84,74 @@ empowertech-chatbot/
 
 ### STEP 1: Install Required Software
 
-**A) Install Node.js**
-1. Go to: https://nodejs.org
-2. Download the **LTS version** (recommended for beginners)
-3. Install it (just click Next → Next → Finish)
-4. Verify: Open Command Prompt/Terminal and type:
-   ```bash
-   node --version
-   # Should show: v18.x.x or higher
-   ```
-
-**B) Install Git**
-1. Go to: https://git-scm.com/downloads
-2. Download and install Git
-3. Verify:
-   ```bash
-   git --version
-   # Should show: git version 2.x.x
-   ```
-
-**C) Install VS Code (Code Editor)**
-1. Go to: https://code.visualstudio.com
-2. Download and install it (free)
+**A) Install Node.js & Python**
+1. Install Node.js (LTS) from https://nodejs.org
+2. Install Python 3.10+ from https://python.org
 
 ---
 
 ### STEP 2: Set Up Google Dialogflow
 
 1. **Go to:** https://dialogflow.cloud.google.com
-2. **Sign in** with your Google account
-3. Click **"Create Agent"**
-4. Fill in:
-   - Agent Name: `EmpowerTech-Support-Bot`
-   - Default Language: `English`
-   - Default Time Zone: `Asia/Kolkata`
-5. Click **"Create"**
-
-**Create a Service Account (to connect your code to Dialogflow):**
-1. Go to: https://console.cloud.google.com
-2. Select your project (same as Dialogflow)
-3. Go to: **IAM & Admin → Service Accounts**
-4. Click **"Create Service Account"**
-5. Name it: `dialogflow-bot`
-6. Role: Select **"Dialogflow API Client"**
-7. Click **"Done"**
-8. Click on the service account → **Keys → Add Key → JSON**
-9. A file will download — rename it to `serviceAccount.json`
-10. Put this file inside the `backend/` folder
+2. Create Agent: `PlagPro-AI-Bot`
+3. Download Service Account JSON and rename to `serviceAccount.json`
+4. Place it in `empowertech-chatbot/backend/`
 
 ---
 
-### STEP 3: Download This Project
+### STEP 3: Database Setup (MongoDB)
 
-```bash
-# Open Terminal/Command Prompt and run:
-git clone https://github.com/YOUR-USERNAME/empowertech-chatbot.git
-cd empowertech-chatbot
-```
-
-Or download the ZIP from GitHub and extract it.
+1. Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Get your connection string.
+3. Add it to your `.env` file.
 
 ---
 
-### STEP 4: Install Dependencies
+### STEP 4: Configuration
 
-```bash
-# Inside the project folder, run:
-npm install
-```
-
-This installs all required packages automatically.
-
----
-
-### STEP 5: Configure Environment Variables
-
-1. Copy the example file:
-   ```bash
-   cp .env.example .env
+1. **Chatbot (.env):**
    ```
-2. Open `.env` in VS Code and fill in:
-   ```
-   DIALOGFLOW_PROJECT_ID=your-google-project-id
+   DIALOGFLOW_PROJECT_ID=plagpro-project-id
+   MONGODB_URI=your-mongodb-string
    PORT=3000
    ```
-
-> ⚠️ Never upload `.env` or `serviceAccount.json` to GitHub! They are already in `.gitignore`.
-
----
-
-### STEP 6: Set Up Intents in Dialogflow
-
-Inside the `dialogflow/intents/` folder, you'll find JSON files.
-Import them into Dialogflow:
-1. In Dialogflow Console → Click the ⚙️ gear icon (Settings)
-2. Click **"Export and Import"**
-3. Click **"Import from ZIP"** → upload the `dialogflow-export.zip`
-
-OR create manually (see [Dialogflow Configuration](#dialogflow-configuration) below).
+2. **Dashboard (.env in flask folder):**
+   ```
+   MONGODB_URI=your-mongodb-string
+   SECRET_KEY=your-secret
+   ```
 
 ---
 
 ## 🧠 Dialogflow Configuration
 
-### What is an "Intent"?
-An intent = what the user MEANS when they type something.
-Example: If user types "my laptop won't start" → Intent = `TechnicalSupport`
+### Intents for PlagPro:
 
-### Intents We've Created:
-
-| Intent Name | Example User Says | Bot Replies |
+| Intent Name | User Says | Bot Response |
 |---|---|---|
-| `Default Welcome Intent` | "Hi", "Hello", "Hey" | Welcome message |
-| `TechnicalSupport` | "My internet is down", "Software crash" | Asks for details |
-| `CreateTicket` | "Create a ticket", "Log my issue" | Creates ticket, gives ID |
-| `CheckTicketStatus` | "Check ticket #1234" | Shows ticket status |
-| `HumanHandoff` | "Talk to agent", "I need human help" | Connects to agent |
+| `PlagiarismCheck` | "How to check my paper?" | Instructions for scanning |
+| `AIDetection` | "Can you detect ChatGPT?" | Explains AI detection tools |
+| `Institutional` | "Pricing for my college" | Institutional account info |
+| `HumanHandoff` | "I need to talk to a person" | Escalation form |
 
 ---
 
 ## ▶️ Running the Project
 
 ```bash
-# Start the server
+# 1. Start the Chatbot (Node.js)
+cd empowertech-chatbot
+npm install
 npm start
 
-# You should see:
-# ✅ EmpowerTech Chatbot Server running on http://localhost:3000
-```
-
-Open your browser and go to: **http://localhost:3000**
-
----
-
-## 📤 Deploying to GitHub
-
-```bash
-# Step 1: Initialize git (if not already done)
-git init
-
-# Step 2: Add all files
-git add .
-
-# Step 3: Save your changes
-git commit -m "Initial commit - EmpowerTech AI Chatbot"
-
-# Step 4: Connect to GitHub (create repo on github.com first)
-git remote add origin https://github.com/YOUR-USERNAME/empowertech-chatbot.git
-
-# Step 5: Upload to GitHub
-git push -u origin main
+# 2. Start the Dashboard (Python)
+cd empowertech-flask
+pip install -r requirements.txt
+python app.py
 ```
 
 ---
 
 ## 👥 Team
-**EmpowerTech Solutions** – Chennai, Tamil Nadu, India
-Built with ❤️ using Google Dialogflow + Node.js
-
----
-
-## 📄 License
-MIT License – Free to use and modify
+**PlagPro** – Bhutani Cyberpark, Sector-62, Noida, India
+Built with ❤️ for Academic Integrity

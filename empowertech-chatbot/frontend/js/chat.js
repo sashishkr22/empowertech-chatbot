@@ -26,7 +26,7 @@ async function checkAdminReplies() {
       data.replies.forEach(reply => {
         if (!lastSeenAdminReplyTime || reply.time > lastSeenAdminReplyTime) {
           lastSeenAdminReplyTime = reply.time;
-          const adminText = `🛡️ **Support Executive (${reply.by}):**\n\n${reply.text}`;
+          const adminText = `🛡️ **Integrity Expert (${reply.by}):**\n\n${reply.text}`;
           addMessage(adminText, 'bot');
         }
       });
@@ -74,16 +74,16 @@ function startTicketFlow(type = 'ticket') {
   if (mainInput) mainInput.disabled = true;
   if (mainSend) mainSend.disabled = true;
   
-  const title = type === 'handoff' ? "Talk to Human Expert" : "Create Support Ticket";
-  const buttonText = type === 'handoff' ? "Request Handoff" : "Create Ticket";
-  const placeholder = type === 'handoff' ? "Briefly describe what you'd like to discuss..." : "Describe your issue or query in detail...";
+  const title = type === 'handoff' ? "Consult Integrity Expert" : "Request Similarity Report Support";
+  const buttonText = type === 'handoff' ? "Request Consultation" : "Submit Request";
+  const placeholder = type === 'handoff' ? "Briefly describe your academic query..." : "Explain the issue with your similarity report (e.g., false positive, missing source)...";
 
   const formHtml = `
     <div class="ticket-form-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: var(--text-main); box-shadow: var(--shadow);">
       <h3 style="margin-bottom: 12px; color: var(--primary); font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">${title}</h3>
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="text" id="form-name" placeholder="Your Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
-        <input type="text" id="form-contact" placeholder="Mobile No. or Email" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
+        <input type="text" id="form-name" placeholder="Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
+        <input type="text" id="form-contact" placeholder="Email or University ID" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
         <textarea id="form-query" placeholder="${placeholder}" rows="3" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px; resize: none;"></textarea>
         <div style="display: flex; gap: 8px;">
             <button onclick="submitTicketForm()" id="btn-submit-form" style="flex: 1; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">${buttonText}</button>
@@ -196,7 +196,7 @@ function addMessage(text, type, ticket = null, isRaw = false) {
   const container = document.getElementById('messagesContainer');
   const messageDiv = document.createElement('div');
   messageDiv.className = `msg-wrapper ${type}-msg`;
-  const avatarEmoji = type === 'bot' ? '🤖' : '👤';
+  const avatarEmoji = type === 'bot' ? '🛡️' : '👤';
   messageDiv.innerHTML = `<div class="msg-avatar">${avatarEmoji}</div><div class="msg-bubble">${isRaw ? text : formatMessage(text)}${ticket ? createTicketCard(ticket) : ''}<span class="msg-time">${getCurrentTime()}</span></div>`;
   container.appendChild(messageDiv);
   scrollToBottom();
@@ -208,7 +208,7 @@ function formatMessage(text) {
 }
 
 function createTicketCard(ticket) {
-  return `<div class="ticket-created-card" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px; margin-top: 10px;"><p style="font-size: 12px; color: #166534; margin-bottom: 4px;">✅ <strong>Support Ticket Created!</strong></p><p style="font-weight: 700; font-size: 16px; color: #15803d;">#${ticket.id}</p><p style="font-size: 11px; margin-top: 4px;">Status: <strong>${ticket.status || 'Open'}</strong></p></div>`;
+  return `<div class="ticket-created-card" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px; margin-top: 10px;"><p style="font-size: 12px; color: #166534; margin-bottom: 4px;">✅ <strong>Support Request Logged!</strong></p><p style="font-weight: 700; font-size: 16px; color: #15803d;">#${ticket.id}</p><p style="font-size: 11px; margin-top: 4px;">Status: <strong>${ticket.status || 'Open'}</strong></p></div>`;
 }
 
 async function checkTicketStatus() {

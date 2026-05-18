@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Tickets — EmpowerTech Admin{% endblock %}
+{% block title %}Tickets — PlagPro Admin{% endblock %}
 
 {% block content %}
 
@@ -118,13 +118,13 @@
 
         <td style="padding: 16px;">
           {% set svc_icons = {
-            'App Development':    '📱',
-            'Website Design':     '🌐',
-            'Consulting':         '💼',
-            'Legal Tech Support': '⚖️'
+            'Plagiarism Check':    '🔍',
+            'AI Content Detection': '🤖',
+            'Institutional Account': '🏛️',
+            'Billing & Sales':      '💳'
           } %}
           <span class="service-tag" style="font-size: 12px; color: var(--text);">
-            {{ svc_icons.get(t.service, '🔧') }} {{ t.service }}
+            {{ svc_icons.get(t.service, '🛡️') }} {{ t.service }}
           </span>
         </td>
 

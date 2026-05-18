@@ -1,6 +1,6 @@
 [
   {
-    "ticketId": "EMP-1001",
+    "ticketId": "PLG-1001",
     "status": "closed",
     "priority": "Low",
     "issueType": "General",
@@ -13,12 +13,12 @@
       {
         "time": "2026-04-29T14:15:40.401Z",
         "message": "Ticket created via AI Chatbot",
-        "by": "EmpowerTech Bot"
+        "by": "PlagPro Bot"
       }
     ]
   },
   {
-    "ticketId": "EMP-1002",
+    "ticketId": "PLG-1002",
     "status": "Open",
     "priority": "Low",
     "issueType": "General",
@@ -31,12 +31,12 @@
       {
         "time": "2026-04-29T15:52:46.014Z",
         "message": "Ticket created via AI Chatbot",
-        "by": "EmpowerTech Bot"
+        "by": "PlagPro Bot"
       }
     ]
   },
   {
-    "ticketId": "EMP-1003",
+    "ticketId": "PLG-1003",
     "status": "Open",
     "priority": "Low",
     "issueType": "General",
@@ -49,7 +49,7 @@
       {
         "time": "2026-05-01T02:06:49.195Z",
         "message": "Ticket created via AI Chatbot",
-        "by": "EmpowerTech Bot"
+        "by": "PlagPro Bot"
       }
     ]
   }

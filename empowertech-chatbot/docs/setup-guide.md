@@ -1,5 +1,5 @@
-# 📘 EmpowerTech Chatbot – Detailed Setup Guide for Beginners
-## Chennai IT Support AI Chatbot
+# 📘 PlagPro Chatbot – Detailed Setup Guide for Beginners
+## Noida Academic Integrity AI Chatbot
 
 ---
 
@@ -20,7 +20,7 @@ DIALOGFLOW (Google AI)
   → Returns a reply
         ↓
 BACKEND
-  → If ticket needed, creates one in tickets.json
+  → If support request needed, creates one in MongoDB
   → Sends reply back to frontend
         ↓
 FRONTEND
@@ -35,8 +35,7 @@ FRONTEND
 |------|-------------|-------------------|
 | `backend/server.js` | The main server that runs everything | No (unless customizing) |
 | `backend/dialogflow.js` | Connects to Google Dialogflow AI | Add your service account |
-| `backend/ticketManager.js` | Creates and stores support tickets | No |
-| `backend/tickets.json` | Database file storing all tickets | No (auto-managed) |
+| `backend/ticketManager.js` | Creates and stores support requests | No |
 | `frontend/index.html` | The chat webpage users see | Yes (customize text) |
 | `frontend/css/style.css` | How the page looks (colors, layout) | Yes (customize colors) |
 | `frontend/js/chat.js` | Makes the chat work (send/receive) | No (unless adding features) |
@@ -51,9 +50,9 @@ FRONTEND
 1. Go to: https://console.cloud.google.com
 2. Click "Select a Project" at the top
 3. Click "NEW PROJECT"
-4. Name: `empowertech-chatbot`
+4. Name: `plagpro-chatbot`
 5. Click "Create"
-6. **Copy the Project ID** (looks like: `empowertech-chatbot-123456`)
+6. **Copy the Project ID** (looks like: `plagpro-chatbot-123456`)
 
 ### Step 2: Enable Dialogflow API
 1. In Google Cloud Console, go to "APIs & Services"
@@ -115,10 +114,10 @@ npm start
 # Open http://localhost:3000
 # Try these messages:
 # 1. "Hello"
-# 2. "My WiFi is not working"
-# 3. "Create a support ticket"
-# 4. "Check ticket EMP-1001"
-# 5. "I want to talk to a human"
+# 2. "How can I check for plagiarism?"
+# 3. "Can you detect AI content?"
+# 4. "I need an institutional account"
+# 5. "I want to talk to an integrity expert"
 ```
 
 ---
@@ -153,7 +152,7 @@ npm start
 # 2. Create a new repository:
 #    - Go to github.com
 #    - Click "+" → "New repository"
-#    - Name: empowertech-chatbot
+#    - Name: plagpro-chatbot
 #    - Set to Public
 #    - DON'T check "Initialize with README" (we already have one)
 #    - Click "Create repository"
@@ -167,10 +166,10 @@ git init
 git add .
 
 # 6. Make first commit
-git commit -m "🚀 Initial commit: EmpowerTech AI Chatbot"
+git commit -m "🚀 Initial commit: PlagPro AI Chatbot"
 
 # 7. Connect to GitHub (replace YOUR-USERNAME with your GitHub username)
-git remote add origin https://github.com/YOUR-USERNAME/empowertech-chatbot.git
+git remote add origin https://github.com/YOUR-USERNAME/plagpro-chatbot.git
 
 # 8. Set main branch
 git branch -M main
@@ -178,7 +177,7 @@ git branch -M main
 # 9. Push to GitHub
 git push -u origin main
 
-# Done! Visit https://github.com/YOUR-USERNAME/empowertech-chatbot to see your code
+# Done! Visit https://github.com/YOUR-USERNAME/plagpro-chatbot to see your code
 ```
 
 ---
@@ -187,19 +186,19 @@ git push -u origin main
 
 The more examples you add, the smarter the bot becomes!
 
-**For TechnicalSupport intent, add phrases like:**
-- "My computer won't turn on"
-- "I'm getting a blue screen error"
-- "The application is freezing"
-- "I can't access the shared drive"
-- "My VPN is not connecting"
-- "The database is not responding"
+**For PlagiarismCheck intent, add phrases like:**
+- "How to scan my thesis?"
+- "I need a similarity report"
+- "Is my paper original?"
+- "Check for plagiarism"
+- "How do I upload a document?"
+- "What is the similarity limit?"
 
-**For CreateTicket, add phrases like:**
-- "Please log this issue"
-- "I need this fixed urgently"
-- "Can you raise a ticket for me"
-- "Submit this as an IT request"
+**For HumanHandoff, add phrases like:**
+- "I need to talk to a person"
+- "Talk to an integrity expert"
+- "Can I speak with support?"
+- "I have a complex query"
 
 ---
 
@@ -221,4 +220,4 @@ The more examples you add, the smarter the bot becomes!
 - Express.js Docs: https://expressjs.com
 
 ---
-*EmpowerTech Solutions, Chennai – AI-Powered IT Support*
+*PlagPro, Noida – Advanced Academic Integrity AI*

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Overview — EmpowerTech Admin{% endblock %}
+{% block title %}Overview — PlagPro Admin{% endblock %}
 
 {% block content %}
 
@@ -8,8 +8,8 @@
 ════════════════════════════════════════════ -->
 <div class="page-header">
   <div>
-    <h1 class="page-title">📊 Analytics Dashboard</h1>
-    <p class="page-sub">Real-time AI Chatbot & Customer Support Insights</p>
+    <h1 class="page-title">📊 PlagPro Analytics</h1>
+    <p class="page-sub">Real-time Academic Integrity & Support Insights</p>
   </div>
   <a href="{{ url_for('tickets_page') }}" class="btn-primary">
     <span>Manage All Tickets</span>
@@ -84,10 +84,10 @@
       <span class="msg-count">By Volume</span>
     </div>
     {% set service_colors = {
-      'App Development':    'var(--primary)',
-      'Website Design':     'var(--blue)',
-      'Consulting':         'var(--yellow)',
-      'Legal Tech Support': 'var(--green)'
+      'Plagiarism Check':    'var(--primary)',
+      'AI Content Detection': 'var(--blue)',
+      'Institutional Account': 'var(--yellow)',
+      'Billing & Sales':      'var(--green)'
     } %}
     {% set total_t = stats.total if stats.total > 0 else 1 %}
     {% for service, count in service_counts.items() %}

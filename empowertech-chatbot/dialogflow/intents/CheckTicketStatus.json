@@ -10,9 +10,9 @@
           "type": 0,
           "lang": "en",
           "speech": [
-            "I'll look up your ticket status right away! Please provide your ticket number (format: EMP-XXXX) and I'll fetch the latest update.",
-            "Sure! To check your ticket status, please share your ticket ID (e.g., EMP-1001). You received this when the ticket was created.",
-            "Let me check that for you! What's your EmpowerTech ticket number? It should look like EMP-1001."
+            "I'll look up your ticket status right away! Please provide your ticket number (format: PLG-XXXX) and I'll fetch the latest update.",
+            "Sure! To check your ticket status, please share your ticket ID (e.g., PLG-1001). You received this when the ticket was created.",
+            "Let me check that for you! What's your PlagPro ticket number? It should look like PLG-1001."
           ]
         }
       ]
@@ -27,7 +27,7 @@
       "dataType": "@sys.any",
       "value": "$ticket-number",
       "prompts": [
-        "Please provide your EmpowerTech ticket number (e.g., EMP-1001)."
+        "Please provide your PlagPro ticket number (e.g., PLG-1001)."
       ],
       "isList": false
     }

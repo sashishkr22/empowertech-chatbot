@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EmpowerTech Support – AI Assistant</title>
+  <title>PlagPro AI – Advanced Plagiarism & AI Content Detection</title>
   <link rel="stylesheet" href="css/style.css" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,10 +14,10 @@
   <header class="support-header">
     <div class="header-container">
       <div class="brand">
-        <span class="brand-icon">⚡</span>
+        <span class="brand-icon">🛡️</span>
         <div class="brand-text">
-          <h1>EmpowerTech Solutions</h1>
-          <p>Chennai, India • 24/7 AI Support</p>
+          <h1>PlagPro</h1>
+          <p>Noida, India • Academic Integrity AI</p>
         </div>
       </div>
       <div class="system-status">
@@ -37,29 +37,29 @@
     <!-- LEFT: ACTION HUB -->
     <aside class="action-hub">
       <div class="hub-section">
-        <h2 class="section-title">What do you need help with?</h2>
+        <h2 class="section-title">How can we help you today?</h2>
         <div class="intent-cards">
           <button class="intent-card" onclick="startTicketFlow()">
-            <span class="intent-icon">🎫</span>
+            <span class="intent-icon">📄</span>
             <div class="intent-info">
-              <h3>Create Ticket</h3>
-              <p>Log a new issue for our team</p>
+              <h3>Check Plagiarism</h3>
+              <p>Scan your document for matches</p>
             </div>
           </button>
 
           <button class="intent-card highlight" onclick="toggleStatusInput()">
             <span class="intent-icon">📋</span>
             <div class="intent-info">
-              <h3>Check Status</h3>
-              <p>Track your existing ticket</p>
+              <h3>Track Report</h3>
+              <p>Check your similarity report status</p>
             </div>
           </button>
 
-          <button class="intent-card" onclick="sendQuickMessage('I need to speak with a human agent')">
-            <span class="intent-icon">👤</span>
+          <button class="intent-card" onclick="sendQuickMessage('I want to talk to an integrity expert')">
+            <span class="intent-icon">🎓</span>
             <div class="intent-info">
-              <h3>Talk to Human</h3>
-              <p>Connect with a person</p>
+              <h3>Expert Help</h3>
+              <p>Speak with an integrity specialist</p>
             </div>
           </button>
         </div>
@@ -100,10 +100,10 @@
           
           <!-- Welcome Message -->
           <div class="msg-wrapper bot-msg">
-            <div class="msg-avatar">🤖</div>
+            <div class="msg-avatar">🛡️</div>
             <div class="msg-bubble">
-              <p><strong>Hello! I'm TechBot.</strong></p>
-              <p>I'm your EmpowerTech AI assistant. You can use the buttons on the left or type your message below to get started.</p>
+              <p><strong>Hello! I'm PlagPro AI.</strong></p>
+              <p>Welcome to PlagPro Noida. I'm here to help you with plagiarism checks, similarity reports, and AI content detection. How can I assist you today?</p>
               <span class="msg-time" id="welcomeTime"></span>
             </div>
           </div>
@@ -115,7 +115,7 @@
           <div class="typing-bubble">
             <span></span><span></span><span></span>
           </div>
-          <span class="typing-text">TechBot is typing...</span>
+          <span class="typing-text">PlagPro AI is typing...</span>
         </div>
 
         <!-- Input Box Area -->
@@ -123,7 +123,7 @@
           <div class="input-container">
             <textarea 
               id="userInput" 
-              placeholder="Describe your issue or ask a question..." 
+              placeholder="Describe your query or ask about plagiarism checks..." 
               rows="1"
               oninput="autoResize(this)"
               onkeydown="handleKeyPress(event)"
@@ -135,7 +135,7 @@
           </div>
           <div class="interaction-footer">
             <span id="charCount">0/500</span>
-            <p>EmpowerTech Solutions • IT Support Specialist</p>
+            <p>PlagPro Noida • Academic Integrity AI Specialist</p>
           </div>
         </div>
       </div>

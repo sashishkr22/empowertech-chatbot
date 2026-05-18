@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ ticket.id }} — EmpowerTech Admin{% endblock %}
+{% block title %}{{ ticket.id }} — PlagPro Admin{% endblock %}
 
 {% block content %}
 
@@ -96,7 +96,7 @@
         <div class="chat-msg chat-{{ msg.role }}">
 
           <div class="chat-avatar">
-            {{ '👤' if msg.role == 'user' else '🤖' }}
+            {{ '👤' if msg.role == 'user' else '🛡️' }}
           </div>
 
           <div class="chat-bubble-wrap">
@@ -329,10 +329,11 @@ async function pollForLiveUpdates() {
         const div = document.createElement('div');
         div.className = `chat-msg chat-${msg.role}`;
         div.innerHTML = `
-          <div class="chat-avatar">${msg.role === 'user' ? '👤' : '🤖'}</div>
+          <div class="chat-avatar">${msg.role === 'user' ? '👤' : '🛡️'}</div>
           <div class="chat-bubble-wrap">
             <div class="chat-bubble">${msg.text}</div>
             <div class="chat-meta">
+
               ${msg.intent ? `<span class="intent-pill small">${msg.intent}</span>` : ''}
               <span class="chat-time">${msg.time.slice(11, 16)}</span>
             </div>

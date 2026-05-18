@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Talk to User: {{ handoff.id }} — EmpowerTech Admin{% endblock %}
+{% block title %}Consultation: {{ handoff.id }} — PlagPro Admin{% endblock %}
 
 {% block content %}
 
@@ -58,7 +58,7 @@
       {% for msg in all_messages %}
         <div class="chat-msg chat-{{ 'user' if msg.role == 'user' else 'bot' if msg.role == 'bot' else 'admin-reply' }}">
           <div class="chat-avatar">
-            {{ '👤' if msg.role == 'user' else '🤖' if msg.role == 'bot' else '🛡️' }}
+            {{ '👤' if msg.role == 'user' else '🛡️' if msg.role == 'bot' else '🛡️' }}
           </div>
           <div class="chat-bubble-wrap">
             <div class="chat-bubble {{ 'admin-bubble' if msg.role == 'admin' else '' }}">{{ msg.text }}</div>
@@ -182,7 +182,7 @@ function renderMessages(messages) {
     let html = '';
     messages.forEach(msg => {
         const roleClass = msg.role === 'user' ? 'user' : (msg.role === 'bot' ? 'bot' : 'admin-reply');
-        const avatar = msg.role === 'user' ? '👤' : (msg.role === 'bot' ? '🤖' : '🛡️');
+        const avatar = msg.role === 'user' ? '👤' : (msg.role === 'bot' ? '🛡️' : '🛡️');
         const bubbleClass = msg.role === 'admin' ? 'admin-bubble' : '';
         
         html += `

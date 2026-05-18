@@ -1,12 +1,12 @@
 {
   "tickets": [
     {
-      "id": "EMP-1001",
+      "id": "PLG-1001",
       "session_id": "S-1001",
       "user_name": "James Carter",
       "user_email": "james@example.com",
-      "subject": "Need an Android + iOS app for our logistics company",
-      "service": "App Development",
+      "subject": "Need plagiarism check for our university",
+      "service": "Plagiarism Check",
       "intent": "AppDevelopment.Inquiry",
       "status": "Open",
       "priority": "High",
@@ -17,26 +17,26 @@
       "messages": [
         {
           "role": "user",
-          "text": "Hi, I need to build a mobile app for our logistics company.",
+          "text": "Hi, I need to implement plagiarism checking for our logistics company.",
           "time": "2025-04-28T09:15:00",
           "intent": "Default Welcome Intent",
           "confidence": 0.97
         },
         {
           "role": "bot",
-          "text": "Welcome to EmpowerTech! We build apps for Android, iOS, Windows, Mac, Web, and Linux using C#/.NET, Blazor, MAUI, and Azure. What platform are you targeting?",
+          "text": "Welcome to PlagPro! We provide professional plagiarism checking services for academic and professional documents. Which type of document are you checking?",
           "time": "2025-04-28T09:15:03"
         },
         {
           "role": "user",
-          "text": "We need both Android and iOS with real-time tracking.",
+          "text": "We need to check 500+ papers for original content.",
           "time": "2025-04-28T09:16:10",
           "intent": "AppDevelopment.Inquiry",
           "confidence": 0.94
         },
         {
           "role": "bot",
-          "text": "We build cross-platform apps using .NET MAUI which targets both Android and iOS from one codebase. Want to get in touch to discuss your project?",
+          "text": "We use advanced algorithms to detect copied content and provide detailed reports. Want to get in touch to discuss your requirements?",
           "time": "2025-04-28T09:16:12"
         },
         {
@@ -48,19 +48,19 @@
         },
         {
           "role": "bot",
-          "text": "We provide custom estimates based on your scope. Contact us at contact@empowertech.solutions for a free estimate!",
+          "text": "We provide custom estimates based on your scope. Contact us at support@plagpro.com for a free estimate!",
           "time": "2025-04-28T09:17:32"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1002",
+      "id": "PLG-1002",
       "session_id": "S-1002",
       "user_name": "Sarah Mitchell",
       "user_email": "sarah@lawfirm.com",
-      "subject": "SmartAdvocate document automation setup",
-      "service": "Legal Tech Support",
+      "subject": "Institutional billing setup inquiry",
+      "service": "Billing & Sales",
       "intent": "LegalTech.DocumentAutomation",
       "status": "Closed",
       "priority": "Medium",
@@ -69,7 +69,7 @@
       "updated_at": "2026-05-01T07:31:41",
       "admin_notes": [
         {
-          "note": "Spoke to Sarah on the phone. She has 15 SmartAdvocate templates to automate.",
+          "note": "Spoke to Sarah on the phone. She needs to set up institutional billing for 15 departments.",
           "by": "admin",
           "time": "2025-04-28T10:00:00"
         },
@@ -82,26 +82,26 @@
       "messages": [
         {
           "role": "user",
-          "text": "Hello, we are a law firm and need help with SmartAdvocate.",
+          "text": "Hello, we are a university and need help with billing.",
           "time": "2025-04-27T14:30:00",
           "intent": "LegalTech.Inquiry",
           "confidence": 0.95
         },
         {
           "role": "bot",
-          "text": "We provide legal tech support for law offices including SmartAdvocate document automation. Which service interests you?",
+          "text": "We assist with billing inquiries and enterprise sales for PlagPro. Are you looking for a quote or have a question about an invoice?",
           "time": "2025-04-27T14:30:02"
         },
         {
           "role": "user",
-          "text": "We want to automate our document templates.",
+          "text": "We want to set up an institutional account.",
           "time": "2025-04-27T14:31:00",
           "intent": "LegalTech.DocumentAutomation",
           "confidence": 0.93
         },
         {
           "role": "bot",
-          "text": "We configure SmartAdvocate templates so data auto-populates into documents \u00e2\u20ac\u201d saving your team hours weekly. Want to schedule a call?",
+          "text": "We configure Institutional Billing templates so data auto-populates into documents \u00e2\u20ac\u201d saving your team hours weekly. Want to schedule a call?",
           "time": "2025-04-27T14:31:03"
         },
         {
@@ -114,19 +114,19 @@
       ],
       "manual_replies": [
         {
-          "text": "Hi Sarah, thanks for reaching out! I have noted your requirement. Our team will contact you within 24 hours to schedule the SmartAdvocate setup call.",
+          "text": "Hi Sarah, thanks for reaching out! I have noted your requirement. Our team will contact you within 24 hours to schedule the institutional billing setup call.",
           "by": "admin",
           "time": "2025-04-28T10:05:00"
         }
       ]
     },
     {
-      "id": "EMP-1003",
+      "id": "PLG-1003",
       "session_id": "S-1003",
       "user_name": "David Chen",
       "user_email": "david@startup.io",
-      "subject": "Website design for our SaaS startup",
-      "service": "Website Design",
+      "subject": "AI content detection for our publishing house",
+      "service": "AI Content Detection",
       "intent": "WebsiteDesign.Inquiry",
       "status": "Resolved",
       "priority": "Medium",
@@ -135,7 +135,7 @@
       "updated_at": "2025-04-27T16:00:00",
       "admin_notes": [
         {
-          "note": "Client chose Wix. Project kicked off. Design mockups sent via email.",
+          "note": "Client chose PlagPro Dashboard. Project kicked off. Design mockups sent via email.",
           "by": "admin",
           "time": "2025-04-27T16:00:00"
         }
@@ -143,14 +143,14 @@
       "messages": [
         {
           "role": "user",
-          "text": "I need a professional website for my SaaS product.",
+          "text": "I need professional AI detection for our publishing house.",
           "time": "2025-04-26T11:00:00",
           "intent": "WebsiteDesign.Inquiry",
           "confidence": 0.96
         },
         {
           "role": "bot",
-          "text": "We design responsive websites using Wix, Squarespace, and .NET Blazor. Is this a new site or a redesign?",
+          "text": "We specialize in detecting AI-generated content in essays, articles, and reports. Are you checking a single document or multiple?",
           "time": "2025-04-26T11:00:02"
         },
         {
@@ -162,26 +162,26 @@
         },
         {
           "role": "bot",
-          "text": "We provide custom estimates. Let's connect at contact@empowertech.solutions to discuss scope and pricing.",
+          "text": "We provide custom estimates. Let's connect at support@plagpro.com to discuss scope and pricing.",
           "time": "2025-04-26T11:01:33"
         }
       ],
       "manual_replies": [
         {
-          "text": "Hi David, great to hear from you! We can definitely build a great SaaS website within your budget. I will send over a proposal by end of day.",
+          "text": "Hi David, great to hear from you! We can definitely provide a great SaaS AI detection within your budget. I will send over a proposal by end of day.",
           "by": "admin",
           "time": "2025-04-26T12:00:00"
         }
       ]
     },
     {
-      "id": "EMP-1004",
+      "id": "PLG-1004",
       "session_id": "S-1004",
       "user_name": "Anonymous",
       "user_email": "",
-      "subject": "IT consulting for enterprise project",
-      "service": "Consulting",
-      "intent": "Consulting.Inquiry",
+      "subject": "Institutional account for large organization",
+      "service": "Institutional Accounts",
+      "intent": "Institutional Accounts.Inquiry",
       "status": "Open",
       "priority": "Medium",
       "assigned_to": null,
@@ -191,38 +191,38 @@
       "messages": [
         {
           "role": "user",
-          "text": "We need IT consulting for our enterprise software project.",
+          "text": "We are interested in setting up an institutional account for our university.",
           "time": "2025-04-28T08:00:00",
-          "intent": "Consulting.Inquiry",
+          "intent": "Institutional Accounts.Inquiry",
           "confidence": 0.92
         },
         {
           "role": "bot",
-          "text": "EmpowerTech offers consulting across all project phases \u00e2\u20ac\u201d business analysis, Adobe XD mockups, Azure infrastructure, and Microsoft 365 workflows. What phase are you in?",
+          "text": "PlagPro offers institutional accounts for universities and organizations â€” volume discounts, API access, and centralized management. How many users do you have?",
           "time": "2025-04-28T08:00:03"
         },
         {
           "role": "user",
-          "text": "We are in the design phase.",
+          "text": "We are in the evaluation phase.",
           "time": "2025-04-28T08:01:00",
-          "intent": "Consulting.ProjectPhase",
+          "intent": "Institutional Accounts.ProjectPhase",
           "confidence": 0.87
         },
         {
           "role": "bot",
-          "text": "The design phase is where we shine! We can create mockups in Adobe XD, define scope, and plan your timeline. Want to schedule a consultation?",
+          "text": "Institutional integration is where we shine! We can set up API access, define user roles, and plan your rollout. Want to schedule a consultation?",
           "time": "2025-04-28T08:01:02"
         }
       ],
       "manual_replies": []
     },
     {
-      "id": "EMP-1005",
+      "id": "PLG-1005",
       "session_id": "S-1005",
       "user_name": "Monica Ray",
       "user_email": "monica@lawgroup.com",
-      "subject": "Trial preparation for upcoming case",
-      "service": "Legal Tech Support",
+      "subject": "Volume discount for high-volume checks",
+      "service": "Billing & Sales",
       "intent": "LegalTech.TrialPrep",
       "status": "Closed",
       "priority": "High",
@@ -231,7 +231,7 @@
       "updated_at": "2025-04-27T17:00:00",
       "admin_notes": [
         {
-          "note": "Delivered all PowerPoint slides and video edits. Client very happy.",
+          "note": "Delivered all plagiarism reports and AI detection analysis. Client very happy.",
           "by": "admin",
           "time": "2025-04-27T17:00:00"
         }
@@ -239,20 +239,20 @@
       "messages": [
         {
           "role": "user",
-          "text": "I need help preparing materials for a trial next week.",
+          "text": "I need help with volume discounts for next month.",
           "time": "2025-04-25T10:00:00",
           "intent": "LegalTech.TrialPrep",
           "confidence": 0.93
         },
         {
           "role": "bot",
-          "text": "Our trial preparation service includes professional PowerPoint presentations, video editing, and document management at competitive rates. Want to connect with our team?",
+          "text": "Our sales team can provide custom quotes for high-volume users and academic institutions. Want to connect with our sales department?",
           "time": "2025-04-25T10:00:02"
         }
       ],
       "manual_replies": [
         {
-          "text": "Hi Monica, we are ready to help with your trial prep! Please send us your case documents and we will start on the presentation immediately.",
+          "text": "Hi Monica, we are ready to help with your volume discount request! Please send us your requirements and we will provide a custom quote immediately.",
           "by": "admin",
           "time": "2025-04-25T10:30:00"
         }

@@ -1,5 +1,5 @@
 /* =============================================
-   style.css - EmpowerTech Modern Support Theme
+   style.css - PlagPro Modern Support Theme
    ============================================= */
 
 :root {
@@ -10,10 +10,13 @@
   --success-bg: #ecfdf5;
   --bg-page: #f8fafc;
   --bg-card: #ffffff;
+  --bg3: #f1f5f9;
   --text-main: #0f172a;
   --text-muted: #64748b;
+  --text2: #64748b;
   --border: #e2e8f0;
   --border2: #cbd5e1;
+  --hover: #e2e8f0;
   --radius: 12px;
   --radius-sm:  8px;
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -28,8 +31,10 @@
   --bg3: #111827;
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
+  --text2: #94a3b8;
   --border: #1e293b;
   --border2: #243044;
+  --hover: #1e293b;
   --form-bg: #1e293b;
   --input-bg: #0f172a;
   --primary-light: rgba(37, 99, 235, 0.2);
@@ -382,7 +387,7 @@ body.modern-theme {
   border-radius: 50%;
   transition: background 0.2s;
 }
-.action-btn:hover { background: #e2e8f0; }
+.action-btn:hover { background: var(--hover); }
 
 .interaction-footer {
   display: flex;
@@ -413,7 +418,7 @@ body.modern-theme {
 .typing-bubble span {
   width: 6px;
   height: 6px;
-  background: #cbd5e1;
+  background: var(--text-muted);
   border-radius: 50%;
   animation: typing 1.4s infinite;
 }
