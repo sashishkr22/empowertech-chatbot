@@ -1,0 +1,33 @@
+{
+  "id": "9a7e4cb8-8d7c-4beb-b629-2ae41ab7228b",
+  "name": "Features Overview",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🚀 PlagPro's Key Features:\n\n🔍 Detection:\n• Basic & advanced AI plagiarism detection\n• Paraphrasing detection\n• Citation detection\n• Grammar & style checking\n\n📄 Reports:\n• Detailed similarity scores\n• Source citations\n• PDF & Word export\n• White-label reports (Professional+)\n\n⚡ Performance:\n• Lightning-fast results (seconds, not minutes)\n• 99.9% accuracy rate\n• Scans billions of sources\n\n👥 Team & Integration:\n• Multi-user & bulk checking\n• API access\n• SSO integration (Enterprise)\n\nExplore all features at https://plagpro.com/features"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

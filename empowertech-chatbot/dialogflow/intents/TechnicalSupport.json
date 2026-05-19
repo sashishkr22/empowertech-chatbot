@@ -20,21 +20,5 @@
   ],
   "priority": 500000,
   "webhookUsed": false,
-  "trainingPhrases": [
-    { "type": "EXAMPLE", "parts": [{ "text": "my internet is not working" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I can't connect to the network" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "wifi is down" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "my laptop won't start" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "software is crashing" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "my computer is slow" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I have a technical problem" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "printer is not working" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I'm getting an error message" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "application keeps crashing" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I cannot access my email" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "the server is down" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I lost my data" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "system is not responding" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I have a hardware issue" }] }
-  ]
+  "id": "14131254-4dcc-4680-bdda-e8f159629c21"
 }

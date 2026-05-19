@@ -1,0 +1,90 @@
+[
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "check my ticket status"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "what is the status of my ticket"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "track my ticket"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "where is my request"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "any update on my ticket"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "ticket status EMP-1001"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "check EMP-1002"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "is my issue resolved"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

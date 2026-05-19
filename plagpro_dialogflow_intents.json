@@ -1,0 +1,509 @@
+{
+  "intents": [
+    {
+      "name": "Default Welcome Intent",
+      "displayName": "Default Welcome Intent",
+      "priority": 500000,
+      "trainingPhrases": [
+        { "parts": [{ "text": "Hi" }] },
+        { "parts": [{ "text": "Hello" }] },
+        { "parts": [{ "text": "Hey" }] },
+        { "parts": [{ "text": "Good morning" }] },
+        { "parts": [{ "text": "Good evening" }] },
+        { "parts": [{ "text": "What's up" }] },
+        { "parts": [{ "text": "Start" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "👋 Welcome to PlagPro! I'm your AI assistant for plagiarism detection. I can help you with:\n\n• Checking plagiarism\n• Pricing & plans\n• How PlagPro works\n• Account & billing\n• Reports & results\n\nWhat would you like to know?"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Default Fallback Intent",
+      "displayName": "Default Fallback Intent",
+      "isFallback": true,
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "Sorry, I didn't quite understand that. Could you rephrase? You can ask me about pricing, how to check plagiarism, features, or contact support.",
+              "I'm not sure I understand. Try asking about our plans, how plagiarism detection works, or how to get started!"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "What is PlagPro",
+      "displayName": "What is PlagPro",
+      "trainingPhrases": [
+        { "parts": [{ "text": "What is PlagPro?" }] },
+        { "parts": [{ "text": "Tell me about PlagPro" }] },
+        { "parts": [{ "text": "What does PlagPro do?" }] },
+        { "parts": [{ "text": "What is this service?" }] },
+        { "parts": [{ "text": "Explain PlagPro" }] },
+        { "parts": [{ "text": "What services do you offer?" }] },
+        { "parts": [{ "text": "Is this a plagiarism checker?" }] },
+        { "parts": [{ "text": "How can PlagPro help me?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🔍 PlagPro is an AI-powered plagiarism detection platform trusted by universities, students, and organizations worldwide.\n\n✅ Key highlights:\n• 10M+ documents checked\n• 2,000+ universities trust us\n• 99.9% accuracy rate\n• 24/7 support\n\nWe scan billions of sources to detect copied content and provide detailed similarity reports with source citations.\n\nWant to know about our plans or how it works?"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "How It Works",
+      "displayName": "How It Works",
+      "trainingPhrases": [
+        { "parts": [{ "text": "How does PlagPro work?" }] },
+        { "parts": [{ "text": "How do I check plagiarism?" }] },
+        { "parts": [{ "text": "How to use PlagPro" }] },
+        { "parts": [{ "text": "Steps to check plagiarism" }] },
+        { "parts": [{ "text": "How does the checker work?" }] },
+        { "parts": [{ "text": "How to detect plagiarism?" }] },
+        { "parts": [{ "text": "Walk me through the process" }] },
+        { "parts": [{ "text": "What is the process?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "It's simple! PlagPro works in 3 easy steps:\n\n1️⃣ Upload or Paste – Upload your document or paste text directly into the checker.\n\n2️⃣ AI Analysis – Our advanced AI scans billions of sources for potential matches.\n\n3️⃣ Get Results – Receive a detailed report with similarity scores and source citations.\n\n⚡ Results are delivered in seconds!\n\nReady to try it? Visit https://plagpro.com/register to get started free."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Pricing Plans",
+      "displayName": "Pricing Plans",
+      "trainingPhrases": [
+        { "parts": [{ "text": "What are your pricing plans?" }] },
+        { "parts": [{ "text": "How much does PlagPro cost?" }] },
+        { "parts": [{ "text": "What is the price?" }] },
+        { "parts": [{ "text": "Show me plans" }] },
+        { "parts": [{ "text": "Pricing" }] },
+        { "parts": [{ "text": "Plans and pricing" }] },
+        { "parts": [{ "text": "Is there a free plan?" }] },
+        { "parts": [{ "text": "Subscription options" }] },
+        { "parts": [{ "text": "How much to subscribe?" }] },
+        { "parts": [{ "text": "Tell me about your plans" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "💰 PlagPro offers 4 plans:\n\n🆓 Free – ₹0/forever\n• 5 checks/month, up to 1,000 words/check\n\n🎓 Student – ₹599/month (incl. GST)\n• 100 checks/month, up to 10,000 words, PDF/Word export\n\n💼 Professional – ₹1,499/month (incl. GST)\n• Unlimited checks, 25,000 words, API access, team collaboration\n\n🏢 Enterprise – Custom pricing\n• Unlimited everything, SSO, on-premise option, dedicated manager\n\nSee full details at https://plagpro.com/pricing"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Free Plan Details",
+      "displayName": "Free Plan Details",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Tell me about the free plan" }] },
+        { "parts": [{ "text": "What does the free plan include?" }] },
+        { "parts": [{ "text": "Can I use PlagPro for free?" }] },
+        { "parts": [{ "text": "Free version features" }] },
+        { "parts": [{ "text": "What do I get for free?" }] },
+        { "parts": [{ "text": "Is there a free trial?" }] },
+        { "parts": [{ "text": "Free tier" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🆓 PlagPro's Free Plan is available forever at ₹0!\n\nIncludes:\n✅ 5 plagiarism checks per month\n✅ Up to 1,000 words per check\n✅ Basic similarity report\n✅ Email support\n\nLimitations:\n❌ No detailed source citations\n❌ No bulk checking\n❌ Standard detection accuracy only\n\nPerfect for students with occasional needs. Register at https://plagpro.com/register — no credit card required!"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Student Plan Details",
+      "displayName": "Student Plan Details",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Tell me about the student plan" }] },
+        { "parts": [{ "text": "What is included in the student plan?" }] },
+        { "parts": [{ "text": "Student pricing" }] },
+        { "parts": [{ "text": "I am a student, which plan should I choose?" }] },
+        { "parts": [{ "text": "Student subscription" }] },
+        { "parts": [{ "text": "Best plan for students" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🎓 Student Plan – ₹599/month (including GST)\n\nIncludes:\n✅ 100 checks per month\n✅ Up to 10,000 words per check\n✅ Advanced plagiarism detection\n✅ Detailed similarity reports with source citations\n✅ Grammar checker\n✅ Export reports as PDF or Word\n✅ Priority email support\n\nPerfect for students and researchers! Get started at https://plagpro.com/pricing"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Professional Plan Details",
+      "displayName": "Professional Plan Details",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Tell me about the professional plan" }] },
+        { "parts": [{ "text": "Professional plan features" }] },
+        { "parts": [{ "text": "What does the pro plan include?" }] },
+        { "parts": [{ "text": "I need API access" }] },
+        { "parts": [{ "text": "Team collaboration features" }] },
+        { "parts": [{ "text": "Unlimited checks plan" }] },
+        { "parts": [{ "text": "Plan for small teams" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "💼 Professional Plan – ₹1,499/month (including GST)\n\nIncludes:\n✅ Unlimited checks\n✅ Up to 25,000 words per check\n✅ Premium plagiarism detection\n✅ 24/7 priority support\n✅ Advanced analytics dashboard\n✅ Team collaboration tools\n✅ Bulk document checking\n✅ API access (1,000 calls/month)\n✅ White-label reports\n✅ Custom integrations\n\nIdeal for professionals and small teams. See more at https://plagpro.com/pricing"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Enterprise Plan Details",
+      "displayName": "Enterprise Plan Details",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Tell me about the enterprise plan" }] },
+        { "parts": [{ "text": "Enterprise pricing" }] },
+        { "parts": [{ "text": "Plan for universities" }] },
+        { "parts": [{ "text": "Large organization plan" }] },
+        { "parts": [{ "text": "Do you have a plan for institutions?" }] },
+        { "parts": [{ "text": "On-premise deployment" }] },
+        { "parts": [{ "text": "SSO integration" }] },
+        { "parts": [{ "text": "Custom plan" }] },
+        { "parts": [{ "text": "Bulk enterprise solution" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🏢 Enterprise Plan – Custom pricing for universities & large organizations.\n\nIncludes:\n✅ Unlimited checks & unlimited words per check\n✅ Enterprise-grade detection\n✅ Dedicated account manager\n✅ Advanced user management\n✅ SSO (Single Sign-On) integration\n✅ Custom API limits\n✅ On-premise deployment option\n✅ Advanced reporting & analytics\n✅ Custom training & onboarding\n✅ SLA guarantee (99.9% uptime)\n\nTrusted by Amity University, AMU, DPU, Symbiosis, and more!\n\nContact our sales team at info@plagpro.com or call 08040138089."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Features Overview",
+      "displayName": "Features Overview",
+      "trainingPhrases": [
+        { "parts": [{ "text": "What features does PlagPro offer?" }] },
+        { "parts": [{ "text": "Tell me about your features" }] },
+        { "parts": [{ "text": "What can PlagPro detect?" }] },
+        { "parts": [{ "text": "Features list" }] },
+        { "parts": [{ "text": "Capabilities of PlagPro" }] },
+        { "parts": [{ "text": "Does PlagPro detect paraphrasing?" }] },
+        { "parts": [{ "text": "Advanced detection features" }] },
+        { "parts": [{ "text": "What makes PlagPro different?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🚀 PlagPro's Key Features:\n\n🔍 Detection:\n• Basic & advanced AI plagiarism detection\n• Paraphrasing detection\n• Citation detection\n• Grammar & style checking\n\n📄 Reports:\n• Detailed similarity scores\n• Source citations\n• PDF & Word export\n• White-label reports (Professional+)\n\n⚡ Performance:\n• Lightning-fast results (seconds, not minutes)\n• 99.9% accuracy rate\n• Scans billions of sources\n\n👥 Team & Integration:\n• Multi-user & bulk checking\n• API access\n• SSO integration (Enterprise)\n\nExplore all features at https://plagpro.com/features"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Accuracy and Reliability",
+      "displayName": "Accuracy and Reliability",
+      "trainingPhrases": [
+        { "parts": [{ "text": "How accurate is PlagPro?" }] },
+        { "parts": [{ "text": "Is PlagPro reliable?" }] },
+        { "parts": [{ "text": "What is the accuracy rate?" }] },
+        { "parts": [{ "text": "How many sources does PlagPro scan?" }] },
+        { "parts": [{ "text": "Can it detect paraphrasing?" }] },
+        { "parts": [{ "text": "How trustworthy is the result?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "📊 PlagPro boasts a 99.9% accuracy rate!\n\nOur AI-powered system:\n• Scans billions of online and academic sources\n• Detects direct copying AND paraphrasing\n• Identifies citation manipulation\n• Uses state-of-the-art algorithms to catch even sophisticated plagiarism attempts\n\nOver 10 million documents have been checked, and 2,000+ universities trust PlagPro for academic integrity.\n\nWant to see it in action? Try it free at https://plagpro.com/register"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Report Details",
+      "displayName": "Report Details",
+      "trainingPhrases": [
+        { "parts": [{ "text": "What does the plagiarism report look like?" }] },
+        { "parts": [{ "text": "What information is in the report?" }] },
+        { "parts": [{ "text": "Can I download the report?" }] },
+        { "parts": [{ "text": "How do I export results?" }] },
+        { "parts": [{ "text": "Does the report show sources?" }] },
+        { "parts": [{ "text": "Report format" }] },
+        { "parts": [{ "text": "What does the similarity report include?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "📋 PlagPro provides comprehensive plagiarism reports including:\n\n✅ Overall similarity percentage score\n✅ Highlighted matched text sections\n✅ Source citations with links\n✅ Page-by-page breakdown\n✅ Grammar & style suggestions (Student+ plans)\n\n📥 Export Options:\n• PDF export (Student plan and above)\n• Word/DOCX export (Student plan and above)\n• White-label reports (Professional plan)\n\nReports are available instantly after analysis. Upgrade to Student or Professional for full detailed reports."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Get Started - Registration",
+      "displayName": "Get Started - Registration",
+      "trainingPhrases": [
+        { "parts": [{ "text": "How do I sign up?" }] },
+        { "parts": [{ "text": "How to register?" }] },
+        { "parts": [{ "text": "Create an account" }] },
+        { "parts": [{ "text": "I want to get started" }] },
+        { "parts": [{ "text": "How to start using PlagPro?" }] },
+        { "parts": [{ "text": "Sign up for PlagPro" }] },
+        { "parts": [{ "text": "Register now" }] },
+        { "parts": [{ "text": "How to create account?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🎉 Getting started with PlagPro is easy!\n\n1. Visit https://plagpro.com/register\n2. Create your free account (no credit card needed)\n3. Start with 5 free checks immediately\n\nAlready have an account? Sign in at https://plagpro.com/login\n\nNeed help choosing a plan? Check https://plagpro.com/pricing or ask me anytime!"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Contact Support",
+      "displayName": "Contact Support",
+      "trainingPhrases": [
+        { "parts": [{ "text": "How do I contact support?" }] },
+        { "parts": [{ "text": "I need help" }] },
+        { "parts": [{ "text": "Customer support" }] },
+        { "parts": [{ "text": "Contact PlagPro" }] },
+        { "parts": [{ "text": "Support email" }] },
+        { "parts": [{ "text": "Phone number" }] },
+        { "parts": [{ "text": "How to reach you?" }] },
+        { "parts": [{ "text": "Talk to a human" }] },
+        { "parts": [{ "text": "Contact team" }] },
+        { "parts": [{ "text": "Where is PlagPro located?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "📞 PlagPro Support:\n\n📧 Email: info@plagpro.com\n📱 Phone: 08040138089\n🌐 Help Center: https://plagpro.com/help\n❓ FAQ: https://plagpro.com/faq\n📝 Contact Form: https://plagpro.com/contact\n\n🏢 Office Address:\nC-340, Tower-C, Bhutani Cyberpark,\nSector-62, Noida, Uttar Pradesh - 201309, India\n\n⏰ Support is available 24/7 for Professional & Enterprise plans!"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Supported File Types",
+      "displayName": "Supported File Types",
+      "trainingPhrases": [
+        { "parts": [{ "text": "What file types are supported?" }] },
+        { "parts": [{ "text": "Can I upload a PDF?" }] },
+        { "parts": [{ "text": "Can I upload a Word document?" }] },
+        { "parts": [{ "text": "What formats can I check?" }] },
+        { "parts": [{ "text": "Does PlagPro support DOC files?" }] },
+        { "parts": [{ "text": "Supported document formats" }] },
+        { "parts": [{ "text": "Can I paste text directly?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "📁 PlagPro supports multiple input methods:\n\n📋 Paste text directly into the checker\n📤 Upload documents (supported formats include PDF, DOC, DOCX, and more)\n\nAll plans support file uploads. Simply upload your document or paste your content and our AI will analyze it instantly!\n\nFor the complete list of formats, visit https://plagpro.com/features or contact support at info@plagpro.com."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "API Access",
+      "displayName": "API Access",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Does PlagPro have an API?" }] },
+        { "parts": [{ "text": "API integration" }] },
+        { "parts": [{ "text": "Can I integrate PlagPro into my app?" }] },
+        { "parts": [{ "text": "API access details" }] },
+        { "parts": [{ "text": "Developer API" }] },
+        { "parts": [{ "text": "How many API calls do I get?" }] },
+        { "parts": [{ "text": "I want to integrate plagiarism detection" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🔌 Yes! PlagPro offers API access for developers and businesses.\n\n📦 API by Plan:\n• Professional Plan: 1,000 API calls/month\n• Enterprise Plan: Custom API limits\n\nThe API allows you to integrate plagiarism detection directly into your own applications, LMS, or workflows.\n\nFor API documentation or custom integrations, contact us at info@plagpro.com or check https://plagpro.com/features."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Bulk Checking",
+      "displayName": "Bulk Checking",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Can I check multiple documents at once?" }] },
+        { "parts": [{ "text": "Bulk plagiarism check" }] },
+        { "parts": [{ "text": "How to check many documents?" }] },
+        { "parts": [{ "text": "Batch checking" }] },
+        { "parts": [{ "text": "Can I upload multiple files?" }] },
+        { "parts": [{ "text": "Checking documents in bulk" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "📚 Yes, PlagPro supports bulk document checking!\n\nBulk checking is available on:\n✅ Professional Plan (₹1,499/month)\n✅ Enterprise Plan (Custom pricing)\n\n❌ Not available on Free or Student plans.\n\nBulk checking is ideal for professors, institutions, or content managers reviewing multiple submissions at once.\n\nUpgrade at https://plagpro.com/pricing or contact sales at info@plagpro.com for Enterprise bulk solutions."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Privacy and Data Security",
+      "displayName": "Privacy and Data Security",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Is my document safe?" }] },
+        { "parts": [{ "text": "Is PlagPro secure?" }] },
+        { "parts": [{ "text": "What happens to my data?" }] },
+        { "parts": [{ "text": "Privacy policy" }] },
+        { "parts": [{ "text": "Does PlagPro store my documents?" }] },
+        { "parts": [{ "text": "Data security" }] },
+        { "parts": [{ "text": "Is my content confidential?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🔒 Your data security is a top priority at PlagPro.\n\nYou can review our full policies here:\n📄 Privacy Policy: https://plagpro.com/privacy-policy\n📋 Terms of Service: https://plagpro.com/terms-of-service\n🍪 Cookie Policy: https://plagpro.com/cookie-policy\n\nFor Enterprise clients, we also offer on-premise deployment so your data never leaves your servers.\n\nFor specific security questions, reach out to info@plagpro.com."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Compare Plans",
+      "displayName": "Compare Plans",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Which plan is best for me?" }] },
+        { "parts": [{ "text": "Compare plans" }] },
+        { "parts": [{ "text": "Difference between plans" }] },
+        { "parts": [{ "text": "Student vs professional plan" }] },
+        { "parts": [{ "text": "What plan should I choose?" }] },
+        { "parts": [{ "text": "Free vs paid plan" }] },
+        { "parts": [{ "text": "Help me pick a plan" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🤔 Here's a quick guide to choosing the right plan:\n\n👨‍🎓 Student / Occasional user → Free Plan (₹0) – 5 checks, basic report\n\n📚 Student / Researcher → Student Plan (₹599/mo) – 100 checks, detailed reports, grammar checker\n\n🧑‍💼 Professional / Small Team → Professional Plan (₹1,499/mo) – Unlimited checks, API, bulk checking\n\n🏛️ University / Large Org → Enterprise Plan (Custom) – Unlimited everything + SSO + dedicated manager\n\nSee the full comparison at https://plagpro.com/pricing or ask me about any specific plan!"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Trusted Institutions",
+      "displayName": "Trusted Institutions",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Which universities use PlagPro?" }] },
+        { "parts": [{ "text": "Who trusts PlagPro?" }] },
+        { "parts": [{ "text": "Is PlagPro used by universities?" }] },
+        { "parts": [{ "text": "Trusted institutions" }] },
+        { "parts": [{ "text": "Colleges using PlagPro" }] },
+        { "parts": [{ "text": "Is PlagPro popular?" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🎓 PlagPro is trusted by 2,000+ universities and institutions worldwide!\n\nNotable institutions include:\n• Amity University\n• Aligarh Muslim University (AMU)\n• Dr. D.Y. Patil University (DPU)\n• Symbiosis\n\n...and many more across India and globally.\n\n10M+ documents have been checked on our platform. Want to bring PlagPro to your institution? Contact us at info@plagpro.com or 08040138089."
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Cancel or Change Plan",
+      "displayName": "Cancel or Change Plan",
+      "trainingPhrases": [
+        { "parts": [{ "text": "How do I cancel my plan?" }] },
+        { "parts": [{ "text": "Can I upgrade my plan?" }] },
+        { "parts": [{ "text": "How to downgrade?" }] },
+        { "parts": [{ "text": "Change subscription" }] },
+        { "parts": [{ "text": "Cancel subscription" }] },
+        { "parts": [{ "text": "How to switch plans?" }] },
+        { "parts": [{ "text": "Refund policy" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "🔄 To upgrade, downgrade, or cancel your PlagPro plan:\n\n1. Log in to your account at https://plagpro.com/login\n2. Go to your account/billing settings\n3. Select your desired plan change\n\nFor refunds, cancellations, or billing issues, contact our support team:\n📧 info@plagpro.com\n📱 08040138089\n\nOur team is happy to assist you with any subscription changes!"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "FAQ",
+      "displayName": "FAQ",
+      "trainingPhrases": [
+        { "parts": [{ "text": "Do you have FAQs?" }] },
+        { "parts": [{ "text": "Frequently asked questions" }] },
+        { "parts": [{ "text": "Common questions" }] },
+        { "parts": [{ "text": "Where can I find answers?" }] },
+        { "parts": [{ "text": "Help documentation" }] }
+      ],
+      "messages": [
+        {
+          "text": {
+            "text": [
+              "📖 You can find answers to common questions in our resources:\n\n❓ FAQ Page: https://plagpro.com/faq\n🆘 Help Center: https://plagpro.com/help\n📧 Email Support: info@plagpro.com\n\nOr just ask me here — I'm happy to help!"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

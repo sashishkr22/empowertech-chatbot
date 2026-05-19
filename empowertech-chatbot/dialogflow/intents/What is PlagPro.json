@@ -1,0 +1,33 @@
+{
+  "id": "ad87e0b9-b840-483c-a35b-d5174d12b45c",
+  "name": "What is PlagPro",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🔍 PlagPro is an AI-powered plagiarism detection platform trusted by universities, students, and organizations worldwide.\n\n✅ Key highlights:\n• 10M+ documents checked\n• 2,000+ universities trust us\n• 99.9% accuracy rate\n• 24/7 support\n\nWe scan billions of sources to detect copied content and provide detailed similarity reports with source citations.\n\nWant to know about our plans or how it works?"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

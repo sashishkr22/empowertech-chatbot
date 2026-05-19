@@ -1,0 +1,33 @@
+{
+  "id": "7af9532a-cf47-4f73-b146-0f7c7e92c6f9",
+  "name": "Enterprise Plan Details",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🏢 Enterprise Plan – Custom pricing for universities & large organizations.\n\nIncludes:\n✅ Unlimited checks & unlimited words per check\n✅ Enterprise-grade detection\n✅ Dedicated account manager\n✅ Advanced user management\n✅ SSO (Single Sign-On) integration\n✅ Custom API limits\n✅ On-premise deployment option\n✅ Advanced reporting & analytics\n✅ Custom training & onboarding\n✅ SLA guarantee (99.9% uptime)\n\nTrusted by Amity University, AMU, DPU, Symbiosis, and more!\n\nContact our sales team at info@plagpro.com or call 08040138089."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

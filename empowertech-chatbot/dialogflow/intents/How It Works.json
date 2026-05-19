@@ -1,0 +1,33 @@
+{
+  "id": "225e4639-f98f-4eba-8fab-9cca4d820bca",
+  "name": "How It Works",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "It's simple! PlagPro works in 3 easy steps:\n\n1️⃣ Upload or Paste – Upload your document or paste text directly into the checker.\n\n2️⃣ AI Analysis – Our advanced AI scans billions of sources for potential matches.\n\n3️⃣ Get Results – Receive a detailed report with similarity scores and source citations.\n\n⚡ Results are delivered in seconds!\n\nReady to try it? Visit https://plagpro.com/register to get started free."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

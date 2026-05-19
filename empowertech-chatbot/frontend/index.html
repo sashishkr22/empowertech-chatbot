@@ -7,155 +7,168 @@
   <link rel="stylesheet" href="css/style.css" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 </head>
 <body class="modern-theme">
 
-  <!-- TOP NAVIGATION / HEADER -->
-  <header class="support-header">
-    <div class="header-container">
-      <div class="brand">
-        <span class="brand-icon">🛡️</span>
-        <div class="brand-text">
-          <h1>PlagPro</h1>
-          <p>Noida, India • Academic Integrity AI</p>
+  <div class="chat-wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-row">
+          <div class="logo-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+          <span class="logo-name">PlagPro</span>
         </div>
-      </div>
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <span>System Online</span>
-      </div>
-
-      <!-- Theme Toggle -->
-      <button onclick="toggleTheme()" class="action-btn" id="theme-toggle" title="Toggle Dark/Light Mode" style="margin-left: 15px;">
-        🌓
-      </button>
-    </div>
-  </header>
-
-  <main class="main-layout">
-    
-    <!-- LEFT: ACTION HUB -->
-    <aside class="action-hub">
-      <div class="hub-section">
-        <h2 class="section-title">How can we help you today?</h2>
-        <div class="intent-cards">
-          <button class="intent-card" onclick="startTicketFlow()">
-            <span class="intent-icon">📄</span>
-            <div class="intent-info">
-              <h3>Check Plagiarism</h3>
-              <p>Scan your document for matches</p>
-            </div>
-          </button>
-
-          <button class="intent-card highlight" onclick="toggleStatusInput()">
-            <span class="intent-icon">📋</span>
-            <div class="intent-info">
-              <h3>Track Report</h3>
-              <p>Check your similarity report status</p>
-            </div>
-          </button>
-
-          <button class="intent-card" onclick="sendQuickMessage('I want to talk to an integrity expert')">
-            <span class="intent-icon">🎓</span>
-            <div class="intent-info">
-              <h3>Expert Help</h3>
-              <p>Speak with an integrity specialist</p>
-            </div>
-          </button>
-        </div>
-
-        <!-- Latest Ticket Info -->
-        <div id="latestTicketHub" class="latest-ticket-hub" style="display:none; margin-top: 24px;">
-          <h2 class="section-title">Latest Ticket</h2>
-          <div id="latestTicketCard" class="hub-ticket-card"></div>
-        </div>
-
-        <!-- Hidden Status Input -->
-        <div id="statusInputArea" class="status-input-area" style="display:none;">
-          <input type="text" id="ticketInput" placeholder="Enter EMP-XXXX" class="hub-input" />
-          <button class="hub-btn" onclick="checkTicketStatus()">Check</button>
+        <div class="logo-sub">
+          <span class="status-dot"></span>
+          <span class="status-text">AI Online</span>
         </div>
       </div>
 
-      <div class="hub-footer">
-        <div class="session-stats">
-          <div class="stat-item">
-            <span class="stat-label">Messages</span>
-            <span class="stat-value" id="messageCount">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Tickets</span>
-            <span class="stat-value" id="ticketCount">0</span>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Support Hub</div>
+        <div class="nav-item active" onclick="clearChat()">
+          <i class="ti ti-message-2" aria-hidden="true"></i> New Chat
+        </div>
+        <div class="nav-item" onclick="sendQuickMessage('I want to create a support ticket')">
+          <i class="ti ti-ticket" aria-hidden="true"></i> Create Ticket
+        </div>
+        <div class="nav-item" onclick="toggleStatusInput()">
+          <i class="ti ti-search" aria-hidden="true"></i> Ticket Status
+        </div>
+        <div class="nav-item" onclick="sendQuickMessage('Show me pricing plans')">
+          <i class="ti ti-currency-rupee" aria-hidden="true"></i> View Pricing
+        </div>
+        <div class="nav-item" onclick="sendQuickMessage('Show me FAQ')">
+          <i class="ti ti-help" aria-hidden="true"></i> FAQ
+        </div>
+        <div class="nav-item" onclick="sendQuickMessage('I want to talk to a human agent')">
+          <i class="ti ti-headset" aria-hidden="true"></i> Chat with Human
+        </div>
+      </div>
+
+      <!-- Hidden Status Input -->
+      <div id="statusInputArea" class="sidebar-status-input" style="display:none;">
+        <input type="text" id="ticketInput" placeholder="EMP-XXXX" class="sidebar-input" />
+        <button class="sidebar-btn" onclick="checkTicketStatus()">Check</button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Quick Actions</div>
+        <div class="quick-chip" onclick="sendQuickMessage('How do I check plagiarism?')">
+          <i class="ti ti-file-search" aria-hidden="true"></i> Check Plagiarism
+        </div>
+        <div class="quick-chip" onclick="sendQuickMessage('Tell me about AI detection')">
+          <i class="ti ti-robot" aria-hidden="true"></i> AI Detection
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-row">
+          <div class="avatar">GU</div>
+          <div>
+            <div class="user-name">Guest User</div>
+            <div class="user-plan">Free Plan</div>
           </div>
         </div>
-        <p class="session-id">Session: <span id="sessionIdDisplay">...</span></p>
+        <div class="session-info">
+          Session: <span id="sessionIdDisplay">...</span>
+        </div>
       </div>
     </aside>
 
-    <!-- RIGHT: CHAT INTERFACE -->
-    <section class="chat-interface">
-      <div class="chat-window">
-        <!-- Messages Area -->
-        <div class="messages-viewport" id="messagesContainer">
-          
-          <!-- Welcome Message -->
-          <div class="msg-wrapper bot-msg">
-            <div class="msg-avatar">🛡️</div>
-            <div class="msg-bubble">
-              <p><strong>Hello! I'm PlagPro AI.</strong></p>
-              <p>Welcome to PlagPro Noida. I'm here to help you with plagiarism checks, similarity reports, and AI content detection. How can I assist you today?</p>
-              <span class="msg-time" id="welcomeTime"></span>
+    <!-- MAIN CHAT AREA -->
+    <main class="chat-main">
+      <!-- TOPBAR -->
+      <header class="chat-topbar">
+        <div class="topbar-left">
+          <div class="bot-avatar"><i class="ti ti-robot" aria-hidden="true"></i></div>
+          <div>
+            <div class="topbar-name">PlagPro AI</div>
+            <div class="topbar-status"><span class="status-dot-small"></span>Online now</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button onclick="toggleTheme()" class="icon-btn" id="theme-toggle" title="Toggle Theme">
+            <i class="ti ti-sun" id="theme-icon"></i>
+          </button>
+          <button class="icon-btn" onclick="clearChat()" title="Clear Chat">
+            <i class="ti ti-trash"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- MESSAGES BODY -->
+      <div class="chat-body" id="messagesContainer">
+        <!-- Messages will be injected here -->
+        <div class="msg-bot">
+          <div class="bot-bubble-wrapper">
+            <div class="msg-bot-bubble">
+              Hi! I'm PlagPro AI. How can I help you today?
             </div>
-          </div>
-
-        </div>
-
-        <!-- Typing Indicator -->
-        <div class="typing-container" id="typingIndicator" style="display:none;">
-          <div class="typing-bubble">
-            <span></span><span></span><span></span>
-          </div>
-          <span class="typing-text">PlagPro AI is typing...</span>
-        </div>
-
-        <!-- Input Box Area -->
-        <div class="interaction-area">
-          <div class="input-container">
-            <textarea 
-              id="userInput" 
-              placeholder="Describe your query or ask about plagiarism checks..." 
-              rows="1"
-              oninput="autoResize(this)"
-              onkeydown="handleKeyPress(event)"
-            ></textarea>
-            <button class="action-btn clear-chat" onclick="clearChat()" title="Clear Chat">🗑️</button>
-            <button class="send-action" id="sendBtn" onclick="sendMessage()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
-          </div>
-          <div class="interaction-footer">
-            <span id="charCount">0/500</span>
-            <p>PlagPro Noida • Academic Integrity AI Specialist</p>
+            <div class="suggestions-grid">
+              <div class="suggestion-card" onclick="sendQuickMessage('How to check plagiarism?')">
+                <div class="sug-icon"><i class="ti ti-file-search"></i></div>
+                <div class="sug-title">Plagiarism</div>
+                <div class="sug-sub">Scan document</div>
+              </div>
+              <div class="suggestion-card" onclick="sendQuickMessage('Pricing plans')">
+                <div class="sug-icon"><i class="ti ti-currency-rupee"></i></div>
+                <div class="sug-title">Pricing</div>
+                <div class="sug-sub">View plans</div>
+              </div>
+              <div class="suggestion-card" onclick="sendQuickMessage('Contact support')">
+                <div class="sug-icon"><i class="ti ti-headset"></i></div>
+                <div class="sug-title">Support</div>
+                <div class="sug-sub">Get help</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
 
-  </main>
+      <!-- TYPING INDICATOR -->
+      <div class="typing-container" id="typingIndicator" style="display:none;">
+        <div class="typing-bubble">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="typing-text">PlagPro AI is typing...</span>
+      </div>
+
+      <!-- INPUT BAR -->
+      <footer class="chat-inputbar">
+        <div class="input-wrapper">
+          <textarea 
+            id="userInput" 
+            placeholder="Type your message..." 
+            rows="1"
+            oninput="autoResize(this)"
+            onkeydown="handleKeyPress(event)"
+          ></textarea>
+          <div class="input-actions">
+            <span id="charCount">0/500</span>
+          </div>
+        </div>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send">
+          <i class="ti ti-send"></i>
+        </button>
+      </footer>
+    </main>
+  </div>
 
   <script src="js/chat.js"></script>
   <script>
-    // Local UI helpers
-    function toggleStatusInput() {
-      const area = document.getElementById('statusInputArea');
-      area.style.display = area.style.display === 'none' ? 'flex' : 'none';
-      if (area.style.display === 'flex') document.getElementById('ticketInput').focus();
-    }
-    
     function autoResize(textarea) {
       textarea.style.height = 'auto';
       textarea.style.height = (textarea.scrollHeight) + 'px';
       document.getElementById('charCount').textContent = `${textarea.value.length}/500`;
+    }
+    
+    function toggleStatusInput() {
+      const area = document.getElementById('statusInputArea');
+      area.style.display = area.style.display === 'none' ? 'block' : 'none';
+      if (area.style.display === 'block') document.getElementById('ticketInput').focus();
     }
   </script>
 </body>

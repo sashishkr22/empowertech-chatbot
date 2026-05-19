@@ -1,0 +1,33 @@
+{
+  "id": "555a2d43-5030-439d-b4be-0d014ada7270",
+  "name": "Student Plan Details",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🎓 Student Plan – ₹599/month (including GST)\n\nIncludes:\n✅ 100 checks per month\n✅ Up to 10,000 words per check\n✅ Advanced plagiarism detection\n✅ Detailed similarity reports with source citations\n✅ Grammar checker\n✅ Export reports as PDF or Word\n✅ Priority email support\n\nPerfect for students and researchers! Get started at https://plagpro.com/pricing"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

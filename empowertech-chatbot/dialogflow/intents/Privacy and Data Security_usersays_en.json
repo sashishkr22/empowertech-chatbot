@@ -1,0 +1,79 @@
+[
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Is my document safe?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Is PlagPro secure?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "What happens to my data?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Privacy policy"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Does PlagPro store my documents?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Data security"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Is my content confidential?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "id": "29dc8f6f-ed4b-4859-b289-a15e9406b7fa",
+  "name": "Free Plan Details",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🆓 PlagPro's Free Plan is available forever at ₹0!\n\nIncludes:\n✅ 5 plagiarism checks per month\n✅ Up to 1,000 words per check\n✅ Basic similarity report\n✅ Email support\n\nLimitations:\n❌ No detailed source citations\n❌ No bulk checking\n❌ Standard detection accuracy only\n\nPerfect for students with occasional needs. Register at https://plagpro.com/register — no credit card required!"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

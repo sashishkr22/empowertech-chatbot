@@ -1,0 +1,33 @@
+{
+  "id": "418ead68-7a03-457e-b20d-eae392ede354",
+  "name": "Bulk Checking",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "📚 Yes, PlagPro supports bulk document checking!\n\nBulk checking is available on:\n✅ Professional Plan (₹1,499/month)\n✅ Enterprise Plan (Custom pricing)\n\n❌ Not available on Free or Student plans.\n\nBulk checking is ideal for professors, institutions, or content managers reviewing multiple submissions at once.\n\nUpgrade at https://plagpro.com/pricing or contact sales at info@plagpro.com for Enterprise bulk solutions."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

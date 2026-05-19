@@ -1,0 +1,33 @@
+{
+  "id": "8f0fc6b8-eb14-456f-9e89-63837b38a3e1",
+  "name": "Supported File Types",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "📁 PlagPro supports multiple input methods:\n\n📋 Paste text directly into the checker\n📤 Upload documents (supported formats include PDF, DOC, DOCX, and more)\n\nAll plans support file uploads. Simply upload your document or paste your content and our AI will analyze it instantly!\n\nFor the complete list of formats, visit https://plagpro.com/features or contact support at info@plagpro.com."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

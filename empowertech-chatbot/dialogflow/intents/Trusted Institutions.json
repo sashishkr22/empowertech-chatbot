@@ -1,0 +1,33 @@
+{
+  "id": "a04e6fa5-4343-4b7f-802b-81e1e4f10864",
+  "name": "Trusted Institutions",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🎓 PlagPro is trusted by 2,000+ universities and institutions worldwide!\n\nNotable institutions include:\n• Amity University\n• Aligarh Muslim University (AMU)\n• Dr. D.Y. Patil University (DPU)\n• Symbiosis\n\n...and many more across India and globally.\n\n10M+ documents have been checked on our platform. Want to bring PlagPro to your institution? Contact us at info@plagpro.com or 08040138089."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

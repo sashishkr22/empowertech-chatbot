@@ -29,16 +29,5 @@
       "value": "$issue-type"
     }
   ],
-  "trainingPhrases": [
-    { "type": "EXAMPLE", "parts": [{ "text": "create a support ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "log a ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I want to raise a ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "open a new ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "submit a request" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "raise an issue" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "I need to file a complaint" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "register my problem" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "create ticket for network issue" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "log this issue please" }] }
-  ]
+  "id": "8ad27ca8-c333-43b7-a1da-3ea48a30f3f2"
 }

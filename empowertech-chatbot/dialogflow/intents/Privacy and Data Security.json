@@ -1,0 +1,33 @@
+{
+  "id": "23b50a50-173f-4756-b23e-9fa58a1b857a",
+  "name": "Privacy and Data Security",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🔒 Your data security is a top priority at PlagPro.\n\nYou can review our full policies here:\n📄 Privacy Policy: https://plagpro.com/privacy-policy\n📋 Terms of Service: https://plagpro.com/terms-of-service\n🍪 Cookie Policy: https://plagpro.com/cookie-policy\n\nFor Enterprise clients, we also offer on-premise deployment so your data never leaves your servers.\n\nFor specific security questions, reach out to info@plagpro.com."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

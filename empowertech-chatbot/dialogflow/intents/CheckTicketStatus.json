@@ -32,14 +32,5 @@
       "isList": false
     }
   ],
-  "trainingPhrases": [
-    { "type": "EXAMPLE", "parts": [{ "text": "check my ticket status" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "what is the status of my ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "track my ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "where is my request" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "any update on my ticket" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "ticket status EMP-1001" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "check EMP-1002" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "is my issue resolved" }] }
-  ]
+  "id": "ae5a46ae-543b-482b-8196-abc24f731da7"
 }

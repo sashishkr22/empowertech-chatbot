@@ -1,0 +1,79 @@
+[
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "What does the plagiarism report look like?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "What information is in the report?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Can I download the report?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "How do I export results?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Does the report show sources?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Report format"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "What does the similarity report include?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "id": "784e2c70-ba24-4e36-b781-933ae44ca003",
+  "name": "Cancel or Change Plan",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🔄 To upgrade, downgrade, or cancel your PlagPro plan:\n\n1. Log in to your account at https://plagpro.com/login\n2. Go to your account/billing settings\n3. Select your desired plan change\n\nFor refunds, cancellations, or billing issues, contact our support team:\n📧 info@plagpro.com\n📱 08040138089\n\nOur team is happy to assist you with any subscription changes!"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

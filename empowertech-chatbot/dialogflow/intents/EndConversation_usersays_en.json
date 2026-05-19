@@ -1,0 +1,90 @@
+[
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "bye"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "goodbye"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "exit"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "that's all"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "thank you bye"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "end conversation"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "quit"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "no thanks"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

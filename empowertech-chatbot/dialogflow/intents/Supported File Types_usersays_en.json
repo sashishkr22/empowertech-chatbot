@@ -1,0 +1,79 @@
+[
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "What file types are supported?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Can I upload a PDF?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Can I upload a Word document?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "What formats can I check?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Does PlagPro support DOC files?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Supported document formats"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "",
+    "data": [
+      {
+        "text": "Can I paste text directly?"
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

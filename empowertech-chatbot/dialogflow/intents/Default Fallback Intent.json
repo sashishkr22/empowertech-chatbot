@@ -1,0 +1,34 @@
+{
+  "id": "0734bed0-b539-4582-871d-7eb6586a3f1f",
+  "name": "Default Fallback Intent",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "Sorry, I didn't quite understand that. Could you rephrase? You can ask me about pricing, how to check plagiarism, features, or contact support.",
+            "I'm not sure I understand. Try asking about our plans, how plagiarism detection works, or how to get started!"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": true,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

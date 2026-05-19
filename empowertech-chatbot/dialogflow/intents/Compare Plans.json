@@ -1,0 +1,33 @@
+{
+  "id": "e4e7624d-d8f4-4c01-a9b1-ae0edf1adbee",
+  "name": "Compare Plans",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🤔 Here's a quick guide to choosing the right plan:\n\n👨‍🎓 Student / Occasional user → Free Plan (₹0) – 5 checks, basic report\n\n📚 Student / Researcher → Student Plan (₹599/mo) – 100 checks, detailed reports, grammar checker\n\n🧑‍💼 Professional / Small Team → Professional Plan (₹1,499/mo) – Unlimited checks, API, bulk checking\n\n🏛️ University / Large Org → Enterprise Plan (Custom) – Unlimited everything + SSO + dedicated manager\n\nSee the full comparison at https://plagpro.com/pricing or ask me about any specific plan!"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

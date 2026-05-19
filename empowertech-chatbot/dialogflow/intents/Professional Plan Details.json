@@ -1,0 +1,33 @@
+{
+  "id": "67847bcb-7a47-490b-a971-215d7c7388d7",
+  "name": "Professional Plan Details",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "💼 Professional Plan – ₹1,499/month (including GST)\n\nIncludes:\n✅ Unlimited checks\n✅ Up to 25,000 words per check\n✅ Premium plagiarism detection\n✅ 24/7 priority support\n✅ Advanced analytics dashboard\n✅ Team collaboration tools\n✅ Bulk document checking\n✅ API access (1,000 calls/month)\n✅ White-label reports\n✅ Custom integrations\n\nIdeal for professionals and small teams. See more at https://plagpro.com/pricing"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

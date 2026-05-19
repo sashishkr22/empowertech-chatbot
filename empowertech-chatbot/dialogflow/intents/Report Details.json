@@ -1,0 +1,33 @@
+{
+  "id": "74b0cf3f-81c5-44b4-a9e6-e995e84b1892",
+  "name": "Report Details",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "📋 PlagPro provides comprehensive plagiarism reports including:\n\n✅ Overall similarity percentage score\n✅ Highlighted matched text sections\n✅ Source citations with links\n✅ Page-by-page breakdown\n✅ Grammar & style suggestions (Student+ plans)\n\n📥 Export Options:\n• PDF export (Student plan and above)\n• Word/DOCX export (Student plan and above)\n• White-label reports (Professional plan)\n\nReports are available instantly after analysis. Upgrade to Student or Professional for full detailed reports."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

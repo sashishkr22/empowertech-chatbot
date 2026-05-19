@@ -1,0 +1,33 @@
+{
+  "id": "c56b128c-7d61-48f0-b77a-d7a760ec93b3",
+  "name": "FAQ",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "📖 You can find answers to common questions in our resources:\n\n❓ FAQ Page: https://plagpro.com/faq\n🆘 Help Center: https://plagpro.com/help\n📧 Email Support: info@plagpro.com\n\nOr just ask me here — I'm happy to help!"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

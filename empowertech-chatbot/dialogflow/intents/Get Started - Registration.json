@@ -1,0 +1,33 @@
+{
+  "id": "c27911f4-af66-4f46-bd13-1f881f66e056",
+  "name": "Get Started - Registration",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🎉 Getting started with PlagPro is easy!\n\n1. Visit https://plagpro.com/register\n2. Create your free account (no credit card needed)\n3. Start with 5 free checks immediately\n\nAlready have an account? Sign in at https://plagpro.com/login\n\nNeed help choosing a plan? Check https://plagpro.com/pricing or ask me anytime!"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

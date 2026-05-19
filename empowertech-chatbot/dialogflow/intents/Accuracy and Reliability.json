@@ -1,0 +1,33 @@
+{
+  "id": "9a1469f0-b7e6-4abc-b48b-0b23112e0066",
+  "name": "Accuracy and Reliability",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "📊 PlagPro boasts a 99.9% accuracy rate!\n\nOur AI-powered system:\n• Scans billions of online and academic sources\n• Detects direct copying AND paraphrasing\n• Identifies citation manipulation\n• Uses state-of-the-art algorithms to catch even sophisticated plagiarism attempts\n\nOver 10 million documents have been checked, and 2,000+ universities trust PlagPro for academic integrity.\n\nWant to see it in action? Try it free at https://plagpro.com/register"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

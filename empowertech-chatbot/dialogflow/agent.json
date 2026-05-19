@@ -1,0 +1,51 @@
+{
+  "description": "PlagPro AI Assistant for Academic Integrity",
+  "language": "en",
+  "shortDescription": "Academic Integrity AI",
+  "displayName": "PlagPro-AI-Bot",
+  "defaultTimezone": "Asia/Kolkata",
+  "mlSettings": {
+    "enabled": true,
+    "mlMinConfidence": 0.3,
+    "agentClassificationThreshold": 0.1
+  },
+  "enableWebhook": true,
+  "ndpSettings": {
+    "manualEnabling": true,
+    "ndpConditions": [
+      {
+        "type": "CONTAINS",
+        "value": "handoff"
+      }
+    ]
+  },
+  "availableLanguages": [],
+  "enableStackdriverLogs": true,
+  "googleAssistant": {
+    "googleAssistantCompatible": true,
+    "welcomeIntentSignInRequired": false,
+    "startIntents": [],
+    "systemIntents": [],
+    "endIntentIds": [],
+    "oAuthSettings": {
+      "clientId": "",
+      "clientSecret": "",
+      "scopes": [],
+      "authorizeEndpoint": "",
+      "tokenEndpoint": ""
+    },
+    "voiceSettings": {
+      "name": "en-IN-Wavenet-A",
+      "ssmlGender": "SSML_VOICE_GENDER_FEMALE",
+      "speed": 1.0,
+      "pitch": 0.0,
+      "volumeGainDb": 0.0
+    },
+    "capabilities": [],
+    "protocolVersion": "V2",
+    "isDeviceAgent": false
+  },
+  "billingSettings": {
+    "isBillingEnabled": false
+  }
+}

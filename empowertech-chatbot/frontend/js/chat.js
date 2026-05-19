@@ -1,10 +1,8 @@
 // =============================================
-// chat.js - Frontend Chat Logic
+// chat.js - Frontend Chat Logic (Redesigned)
 // =============================================
 
 const SESSION_ID = 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-let messageCount = 0;
-let ticketCount = 0;
 const SERVER_URL = window.location.origin;
 
 let ticketState = {
@@ -44,16 +42,26 @@ function toggleTheme() {
     const body = document.body;
     const currentTheme = body.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const icon = document.getElementById('theme-icon');
     
     body.setAttribute('data-theme', newTheme);
     localStorage.setItem('chat-theme', newTheme);
+    
+    if (icon) {
+        icon.className = newTheme === 'dark' ? 'ti ti-moon' : 'ti ti-sun';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   // Load saved theme
-  const savedTheme = localStorage.getItem('chat-theme') || 'dark'; // Default to dark for pro look
+  const savedTheme = localStorage.getItem('chat-theme') || 'light';
   document.body.setAttribute('data-theme', savedTheme);
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.className = savedTheme === 'dark' ? 'ti ti-moon' : 'ti ti-sun';
   
+  const sessionIdDisplay = document.getElementById('sessionIdDisplay');
+  if (sessionIdDisplay) sessionIdDisplay.textContent = SESSION_ID.split('-').pop();
+
   startAdminPolling();
   const inputEl = document.getElementById('userInput');
   if (inputEl) inputEl.focus();
@@ -74,20 +82,20 @@ function startTicketFlow(type = 'ticket') {
   if (mainInput) mainInput.disabled = true;
   if (mainSend) mainSend.disabled = true;
   
-  const title = type === 'handoff' ? "Consult Integrity Expert" : "Request Similarity Report Support";
+  const title = type === 'handoff' ? "Consult Integrity Expert" : "Request Support";
   const buttonText = type === 'handoff' ? "Request Consultation" : "Submit Request";
-  const placeholder = type === 'handoff' ? "Briefly describe your academic query..." : "Explain the issue with your similarity report (e.g., false positive, missing source)...";
+  const placeholder = type === 'handoff' ? "Briefly describe your academic query..." : "Explain the issue with your report...";
 
   const formHtml = `
-    <div class="ticket-form-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: var(--text-main); box-shadow: var(--shadow);">
-      <h3 style="margin-bottom: 12px; color: var(--primary); font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">${title}</h3>
+    <div class="ticket-form-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; margin-top: 10px; width: 100%; max-width: 400px; color: var(--text-primary); box-shadow: var(--shadow);">
+      <h3 style="margin-bottom: 12px; color: var(--primary); font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">${title}</h3>
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="text" id="form-name" placeholder="Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
-        <input type="text" id="form-contact" placeholder="Email or University ID" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px;">
-        <textarea id="form-query" placeholder="${placeholder}" rows="3" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg-page); color: var(--text-main); font-size: 13px; resize: none;"></textarea>
+        <input type="text" id="form-name" placeholder="Full Name (Required)" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-size: 13px; outline: none;">
+        <input type="text" id="form-contact" placeholder="Email or University ID" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-size: 13px; outline: none;">
+        <textarea id="form-query" placeholder="${placeholder}" rows="3" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-size: 13px; resize: none; outline: none;"></textarea>
         <div style="display: flex; gap: 8px;">
             <button onclick="submitTicketForm()" id="btn-submit-form" style="flex: 1; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">${buttonText}</button>
-            <button onclick="cancelTicketFlow()" style="padding: 10px; background: var(--bg3); color: var(--text2); border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
+            <button onclick="cancelTicketFlow()" style="padding: 10px; background: var(--bg-main); color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">Cancel</button>
         </div>
       </div>
     </div>
@@ -145,9 +153,6 @@ async function submitTicketForm() {
                 addMessage(`⏳ **Handoff Token: ${result.handoffId}**\n\nSupport team notified. Please wait for an executive to respond.`, 'bot');
             } else {
                 addMessage(`✅ **Success!**\n\nYour ticket **${result.ticketId}** has been created. Our team will contact you soon.`, 'bot');
-                showTicketInSidebar({ id: result.ticketId, status: 'Open' });
-                ticketCount++;
-                document.getElementById('ticketCount').textContent = ticketCount;
             }
             ticketState.active = false;
         } else { throw new Error(result.error); }
@@ -170,8 +175,6 @@ async function sendMessage() {
   inputElement.value = '';
   updateCharCount();
   addMessage(userText, 'user');
-  messageCount++;
-  document.getElementById('messageCount').textContent = messageCount;
   setLoading(true);
   
   try {
@@ -195,20 +198,48 @@ async function sendMessage() {
 function addMessage(text, type, ticket = null, isRaw = false) {
   const container = document.getElementById('messagesContainer');
   const messageDiv = document.createElement('div');
-  messageDiv.className = `msg-wrapper ${type}-msg`;
-  const avatarEmoji = type === 'bot' ? '🛡️' : '👤';
-  messageDiv.innerHTML = `<div class="msg-avatar">${avatarEmoji}</div><div class="msg-bubble">${isRaw ? text : formatMessage(text)}${ticket ? createTicketCard(ticket) : ''}<span class="msg-time">${getCurrentTime()}</span></div>`;
+  messageDiv.className = `msg-${type}`;
+  
+  if (type === 'bot') {
+    messageDiv.innerHTML = `
+      <div class="bot-bubble-wrapper">
+        <div class="msg-bot-bubble">
+          ${isRaw ? text : formatMessage(text)}
+          ${ticket ? createTicketCard(ticket) : ''}
+          <span class="msg-time">${getCurrentTime()}</span>
+        </div>
+      </div>
+    `;
+  } else {
+    messageDiv.innerHTML = `
+      <div class="msg-user-bubble">
+        ${formatMessage(text)}
+        <span class="msg-time" style="color: rgba(255,255,255,0.7);">${getCurrentTime()}</span>
+      </div>
+    `;
+  }
+  
   container.appendChild(messageDiv);
   scrollToBottom();
 }
 
 function formatMessage(text) {
   if (!text) return '';
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  return text.replace(/&/g, '&amp;')
+             .replace(/</g, '&lt;')
+             .replace(/>/g, '&gt;')
+             .replace(/\n/g, '<br>')
+             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 }
 
 function createTicketCard(ticket) {
-  return `<div class="ticket-created-card" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px; margin-top: 10px;"><p style="font-size: 12px; color: #166534; margin-bottom: 4px;">✅ <strong>Support Request Logged!</strong></p><p style="font-weight: 700; font-size: 16px; color: #15803d;">#${ticket.id}</p><p style="font-size: 11px; margin-top: 4px;">Status: <strong>${ticket.status || 'Open'}</strong></p></div>`;
+  return `
+    <div class="ticket-created-card" style="background: rgba(34, 197, 94, 0.1); border: 1px solid #22c55e; border-radius: 8px; padding: 12px; margin-top: 10px;">
+      <p style="font-size: 12px; color: #22c55e; margin-bottom: 4px;">✅ <strong>Support Request Logged!</strong></p>
+      <p style="font-weight: 700; font-size: 16px; color: #16a34a;">#${ticket.id}</p>
+      <p style="font-size: 11px; margin-top: 4px;">Status: <strong>${ticket.status || 'Open'}</strong></p>
+    </div>
+  `;
 }
 
 async function checkTicketStatus() {
@@ -231,12 +262,11 @@ function sendQuickMessage(message) {
 }
 
 function clearChat() {
-  if (!confirm('Clear chat history?')) return;
   const container = document.getElementById('messagesContainer');
-  while (container.children.length > 1) container.removeChild(container.lastChild);
-  messageCount = 0; ticketCount = 0;
-  document.getElementById('messageCount').textContent = '0';
-  document.getElementById('ticketCount').textContent = '0';
+  // Keep the first message (welcome)
+  while (container.children.length > 1) {
+    container.removeChild(container.lastChild);
+  }
 }
 
 function setLoading(isLoading) {
@@ -246,15 +276,6 @@ function setLoading(isLoading) {
   if (typing) typing.style.display = isLoading ? 'flex' : 'none';
   if (btn && !ticketState.active) btn.disabled = isLoading;
   if (input && !ticketState.active) input.disabled = isLoading;
-}
-
-function showTicketInSidebar(ticket) {
-  const hub = document.getElementById('latestTicketHub');
-  const card = document.getElementById('latestTicketCard');
-  if (hub && card) {
-    card.innerHTML = `<p class="ticket-id">${ticket.id}</p><p>Status: <strong>${ticket.status}</strong></p>`;
-    hub.style.display = 'block';
-  }
 }
 
 function scrollToBottom() {

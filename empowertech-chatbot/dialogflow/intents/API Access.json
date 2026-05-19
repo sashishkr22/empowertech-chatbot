@@ -1,0 +1,33 @@
+{
+  "id": "c2788879-fd5a-45e4-af3e-5d04f7bd984f",
+  "name": "API Access",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": [
+            "🔌 Yes! PlagPro offers API access for developers and businesses.\n\n📦 API by Plan:\n• Professional Plan: 1,000 API calls/month\n• Enterprise Plan: Custom API limits\n\nThe API allows you to integrate plagiarism detection directly into your own applications, LMS, or workflows.\n\nFor API documentation or custom integrations, contact us at info@plagpro.com or check https://plagpro.com/features."
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

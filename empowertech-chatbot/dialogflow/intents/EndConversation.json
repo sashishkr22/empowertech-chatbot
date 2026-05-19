@@ -25,14 +25,5 @@
   "webhookUsed": false,
   "webhookForSlotFilling": false,
   "fallbackIntent": false,
-  "trainingPhrases": [
-    { "type": "EXAMPLE", "parts": [{ "text": "bye" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "goodbye" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "exit" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "that's all" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "thank you bye" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "end conversation" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "quit" }] },
-    { "type": "EXAMPLE", "parts": [{ "text": "no thanks" }] }
-  ]
+  "id": "d10a8ba5-0edb-433c-b7f4-5e6ea094ebf6"
 }
