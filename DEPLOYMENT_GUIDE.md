@@ -48,7 +48,7 @@ This guide explains how to host your Academic Integrity AI Chatbot project live 
 3.  Connect your GitHub repository.
 4.  **Configuration:**
     *   **Name:** `plagpro-chatbot`
-    *   **Root Directory:** `empowertech-chatbot`
+    *   **Root Directory:** `plagpro-chatbot`
     *   **Runtime:** `Node`
     *   **Build Command:** `npm install`
     *   **Start Command:** `node backend/server.js`
@@ -63,8 +63,8 @@ This guide explains how to host your Academic Integrity AI Chatbot project live 
 1.  Click **"New"** -> **"Web Service"** again.
 2.  Connect the same GitHub repository.
 3.  **Configuration:**
-    *   **Name:** `plagpro-dashboard`
-    *   **Root Directory:** `empowertech-flask`
+    *   **Name:** `plagpro-flask`
+    *   **Root Directory:** `plagpro-flask`
     *   **Runtime:** `Python`
     *   **Build Command:** `pip install -r requirements.txt` (Make sure you have a requirements.txt file)
     *   **Start Command:** `python app.py`
@@ -78,6 +78,7 @@ This guide explains how to host your Academic Integrity AI Chatbot project live 
 *   Open your Chatbot URL (e.g., `https://plagpro-chatbot.onrender.com`).
 *   Chat with the bot.
 *   Check your MongoDB Atlas dashboard—you should see a `tickets` collection appearing!
-*   Open your Dashboard URL—you should see your chats live in the dashboard.
+*   Open your Dashboard URL (e.g., `https://plagpro-flask.onrender.com`).
+*   You should see your chats live in the dashboard.
 
 **Success!** Your Academic Integrity project is now professional, secure, and hosted on the cloud.
