@@ -1,18 +1,28 @@
+# app.py - PlagPro Admin Dashboard
 import os
 import csv
 import io
 import json
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, Response
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, Response, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 from collections import Counter
+from functools import wraps
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 # MongoDB Setup
 try:
@@ -79,6 +89,7 @@ def inject_globals():
     return dict(admin="Project Admin", now=datetime.now())
 
 @app.route('/')
+@login_required
 def dashboard():
     try:
         tickets = [format_doc(t) for t in tickets_col.find().sort("created_at", -1)]
@@ -108,6 +119,7 @@ def dashboard():
         return f"Dashboard Error: {e}", 500
 
 @app.route('/tickets')
+@login_required
 def tickets_page():
     try:
         search = request.args.get('search', '')
@@ -144,6 +156,7 @@ def tickets_page():
         return f"Error: {e}", 500
 
 @app.route('/ticket/<ticket_id>', methods=['GET', 'POST'])
+@login_required
 def ticket_detail(ticket_id):
     query = {"$or": [{"ticketId": ticket_id}, {"id": ticket_id}]}
     if len(ticket_id) == 24:
@@ -161,6 +174,7 @@ def ticket_detail(ticket_id):
                            all_priorities=['Low', 'Medium', 'High'])
 
 @app.route('/handoffs')
+@login_required
 def handoffs_page():
     status = request.args.get('status', 'All')
     query = {} if status == 'All' else {'status': status}
@@ -168,6 +182,7 @@ def handoffs_page():
     return render_template('handoffs.html', handoffs=handoffs, status_filter=status)
 
 @app.route('/handoff/<handoff_id>')
+@login_required
 def handoff_detail(handoff_id):
     query = {"$or": [{"handoffId": handoff_id}, {"id": handoff_id}]}
     if len(handoff_id) == 24:
@@ -181,6 +196,7 @@ def handoff_detail(handoff_id):
     return render_template('handoff_detail.html', handoff=handoff, all_messages=handoff.get('messages', []))
 
 @app.route('/api/handoff/<handoff_id>/status', methods=['POST'])
+@login_required
 def api_handoff_status(handoff_id):
     status = request.json.get('status')
     now = get_now_ist_str()
@@ -192,6 +208,7 @@ def api_handoff_status(handoff_id):
     return jsonify({"ok": True})
 
 @app.route('/api/handoff/<handoff_id>/reply', methods=['POST'])
+@login_required
 def api_handoff_reply(handoff_id):
     text = request.json.get('text')
     now = get_now_ist_str()
@@ -207,6 +224,7 @@ def api_handoff_reply(handoff_id):
     return jsonify({"ok": True})
 
 @app.route('/api/handoff/<handoff_id>/messages')
+@login_required
 def api_handoff_messages(handoff_id):
     query = {"$or": [{"handoffId": handoff_id}, {"id": handoff_id}]}
     if len(handoff_id) == 24:
@@ -218,6 +236,7 @@ def api_handoff_messages(handoff_id):
     return jsonify({"ok": True, "messages": handoff.get('messages', []), "status": handoff.get('status')})
 
 @app.route('/api/ticket/<ticket_id>/status', methods=['POST'])
+@login_required
 def api_update_status(ticket_id):
     query = {"$or": [{"ticketId": ticket_id}, {"id": ticket_id}]}
     if len(ticket_id) == 24:
@@ -229,6 +248,7 @@ def api_update_status(ticket_id):
     return jsonify({"ok": True})
 
 @app.route('/api/ticket/<ticket_id>/priority', methods=['POST'])
+@login_required
 def api_update_priority(ticket_id):
     query = {"$or": [{"ticketId": ticket_id}, {"id": ticket_id}]}
     if len(ticket_id) == 24:
@@ -240,6 +260,7 @@ def api_update_priority(ticket_id):
     return jsonify({"ok": True})
 
 @app.route('/api/tickets/live')
+@login_required
 def live_tickets():
     tickets = [format_doc(t) for t in tickets_col.find().sort("updated_at", -1).limit(20)]
     handoffs_count = handoffs_col.count_documents({"status": {"$ne": "Resolved"}})
@@ -256,6 +277,7 @@ def live_tickets():
     })
 
 @app.route('/export')
+@login_required
 def export_csv():
     tickets = list(tickets_col.find())
     si = io.StringIO()
@@ -268,11 +290,24 @@ def export_csv():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST': return redirect(url_for('dashboard'))
+    if session.get('logged_in'):
+        return redirect(url_for('dashboard'))
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == 'admin' and password == 'plagpro123':
+            session['logged_in'] = True
+            flash("Welcome back, Admin!", "success")
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html', error="Invalid username or password.")
     return render_template('login.html')
 
 @app.route('/logout')
+@login_required
 def logout():
+    session.pop('logged_in', None)
+    flash("You have been successfully logged out.", "success")
     return redirect(url_for('login'))
 
 if __name__ == '__main__':

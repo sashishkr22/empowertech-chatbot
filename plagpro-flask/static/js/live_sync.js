@@ -7,8 +7,6 @@
 //   3. Show a "New ticket!" notification if count changes
 //   4. No page reload needed — smooth live updates
 //
-// ADD THIS TO base.html:
-//   <script src="{{ url_for('static', filename='js/live_sync.js') }}"></script>
 // ================================================================
 
 (function () {

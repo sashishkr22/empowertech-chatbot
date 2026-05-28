@@ -10,11 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Connect to MongoDB
-ticketManager.connect();
-
-const sessionHistory = {};
-
+// Await DB connection on startup
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
@@ -24,11 +20,6 @@ app.post('/api/ticket/create', async (req, res) => {
     try {
         const { name, email, phone, issue, sessionId } = req.body;
         const ticket = await ticketManager.createDirectTicket({ name, email, phone, issue, sessionId });
-        
-        // Save to local history for consistency
-        if (!sessionHistory[sessionId]) sessionHistory[sessionId] = [];
-        sessionHistory[sessionId].push({ role: 'bot', text: `✅ Ticket ${ticket.ticketId} created!`, time: new Date().toISOString() });
-        
         res.json({ success: true, ticketId: ticket.ticketId, message: "Ticket created successfully" });
     } catch (err) {
         console.error('API Error (Create Ticket):', err);
@@ -41,10 +32,6 @@ app.post('/api/handoff/create', async (req, res) => {
     try {
         const { name, email, phone, issue, sessionId } = req.body;
         const handoff = await ticketManager.createDirectHandoff({ name, email, phone, issue, sessionId });
-        
-        if (!sessionHistory[sessionId]) sessionHistory[sessionId] = [];
-        sessionHistory[sessionId].push({ role: 'bot', text: `Handoff requested. Token: ${handoff.handoffId}`, time: new Date().toISOString() });
-        
         res.json({ success: true, handoffId: handoff.handoffId });
     } catch (err) {
         console.error('API Error (Create Handoff):', err);
@@ -57,8 +44,6 @@ app.post('/api/chat', async (req, res) => {
   try {
     const { message, sessionId } = req.body;
     if (!message?.trim()) return res.status(400).json({ error: 'Empty message' });
-
-    if (!sessionHistory[sessionId]) sessionHistory[sessionId] = [];
 
     const userMsg = {
       role:  'user',
@@ -105,7 +90,6 @@ app.post('/api/chat', async (req, res) => {
 
     // 4. Save and Respond
     const botMsg = { role: 'bot', text: finalReply, time: new Date().toISOString() };
-    sessionHistory[sessionId].push(userMsg, botMsg);
     await ticketManager.updateTicketMessages(sessionId, userMsg);
     await ticketManager.updateTicketMessages(sessionId, botMsg);
 
@@ -144,4 +128,14 @@ app.get('/api/ticket/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🛡️ PlagPro AI Bot running on port ${PORT}`));
+
+async function startServer() {
+  try {
+    await ticketManager.connect();
+    app.listen(PORT, () => console.log(`🛡️ PlagPro AI Bot running on port ${PORT}`));
+  } catch (err) {
+    console.error('❌ Failed to start server due to connection error:', err.message);
+  }
+}
+
+startServer();

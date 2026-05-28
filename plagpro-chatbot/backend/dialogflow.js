@@ -48,7 +48,7 @@ async function sendMessageToDialogflow(userMessage, sessionId) {
 function getFallbackResponse(userMessage) {
   const msg = userMessage.toLowerCase().trim();
   if (msg === 'bye' || msg === 'exit') return "Goodbye! Have a great day!";
-  return "I'm here to help with your IT support needs! How can I assist you?";
+  return "I'm here to help with your PlagPro academic integrity questions, plagiarism checking, and AI detection. How can I assist you?";
 }
 
 module.exports = {
