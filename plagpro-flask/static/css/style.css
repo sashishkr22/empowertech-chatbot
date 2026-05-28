@@ -4,47 +4,51 @@
 
 /* ── Theme Variables ── */
 :root {
-  /* Default Dark Theme (Existing) */
-  --bg:         #0a0f1e;
-  --bg2:        #0d1427;
-  --bg3:        #111827;
-  --border:     #1e293b;
-  --border2:    #243044;
-  --text:       #f1f5f9;
-  --text2:      #94a3b8;
-  --text3:      #475569;
-  --primary:    #6366f1;
-  --primary-d:  #4f46e5;
-  --primary-glow: rgba(99, 102, 241, 0.3);
-  --green:      #10b981;
-  --green-bg:   rgba(16, 185, 129, 0.1);
-  --yellow:     #f59e0b;
-  --yellow-bg:  rgba(245, 158, 11, 0.1);
-  --red:        #ef4444;
-  --red-bg:     rgba(239, 68, 68, 0.1);
-  --blue:       #0ea5e9;
-  --radius:     12px;
-  --radius-sm:  8px;
-  --shadow:     0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
-  --shadow-lg:  0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-  --font:       'Inter', system-ui, -apple-system, sans-serif;
-  --card-hover: rgba(99, 102, 241, 0.08);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Default Dark Theme (Aligned with Chatbot Navy) */
+  --bg:           #0a0f1e;
+  --bg2:          #0f1b2d;                     /* Chatbot Navy */
+  --bg3:          #15263f;                     /* High-contrast dark */
+  --border:       rgba(255, 255, 255, 0.08);   /* Glass border */
+  --border2:      rgba(255, 255, 255, 0.15);   /* Hover border */
+  --text:         #f1f5f9;
+  --text2:        #94a3b8;
+  --text3:        #64748b;
+  --primary:      #1E56C8;                     /* PlagPro Brand Blue */
+  --primary-d:    #1643a3;                     /* Darker Brand Blue */
+  --primary-glow: rgba(30, 86, 200, 0.25);    /* Brand glow */
+  --green:        #10b981;
+  --green-bg:     rgba(16, 185, 129, 0.1);
+  --yellow:       #f59e0b;
+  --yellow-bg:    rgba(245, 158, 11, 0.1);
+  --red:          #ef4444;
+  --red-bg:       rgba(239, 68, 68, 0.1);
+  --blue:         #3b82f6;
+  --radius:       16px;                        /* Softened corners */
+  --radius-sm:    10px;
+  --shadow:       0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --shadow-lg:    0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  --font:         'Inter', system-ui, -apple-system, sans-serif;
+  --card-hover:   rgba(30, 86, 200, 0.08);
+  --transition:   all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --card-bg:      rgba(15, 27, 45, 0.7);
 }
 
 [data-theme="light"] {
-  --bg:         #f8fafc;
-  --bg2:        #ffffff;
-  --bg3:        #f1f5f9;
-  --border:     #e2e8f0;
-  --border2:    #cbd5e1;
-  --text:       #0f172a;
-  --text2:      #475569;
-  --text3:      #64748b;
-  --primary-glow: rgba(99, 102, 241, 0.15);
-  --shadow:     0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --card-hover: rgba(99, 102, 241, 0.04);
+  --bg:           #f8fafc;
+  --bg2:          #ffffff;
+  --bg3:          #f1f5f9;
+  --border:       #e2e8f0;
+  --border2:      #cbd5e1;
+  --text:         #0f172a;
+  --text2:        #475569;
+  --text3:        #64748b;
+  --primary:      #1E56C8;                     /* PlagPro Brand Blue */
+  --primary-d:    #1643a3;
+  --primary-glow: rgba(30, 86, 200, 0.12);
+  --shadow:       0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --card-hover:   rgba(30, 86, 200, 0.04);
+  --card-bg:      rgba(255, 255, 255, 0.7);
 }
 
 /* ── Reset ── */
@@ -172,8 +176,21 @@ input:checked + .slider:before { transform: translateX(24px); }
 .btn-view:hover { background: var(--primary); color: #fff; transform: scale(1.05); }
 
 /* ── Card ── */
-.card       { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: var(--transition); }
-.card:hover  { box-shadow: var(--shadow-lg); }
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+.card:hover {
+  border-color: rgba(30, 86, 200, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(30, 86, 200, 0.15);
+}
 .card-title { font-size: 13px; font-weight: 800; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 
 /* ── Two Column Layout ── */
