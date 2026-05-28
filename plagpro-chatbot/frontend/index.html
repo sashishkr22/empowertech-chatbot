@@ -77,12 +77,16 @@
         </div>
       </div>
     </aside>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <!-- MAIN CHAT AREA -->
     <main class="chat-main">
       <!-- TOPBAR -->
       <header class="chat-topbar">
         <div class="topbar-left">
+          <button class="mobile-toggle icon-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+            <i class="ti ti-menu-2"></i>
+          </button>
           <div class="bot-avatar"><i class="ti ti-robot" aria-hidden="true"></i></div>
           <div>
             <div class="topbar-name">PlagPro AI</div>

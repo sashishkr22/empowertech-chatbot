@@ -299,3 +299,24 @@ function handleKeyPress(event) {
     sendMessage();
   }
 }
+
+/** Toggles the responsive sidebar navigation on mobile viewports */
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('open');
+  }
+}
+
+// Auto-close responsive sidebar on clicking links/items on mobile viewports
+document.addEventListener('DOMContentLoaded', () => {
+  const responsiveLinks = document.querySelectorAll('.sidebar .nav-item, .sidebar .quick-chip');
+  responsiveLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) sidebar.classList.remove('open');
+      }
+    });
+  });
+});

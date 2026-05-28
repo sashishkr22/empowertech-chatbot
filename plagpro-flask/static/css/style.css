@@ -424,9 +424,52 @@ input:checked + .slider:before { transform: translateX(24px); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
-  .nav-center { display: none; }
+  body {
+    padding-bottom: 74px !important;
+  }
+  .nav-center {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 8px 12px;
+    justify-content: space-around;
+    z-index: 1000;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    padding: 6px 8px;
+    flex: 1;
+    text-align: center;
+    border-radius: var(--radius-sm);
+  }
+  .nav-link.active {
+    background: var(--primary-glow);
+    color: var(--primary);
+  }
   .navbar { padding: 0 20px; }
-  .page-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
   .nav-right { gap: 12px; }
   .admin-badge span:last-child { display: none; }
+  .btn-logout { padding: 6px 12px; font-size: 12px; }
+  .ticket-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
 }
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .navbar .logo-title { font-size: 16px; }
+  .main-content { padding: 16px; }
+}
+
