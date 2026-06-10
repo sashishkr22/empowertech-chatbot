@@ -1,15 +1,18 @@
- # Ignore large library folders
-    2     node_modules/
-    3     empowertech-chatbot/node_modules/
-    4     __pycache__/
-    5     venv/
-    6     env/
-    7
-    8     # Ignore private keys and secrets (CRITICAL)
-    9     .env
-   10     serviceAccount.json
-   11     empowertech-chatbot/backend/serviceAccount.json
-   12
-   13     # Ignore OS temporary files
-   14     .DS_Store
-   15     Thumbs.db
+# Ignore large library folders
+node_modules/
+__pycache__/
+venv/
+env/
+
+# Ignore private keys and secrets (CRITICAL)
+.env
+serviceAccount.json
+plagpro-chatbot/backend/serviceAccount.json
+plagpro-chatbot/.env
+
+# Ignore OS temporary files
+.DS_Store
+Thumbs.db
+~$*.docx
+~$*.pptx
+*.tmp
